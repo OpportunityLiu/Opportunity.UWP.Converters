@@ -1,0 +1,49 @@
+﻿<uwp:ResourceDictionary xmlns="using:Opportunity.Converters"
+                        xmlns:uwp="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SoftwareBitmapToImageSourceConverter x:Key="SoftwareBitmapToImageSourceConverter" />
+    <ThicknessConverter x:Key="ThicknessConverter" />
+    <FormatStringConverter x:Key="StringConverter" />
+    <InvertConverter x:Key="TrueToVisibleConverter">
+        <ObjectToBooleanConverter>
+            <ObjectToBooleanConverter.ValueForTrue>
+                <uwp:Visibility>Visible</uwp:Visibility>
+            </ObjectToBooleanConverter.ValueForTrue>
+            <ObjectToBooleanConverter.ValueForFalse>
+                <uwp:Visibility>Collapsed</uwp:Visibility>
+            </ObjectToBooleanConverter.ValueForFalse>
+        </ObjectToBooleanConverter>
+    </InvertConverter>
+    <InvertConverter x:Key="FalseToVisibleConverter">
+        <ObjectToBooleanConverter>
+            <ObjectToBooleanConverter.ValueForTrue>
+                <uwp:Visibility>Collapsed</uwp:Visibility>
+            </ObjectToBooleanConverter.ValueForTrue>
+            <ObjectToBooleanConverter.ValueForFalse>
+                <uwp:Visibility>Visible</uwp:Visibility>
+            </ObjectToBooleanConverter.ValueForFalse>
+        </ObjectToBooleanConverter>
+    </InvertConverter>
+    <ObjectToBooleanConverter x:Key="NullToVisibleConverter"
+                              IfBoth="True"
+                              IfNeither="False"
+                              InnerConverter="{uwp:StaticResource TrueToVisibleConverter}" />
+    <ObjectToBooleanConverter x:Key="NullToCollapsedConverter"
+                              IfBoth="True"
+                              IfNeither="False"
+                              InnerConverter="{uwp:StaticResource FalseToVisibleConverter}" />
+    <LengthConverter x:Key="LengthConverter" />
+    <EmptyConverter x:Key="EmptyConverter" />
+    <SystemConverter x:Key="DefaultConverter" />
+    <NullableConverter x:Key="NullableConverter" />
+    <EnumToStringConverter x:Key="EnumToStringConverter" />
+    <ObjectToBooleanConverter x:Key="ZeroToVisibleConverter"
+                              InnerConverter="{uwp:StaticResource TrueToVisibleConverter}">
+        <ObjectToBooleanConverter.ValueForTrue>
+            <x:Int32>0</x:Int32>
+        </ObjectToBooleanConverter.ValueForTrue>
+    </ObjectToBooleanConverter>
+    <DateTimeToStringConverter x:Key="DateTimeToStringConverter"
+                               InnerConverter="{uwp:StaticResource StringConverter}" />
+    <LogicalNotConverter x:Key="LogicalNotConverter" />
+</uwp:ResourceDictionary>
