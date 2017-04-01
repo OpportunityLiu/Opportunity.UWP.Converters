@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.UI.Xaml;
+using Thickness = Windows.UI.Xaml.Thickness;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// Convert <see cref="Thickness"/> value of its four edges.
+    /// Use ConvertParameter to assign how to convert.
+    /// </summary>
+    /// <example>
+    /// If the ConvertParameter is "0,10",
+    /// (10,20,30,40) will be convert to (10,30,30,50);
+    /// If the ConvertParameter is "-10,x0.5,10,x2",
+    /// (10,20,30,40) will be convert to (0,10,40,80).
+    /// </example>
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class ThicknessConverter : ChainConverter
     {
         private static readonly object empty = new Thickness();
 
+        /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
             return convertCore(value, parameter.ToString(), false);
         }
 
+        /// <inheritdoc />
         protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
             return convertCore(value, parameter.ToString(), true);

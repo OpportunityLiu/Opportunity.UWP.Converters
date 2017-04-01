@@ -9,24 +9,37 @@ using static Opportunity.Converters.Internal.ConvertHelper;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// Convert <see cref="object"/>s to <see cref="bool"/> values.
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class ObjectToBooleanConverter : ChainConverter
     {
+        /// <summary>
+        /// <see cref="object"/>s will be converted to <c>true</c>.
+        /// </summary>
         public object ValueForTrue
         {
             get => GetValue(ValueForTrueProperty); set => SetValue(ValueForTrueProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ValueForTrue.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ValueForTrue"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ValueForTrueProperty =
             DependencyProperty.Register("ValueForTrue", typeof(object), typeof(ObjectToBooleanConverter), new PropertyMetadata(null, ValueChangedCallback));
 
+        /// <summary>
+        /// <see cref="object"/>s will be converted to <c>false</c>.
+        /// </summary>
         public object ValueForFalse
         {
             get => GetValue(ValueForFalseProperty); set => SetValue(ValueForFalseProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for ValueForFalse.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="ValueForFalse"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty ValueForFalseProperty =
             DependencyProperty.Register("ValueForFalse", typeof(object), typeof(ObjectToBooleanConverter), new PropertyMetadata(null, ValueChangedCallback));
 
@@ -38,7 +51,10 @@ namespace Opportunity.Converters
             get => (bool)GetValue(IfNeitherProperty);
             set => SetValue(IfNeitherProperty, value);
         }
-        
+
+        /// <summary>
+        /// Identifies the <see cref="IfNeither"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IfNeitherProperty =
             DependencyProperty.Register("IfNeither", typeof(bool), typeof(ObjectToBooleanConverter), new PropertyMetadata(false));
 
@@ -50,7 +66,10 @@ namespace Opportunity.Converters
             get => (bool)GetValue(IfBothProperty);
             set => SetValue(IfBothProperty, value);
         }
-        
+
+        /// <summary>
+        /// Identifies the <see cref="IfBoth"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty IfBothProperty =
             DependencyProperty.Register("IfBoth", typeof(bool), typeof(ObjectToBooleanConverter), new PropertyMetadata(false));
 
@@ -80,6 +99,7 @@ namespace Opportunity.Converters
 
         private Type valueType = typeof(object);
 
+        /// <inheritdoc />
         protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
             value = ChangeType(value, this.valueType);
@@ -94,6 +114,7 @@ namespace Opportunity.Converters
             return this.IfNeither;
         }
 
+        /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
             var v = ChangeType<bool>(value);

@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using GridLength = Windows.UI.Xaml.GridLength;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// Convert between <see cref="GridLength"/> and <see cref="double"/>.
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class LengthConverter : ChainConverter
     {
+        /// <inheritdoc />
         protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
             return convert(value, targetType);
         }
 
+        /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
             return convert(value, targetType);
@@ -25,7 +27,7 @@ namespace Opportunity.Converters
             var result = 0d;
             switch(value)
             {
-            case double vd :
+            case double vd:
                 result = vd;
                 break;
             case GridLength vgl:

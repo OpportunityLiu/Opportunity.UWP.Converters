@@ -8,15 +8,23 @@ using Windows.UI.Xaml.Data;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// An abstract class with an <see cref="InnerConverter"/> property.
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public abstract class ValueConverterBase : ValueConverter, IValueConverter
     {
+        /// <summary>
+        /// Inner converter used for <see cref="ChainConverter"/> and <see cref="InvertConverter"/>.
+        /// </summary>
         public IValueConverter InnerConverter
         {
             get => (IValueConverter)GetValue(InnerConverterProperty); set => SetValue(InnerConverterProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for InnerConverter.  This enables animation, styling, binding, etc...
+        /// <summary>
+        /// Identifies the <see cref="InnerConverter"/> dependency property.
+        /// </summary>
         public static readonly DependencyProperty InnerConverterProperty =
             DependencyProperty.Register(nameof(InnerConverter), typeof(IValueConverter), typeof(ValueConverterBase), new PropertyMetadata(null, InnerConverterPropertyChangedCallback));
 
@@ -25,6 +33,10 @@ namespace Opportunity.Converters
             ((ValueConverterBase)d).OnInnerConverterChanged(e);
         }
 
+        /// <summary>
+        /// Fires when <see cref="InnerConverter"/> changed.
+        /// </summary>
+        /// <param name="e">Data for the exent.</param>
         protected virtual void OnInnerConverterChanged(DependencyPropertyChangedEventArgs e)
         {
         }

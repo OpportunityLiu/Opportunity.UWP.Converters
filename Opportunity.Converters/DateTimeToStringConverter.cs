@@ -9,6 +9,9 @@ using Windows.UI.Xaml;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// Convert <see cref="DateTime"/> and <see cref="DateTimeOffset"/> to <see cref="string"/>.
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class DateTimeToStringConverter : ChainConverter
     {
@@ -38,6 +41,7 @@ namespace Opportunity.Converters
 
         private DateTimeFormatter formatter = new DateTimeFormatter("shortdate shorttime");
 
+        /// <inheritdoc />
         protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
             if(value == null)
@@ -52,6 +56,7 @@ namespace Opportunity.Converters
             return this.formatter.Format(d);
         }
 
+        /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
             if(targetType == typeof(DateTimeOffset) || targetType == typeof(DateTimeOffset?))
