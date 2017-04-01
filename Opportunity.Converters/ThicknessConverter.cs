@@ -7,14 +7,18 @@ namespace Opportunity.Converters
 {
     /// <summary>
     /// Convert <see cref="Thickness"/> value of its four edges.
-    /// Use ConvertParameter to assign how to convert.
-    /// </summary>
+    /// Use ConverterParameter to assign how to convert.
     /// <example>
-    /// If the ConvertParameter is "0,10",
-    /// (10,20,30,40) will be convert to (10,30,30,50);
-    /// If the ConvertParameter is "-10,x0.5,10,x2",
+    /// <para>
+    /// If the ConverterParameter is "0,10",
+    /// (10,20,30,40) will be convert to (10,30,30,50).
+    /// </para>
+    /// <para>
+    /// If the ConverterParameter is "-10,x0.5,10,x2",
     /// (10,20,30,40) will be convert to (0,10,40,80).
+    /// </para>
     /// </example>
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class ThicknessConverter : ChainConverter
     {

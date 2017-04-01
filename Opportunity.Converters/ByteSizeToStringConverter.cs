@@ -5,15 +5,13 @@ namespace Opportunity.Converters
 {
     /// <summary>
     /// Convert a <see cref="double"/> value that presents a byte size to a <see cref="string"/>.
-    /// </summary>
     /// <example>
-    /// <list type="bullet">
-    /// <item>
-    /// <c>1000d => "1.000 KB"</c>
-    /// <c>1024d => "1.000 KiB"</c>
-    /// </item>
-    /// </list>
+    /// <para>
+    /// <code>1000d => "1.000 KB"</code>; 
+    /// <code>1024d => "1.000 KiB"</code>
+    /// </para>
     /// </example>
+    /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
     public class ByteSizeToStringConverter : ChainConverter
     {
