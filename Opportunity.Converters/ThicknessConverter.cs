@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 
 namespace Opportunity.Converters
 {
-    class ThicknessConverter : ChainConverter
+    public class ThicknessConverter : ChainConverter
     {
         private static readonly object empty = new Thickness();
 

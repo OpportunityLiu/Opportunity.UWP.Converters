@@ -21,7 +21,7 @@ namespace Opportunity.Converters
 
         private static object convert(object value)
         {
-            var v = (bool)value;
+            var v = Internal.ConvertHelper.ChangeType<bool>(value);
             return !v;
         }
     }

@@ -31,7 +31,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("ValueForFalse", typeof(object), typeof(ObjectToBooleanConverter), new PropertyMetadata(null, ValueChangedCallback));
 
         /// <summary>
-        /// Returns when <c>value != ValueForTrue && value != ValueForFalse</c>.
+        /// Returns when <c>value != ValueForTrue &amp;&amp; value != ValueForFalse</c>.
         /// </summary>
         public bool IfNeither
         {
@@ -43,7 +43,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("IfNeither", typeof(bool), typeof(ObjectToBooleanConverter), new PropertyMetadata(false));
 
         /// <summary>
-        /// Returns when <c>value == ValueForTrue && value == ValueForFalse</c>.
+        /// Returns when <c>value == ValueForTrue &amp;&amp; value == ValueForFalse</c>.
         /// </summary>
         public bool IfBoth
         {

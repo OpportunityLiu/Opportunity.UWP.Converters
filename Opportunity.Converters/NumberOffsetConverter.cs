@@ -22,6 +22,8 @@ namespace Opportunity.Converters
 
         private static void OffsetPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if((double)e.OldValue == (double)e.NewValue)
+                return;
             if(double.IsNaN((double)e.NewValue))
                 throw new ArgumentOutOfRangeException(nameof(Offset));
         }
