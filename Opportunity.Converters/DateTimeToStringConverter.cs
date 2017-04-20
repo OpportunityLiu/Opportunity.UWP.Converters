@@ -17,7 +17,7 @@ namespace Opportunity.Converters
     {
         /// <summary>
         /// The template to format a <see cref="DateTimeOffset"/> or <see cref="DateTime"/>,
-        /// see remark or <see cref="DateTimeFormatter"/>.
+        /// see remark of <see cref="DateTimeFormatter"/> at https://docs.microsoft.com/en-us/uwp/api/Windows.Globalization.DateTimeFormatting.DateTimeFormatter#remarks.
         /// </summary>
         public string FormatTemplate
         {
