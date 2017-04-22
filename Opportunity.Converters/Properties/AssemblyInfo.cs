@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Opportunity.Converters")]
-[assembly: AssemblyDescription("A collection of IValueConverter for UWP apps ")]
+[assembly: AssemblyDescription("A collection of IValueConverter for UWP apps.")]
 [assembly: AssemblyCompany("Opportunity")]
 [assembly: AssemblyProduct("Opportunity.Converters")]
 [assembly: AssemblyCopyright("Copyright © Opportunity 2017")]
@@ -18,5 +18,5 @@ using System.Runtime.InteropServices;
 
 internal class AssemblyInfo
 {
-    public const string Version = "1.0.3.0";
+    public const string Version = "1.0.4.0";
 }

@@ -135,6 +135,7 @@
     <Compile Include="MathExpression\Tokenizer.cs" />
     <Compile Include="NullableConverter.cs" />
     <Compile Include="NullCoalescingConverter.cs" />
+    <Compile Include="NumberScaleConverter.cs" />
     <Compile Include="NumberOffsetConverter.cs" />
     <Compile Include="ObjectToBooleanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

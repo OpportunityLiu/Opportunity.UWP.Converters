@@ -29,7 +29,8 @@ namespace Opportunity.Converters
         /// </summary>
         public T Offset
         {
-            get => (T)GetValue(OffsetProperty); set => SetValue(OffsetProperty, value);
+            get => (T)GetValue(OffsetProperty);
+            set => SetValue(OffsetProperty, value);
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Opportunity.Converters
         /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
         protected sealed override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
-            return ChangeType<T>(value);
+            return ApplyOffset(ChangeType<T>(value));
         }
 
         /// <summary>
@@ -61,7 +62,7 @@ namespace Opportunity.Converters
         /// <returns><paramref name="value"/> - <see cref="Offset"/></returns>
         protected sealed override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
-            return ChangeType<T>(value);
+            return UnapplyOffset(ChangeType<T>(value));
         }
     }
 
