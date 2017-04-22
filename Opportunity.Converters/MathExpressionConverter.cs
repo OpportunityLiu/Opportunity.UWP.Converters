@@ -12,7 +12,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Use a math expression to convert number values.
     /// </summary>
-    public class MathExpressionConverter : ChainConverter
+    public sealed class MathExpressionConverter : ChainConverter
     {
         /// <summary>
         /// Expression used to convert value.

@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class ObjectToBooleanConverter : ChainConverter
+    public sealed class ObjectToBooleanConverter : ChainConverter
     {
         /// <summary>
         /// <see cref="object"/>s will be converted to <c>true</c>.

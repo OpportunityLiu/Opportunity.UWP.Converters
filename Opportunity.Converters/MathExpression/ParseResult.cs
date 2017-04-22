@@ -77,7 +77,7 @@ namespace Opportunity.Converters.MathExpression
         public IReadOnlyCollection<int> PreferedParameterCount
             => this.funcInfo.PreferedParameterCount;
 
-        public (object instance, MethodInfo method) GetExecutable(int parameterCount)
+        public MethodWapper GetExecutable(int parameterCount)
         {
             return this.funcInfo.GetExecutable(parameterCount);
         }
@@ -86,7 +86,7 @@ namespace Opportunity.Converters.MathExpression
         {
             get
             {
-                if(this._funcInfo == null)
+                if (this._funcInfo == null)
                     this._funcInfo = new ParsedFunctionInfo(this);
                 return this._funcInfo;
             }
@@ -128,15 +128,15 @@ namespace Opportunity.Converters.MathExpression
                 get;
             }
 
-            private (object instance, MethodInfo method)? executable;
+            private MethodWapper executable;
 
-            public (object instance, MethodInfo method) GetExecutable(int parameterCount)
+            public MethodWapper GetExecutable(int parameterCount)
             {
-                if(parameterCount != this.parent.Parameters.Count)
-                    return (null, null);
-                if(this.executable == null)
-                    this.executable = (parent.Compiled, parent.Compiled.GetType().GetMethod("Invoke"));
-                return this.executable.Value;
+                if (parameterCount != this.parent.Parameters.Count)
+                    return default(MethodWapper);
+                if (this.executable.Method == null)
+                    this.executable = new MethodWapper(this.parent.Compiled, this.parent.Compiled.GetType().GetMethod("Invoke"));
+                return this.executable;
             }
         }
     }

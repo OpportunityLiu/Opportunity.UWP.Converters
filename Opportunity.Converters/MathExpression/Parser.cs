@@ -38,7 +38,7 @@ namespace Opportunity.Converters.MathExpression
         {
             var r = this.tokens.MoveNext();
             Ended = !r;
-            if(r)
+            if (r)
                 Expressions.Push(Current.ToString());
             return r;
         }
@@ -61,7 +61,7 @@ namespace Opportunity.Converters.MathExpression
         public static IParseResult Parse(string expression)
         {
             var ana = parseImpl(expression);
-            switch(ana.Parameters.Count)
+            switch (ana.Parameters.Count)
             {
             case 0:
                 return new ParseResult<Function0>(ana);
@@ -190,15 +190,15 @@ namespace Opportunity.Converters.MathExpression
 
         private static Analyzer parseImpl(string expression)
         {
-            if(string.IsNullOrEmpty(expression))
+            if (string.IsNullOrEmpty(expression))
                 throw new ArgumentNullException(nameof(expression));
-            using(var tokens = prepare(Tokenizer.Tokenize(expression)).GetEnumerator())
+            using (var tokens = prepare(Tokenizer.Tokenize(expression)).GetEnumerator())
             {
                 var analyzer = new Analyzer(tokens);
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.EmptyToken();
                 analyzer.Expr = Parser.expression(analyzer);
-                if(!analyzer.Ended)
+                if (!analyzer.Ended)
                     throw ParseException.UnexpectedToken(analyzer);
                 return analyzer;
             }
@@ -210,11 +210,11 @@ namespace Opportunity.Converters.MathExpression
         private static IEnumerable<Token> prepare(IEnumerable<Token> tokens)
         {
             Token token = null;
-            foreach(var item in tokens)
+            foreach (var item in tokens)
             {
-                if(!item.IsAddOp())
+                if (!item.IsAddOp())
                 {
-                    if(token != null)
+                    if (token != null)
                     {
                         yield return token;
                         token = null;
@@ -223,20 +223,20 @@ namespace Opportunity.Converters.MathExpression
                 }
                 else
                 {
-                    if(token == null)
+                    if (token == null)
                     {
                         token = item;
                     }
-                    else if(item.Type == TokenType.Minus)
+                    else if (item.Type == TokenType.Minus)
                     {
-                        if(token.Type == TokenType.Plus)
+                        if (token.Type == TokenType.Plus)
                             token = item;
                         else
                             token = Token.Plus(item.Position);
                     }
-                    else if(item.Type == TokenType.Plus)
+                    else if (item.Type == TokenType.Plus)
                     {
-                        if(token.Type == TokenType.Plus)
+                        if (token.Type == TokenType.Plus)
                             token = item;
                         else
                             token = Token.Minus(item.Position);
@@ -254,32 +254,32 @@ namespace Opportunity.Converters.MathExpression
             {
                 Token.Plus(0)
             };
-            if(analyzer.Current.IsAddOp())
+            if (analyzer.Current.IsAddOp())
             {
                 addOps[0] = analyzer.Current;
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
             }
             terms.Add(term(analyzer));
-            while(!analyzer.Ended)
+            while (!analyzer.Ended)
             {
                 var addOp = analyzer.Current;
-                if(!addOp.IsAddOp())
+                if (!addOp.IsAddOp())
                     break;
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
                 addOps.Add(addOp);
                 terms.Add(term(analyzer));
             }
             var termsWithOperater = terms.Zip(addOps, (term, op) =>
             {
-                if(op.Type == TokenType.Plus)
+                if (op.Type == TokenType.Plus)
                     return term;
                 else
                     return Expression.Negate(term);
             }).ToList();
             var result = termsWithOperater[0];
-            for(var i = 1; i < termsWithOperater.Count; i++)
+            for (var i = 1; i < termsWithOperater.Count; i++)
             {
                 result = Expression.Add(result, termsWithOperater[i]);
             }
@@ -293,20 +293,20 @@ namespace Opportunity.Converters.MathExpression
             var powers = new List<Expression>();
             var mulOps = new List<Token>();
             powers.Add(power(analyzer));
-            while(!analyzer.Ended)
+            while (!analyzer.Ended)
             {
                 var mulOp = analyzer.Current;
-                if(!mulOp.IsMulOp())
+                if (!mulOp.IsMulOp())
                     break;
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
                 mulOps.Add(mulOp);
                 powers.Add(power(analyzer));
             }
             var result = powers[0];
-            for(var i = 0; i < mulOps.Count; i++)
+            for (var i = 0; i < mulOps.Count; i++)
             {
-                if(mulOps[i].Type == TokenType.Multiply)
+                if (mulOps[i].Type == TokenType.Multiply)
                     result = Expression.Multiply(result, powers[i + 1]);
                 else
                     result = Expression.Divide(result, powers[i + 1]);
@@ -321,18 +321,18 @@ namespace Opportunity.Converters.MathExpression
             var factors = new List<Expression>();
             var powOps = new List<Token>();
             factors.Add(factor(analyzer));
-            while(!analyzer.Ended)
+            while (!analyzer.Ended)
             {
                 var powOp = analyzer.Current;
-                if(!powOp.IsPowOp())
+                if (!powOp.IsPowOp())
                     break;
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
                 powOps.Add(powOp);
                 factors.Add(factor(analyzer));
             }
             var result = factors[factors.Count - 1];
-            for(var i = powOps.Count - 1; i >= 0; i--)
+            for (var i = powOps.Count - 1; i >= 0; i--)
             {
                 result = Expression.Power(factors[i], result);
             }
@@ -344,7 +344,7 @@ namespace Opportunity.Converters.MathExpression
         private static Expression factor(Analyzer analyzer)
         {
             var first = analyzer.Current;
-            switch(first.Type)
+            switch (first.Type)
             {
             case TokenType.Number:
                 analyzer.MoveNext();
@@ -352,63 +352,63 @@ namespace Opportunity.Converters.MathExpression
             case TokenType.Id:
                 IFunctionInfo func;
                 double constValue;
-                if(functions.TryGetValue(first.Id, out func))
+                if (functions.TryGetValue(first.Id, out func))
                 {
                     analyzer.Expressions.Pop();
                     analyzer.Expressions.Push(functions.GetKey(first.Id));
 
-                    if(!analyzer.MoveNext())
+                    if (!analyzer.MoveNext())
                         throw ParseException.WrongEneded();
-                    if(analyzer.Current.Type != TokenType.LeftBracket)
+                    if (analyzer.Current.Type != TokenType.LeftBracket)
                         throw ParseException.UnexpectedToken(analyzer, TokenType.LeftBracket);
-                    if(!analyzer.MoveNext())
+                    if (!analyzer.MoveNext())
                         throw ParseException.WrongEneded();
                     var paramList = new List<Expression>();
-                    if(!analyzer.Current.IsRightBracket())
+                    if (!analyzer.Current.IsRightBracket())
                     {
                         paramList.Add(expression(analyzer));
-                        while(analyzer.Current.IsComma())
+                        while (analyzer.Current.IsComma())
                         {
-                            if(!analyzer.MoveNext())
+                            if (!analyzer.MoveNext())
                                 throw ParseException.WrongEneded();
                             paramList.Add(expression(analyzer));
                         }
-                        if(analyzer.Current.Type != TokenType.RightBracket)
+                        if (analyzer.Current.Type != TokenType.RightBracket)
                             throw ParseException.UnexpectedToken(analyzer, TokenType.RightBracket);
                     }
                     analyzer.MoveNext();
                     var funcToCall = func.GetExecutable(paramList.Count);
-                    if(funcToCall.method == null)
+                    if (funcToCall.Method == null)
                         throw ParseException.ParamMismatch(analyzer, first, func);
                     Expression instance = null;
-                    if(funcToCall.instance != null)
-                        instance = Expression.Constant(funcToCall.instance);
-                    if(funcToCall.method.GetParameters().FirstOrDefault()?.GetCustomAttribute<ParamArrayAttribute>() != null)
+                    if (funcToCall.Instance != null)
+                        instance = Expression.Constant(funcToCall.Instance);
+                    if (funcToCall.Method.GetParameters().FirstOrDefault()?.GetCustomAttribute<ParamArrayAttribute>() != null)
                     {
                         var getarray = Expression.NewArrayInit(typeof(double), paramList);
                         paramList.Clear();
                         paramList.Add(getarray);
                     }
-                    return Expression.Call(instance, funcToCall.method, paramList);
+                    return Expression.Call(instance, funcToCall.Method, paramList);
                 }
                 else
                 {
-                    if(constantValues.TryGetValue(first.Id, out constValue))
+                    if (constantValues.TryGetValue(first.Id, out constValue))
                     {
                         analyzer.Expressions.Pop();
                         analyzer.Expressions.Push(constantValues.GetKey(first.Id));
 
                         analyzer.MoveNext();
-                        if(analyzer.Current.IsLeftBracket())
+                        if (analyzer.Current.IsLeftBracket())
                             throw ParseException.NotFunction(analyzer, first);
                         return Expression.Constant(constValue, typeof(double));
                     }
                     else
                     {
                         analyzer.MoveNext();
-                        if(analyzer.Current.IsLeftBracket())
+                        if (analyzer.Current.IsLeftBracket())
                             throw ParseException.NotFunction(analyzer, first);
-                        if(analyzer.Parameters.TryGetValue(first.Id, out var param))
+                        if (analyzer.Parameters.TryGetValue(first.Id, out var param))
                         {
                             return param;
                         }
@@ -421,20 +421,20 @@ namespace Opportunity.Converters.MathExpression
                     }
                 }
             case TokenType.LeftBracket:
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
                 var expr = expression(analyzer);
-                if(analyzer.Current.Type != TokenType.RightBracket)
+                if (analyzer.Current.Type != TokenType.RightBracket)
                     throw ParseException.UnexpectedToken(analyzer, TokenType.RightBracket);
                 analyzer.MoveNext();
                 return expr;
             case TokenType.Plus:
             case TokenType.Minus:
                 var addOp = analyzer.Current;
-                if(!analyzer.MoveNext())
+                if (!analyzer.MoveNext())
                     throw ParseException.WrongEneded();
                 var fact = factor(analyzer);
-                if(addOp.Type == TokenType.Plus)
+                if (addOp.Type == TokenType.Plus)
                     return fact;
                 else
                     return Expression.Negate(fact);
@@ -467,7 +467,7 @@ namespace Opportunity.Converters.MathExpression
     {
         internal static ParseException UnexpectedToken(Analyzer analyzer, TokenType? expected = null)
         {
-            if(expected.HasValue)
+            if (expected.HasValue)
                 return new ParseException($"Unexpected token has been detected. {expected.Value} expected.\nPostion: {analyzer.Current.Position + 1}");
             else
                 return new ParseException($"Unexpected token has been detected.\nPostion: {analyzer.Current.Position + 1}");

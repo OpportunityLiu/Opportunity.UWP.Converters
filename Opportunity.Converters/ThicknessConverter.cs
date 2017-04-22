@@ -11,16 +11,16 @@ namespace Opportunity.Converters
     /// <example>
     /// <para>
     /// If the ConverterParameter is "0,10",
-    /// (10,20,30,40) will be convert to (10,30,30,50).
+    /// (10,20,30,40) will convert to (10,30,30,50).
     /// </para>
     /// <para>
     /// If the ConverterParameter is "-10,x0.5,10,x2",
-    /// (10,20,30,40) will be convert to (0,10,40,80).
+    /// (10,20,30,40) will convert to (0,10,40,80).
     /// </para>
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class ThicknessConverter : ChainConverter
+    public sealed class ThicknessConverter : ChainConverter
     {
         private static readonly object empty = new Thickness();
 
@@ -45,16 +45,16 @@ namespace Opportunity.Converters
 
             public void OperateOn(ref double value, bool direction)
             {
-                if(direction)
+                if (direction)
                 {
-                    if(this.IsOffset)
+                    if (this.IsOffset)
                         value += this.Value;
                     else
                         value *= this.Value;
                 }
                 else
                 {
-                    if(this.IsOffset)
+                    if (this.IsOffset)
                         value -= this.Value;
                     else
                         value /= this.Value;
@@ -63,7 +63,7 @@ namespace Opportunity.Converters
 
             public static Operation Parse(string s)
             {
-                if(s[0] == 'x' || s[0] == 'X' || s[0] == '*' || s[0] == '×')
+                if (s[0] == 'x' || s[0] == 'X' || s[0] == '*' || s[0] == '×')
                     return new Operation
                     {
                         IsOffset = false,
@@ -82,11 +82,11 @@ namespace Opportunity.Converters
 
         private static object convertCore(object value, string parameter, bool direction)
         {
-            if(!(value is Thickness tk))
+            if (!(value is Thickness tk))
                 return empty;
             try
             {
-                if(!cache.TryGetValue(parameter, out var numbers))
+                if (!cache.TryGetValue(parameter, out var numbers))
                     cache[parameter] = numbers = parameter.ToString()
                        .Split(spliter, StringSplitOptions.RemoveEmptyEntries)
                        .Select(Operation.Parse)
@@ -95,7 +95,7 @@ namespace Opportunity.Converters
                 var r = tk.Right;
                 var t = tk.Top;
                 var b = tk.Bottom;
-                switch(numbers.Length)
+                switch (numbers.Length)
                 {
                 case 1:
                     numbers[0].OperateOn(ref l, direction);
@@ -120,7 +120,7 @@ namespace Opportunity.Converters
                 }
                 return new Thickness(l, t, r, b);
             }
-            catch(FormatException)
+            catch (FormatException)
             {
                 return tk;
             }

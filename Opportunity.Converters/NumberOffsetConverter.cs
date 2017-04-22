@@ -11,29 +11,44 @@ namespace Opportunity.Converters
     /// <summary>
     /// Apply an <see cref="Offset"/> to values.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class NumberOffsetConverter : ChainConverter
+    public abstract class NumberOffsetConverter<T> : ChainConverter
     {
+        /// <summary>
+        /// Apply <see cref="Offset"/> to <paramref name="value"/>.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        protected abstract T ApplyOffset(T value);
+        /// <summary>
+        /// Unapply <see cref="Offset"/> to <paramref name="value"/>.
+        /// </summary>
+        protected abstract T UnapplyOffset(T value);
+
         /// <summary>
         /// The offset value used.
         /// </summary>
-        public double Offset
+        public T Offset
         {
-            get => (double)GetValue(OffsetProperty); set => SetValue(OffsetProperty, value);
+            get => (T)GetValue(OffsetProperty); set => SetValue(OffsetProperty, value);
         }
 
         /// <summary>
         /// Identifies the <see cref="Offset"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OffsetProperty =
-            DependencyProperty.Register("Offset", typeof(double), typeof(NumberOffsetConverter), new PropertyMetadata(0d, OffsetPropertyChangedCallback));
+            DependencyProperty.Register("Offset", typeof(T), typeof(NumberOffsetConverter<T>), new PropertyMetadata(default(T)));
 
-        private static void OffsetPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Apply <see cref="Offset"/>.
+        /// </summary>
+        /// <param name="value">value canbe converted to <see cref="double"/>.</param>
+        /// <param name="targetType">Not used.</param>
+        /// <param name="parameter">Not used.</param>
+        /// <param name="language">Not used.</param>
+        /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
+        protected sealed override object ConvertImpl(object value, Type targetType, object parameter, string language)
         {
-            if((double)e.OldValue == (double)e.NewValue)
-                return;
-            if(double.IsNaN((double)e.NewValue))
-                throw new ArgumentOutOfRangeException(nameof(Offset));
+            return ChangeType<T>(value);
         }
 
         /// <summary>
@@ -44,24 +59,144 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> - <see cref="Offset"/></returns>
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected sealed override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
         {
-            var v = ChangeType<double>(value);
-            return ChangeType(v - this.Offset, targetType);
+            return ChangeType<T>(value);
+        }
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public sealed class DoubleOffsetConverter : NumberOffsetConverter<double>
+    {
+        /// <inhertdoc />
+        protected override double ApplyOffset(double value)
+        {
+            return value + Offset;
+        }
+
+        /// <inhertdoc />
+        protected override double UnapplyOffset(double value)
+        {
+            return value - Offset;
+        }
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public abstract class IntegerOffsetConverter<T> : NumberOffsetConverter<T>
+    {
+        /// <summary>
+        /// Check overflow and underflow.
+        /// </summary>
+        public bool CheckOverflows
+        {
+            get => (bool)GetValue(CheckOverflowsProperty);
+            set => SetValue(CheckOverflowsProperty, value);
         }
 
         /// <summary>
-        /// Apply <see cref="Offset"/>.
+        /// Identifies the <see cref="CheckOverflows"/> dependency property.
         /// </summary>
-        /// <param name="value">value canbe converted to <see cref="double"/>.</param>
-        /// <param name="targetType">Not used.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="language">Not used.</param>
-        /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        public static readonly DependencyProperty CheckOverflowsProperty =
+            DependencyProperty.Register("CheckOverflows", typeof(bool), typeof(IntegerOffsetConverter<T>), new PropertyMetadata(false));
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public sealed class Int32OffsetConverter : IntegerOffsetConverter<int>
+    {
+        /// <inhertdoc />
+        protected override int ApplyOffset(int value)
         {
-            var v = ChangeType<double>(value);
-            return ChangeType(v + this.Offset, targetType);
+            if (CheckOverflows)
+                return checked(value + Offset);
+            else
+                return unchecked(value + Offset);
+        }
+
+        /// <inhertdoc />
+        protected override int UnapplyOffset(int value)
+        {
+            if (CheckOverflows)
+                return checked(value - Offset);
+            else
+                return unchecked(value - Offset);
+        }
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public sealed class UInt32OffsetConverter : IntegerOffsetConverter<uint>
+    {
+        /// <inhertdoc />
+        protected override uint ApplyOffset(uint value)
+        {
+            if (CheckOverflows)
+                return checked(value + Offset);
+            else
+                return unchecked(value + Offset);
+        }
+
+        /// <inhertdoc />
+        protected override uint UnapplyOffset(uint value)
+        {
+            if (CheckOverflows)
+                return checked(value - Offset);
+            else
+                return unchecked(value - Offset);
+        }
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public sealed class Int64OffsetConverter : IntegerOffsetConverter<long>
+    {
+        /// <inhertdoc />
+        protected override long ApplyOffset(long value)
+        {
+            if (CheckOverflows)
+                return checked(value + Offset);
+            else
+                return unchecked(value + Offset);
+        }
+
+        /// <inhertdoc />
+        protected override long UnapplyOffset(long value)
+        {
+            if (CheckOverflows)
+                return checked(value - Offset);
+            else
+                return unchecked(value - Offset);
+        }
+    }
+
+    /// <summary>
+    /// Apply an <see cref="NumberOffsetConverter{T}.Offset"/> to values.
+    /// </summary>
+    public sealed class UInt64OffsetConverter : IntegerOffsetConverter<ulong>
+    {
+        /// <inhertdoc />
+        protected override ulong ApplyOffset(ulong value)
+        {
+            if (CheckOverflows)
+                return checked(value + Offset);
+            else
+                return unchecked(value + Offset);
+        }
+
+        /// <inhertdoc />
+        protected override ulong UnapplyOffset(ulong value)
+        {
+            if (CheckOverflows)
+                return checked(value - Offset);
+            else
+                return unchecked(value - Offset);
         }
     }
 }

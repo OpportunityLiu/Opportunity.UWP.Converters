@@ -11,7 +11,7 @@ namespace Opportunity.Converters
     /// Convert between values of type <c>T</c> and <see cref="Nullable{T}"/>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class NullableConverter : ChainConverter
+    public sealed class NullableConverter : ChainConverter
     {
         /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)

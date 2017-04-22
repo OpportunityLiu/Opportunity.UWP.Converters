@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// Convert <see cref="DateTime"/> and <see cref="DateTimeOffset"/> to <see cref="string"/>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class DateTimeToStringConverter : ChainConverter
+    public sealed class DateTimeToStringConverter : ChainConverter
     {
         /// <summary>
         /// The template to format a <see cref="DateTimeOffset"/> or <see cref="DateTime"/>,

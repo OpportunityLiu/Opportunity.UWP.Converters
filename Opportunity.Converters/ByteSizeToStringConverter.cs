@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class ByteSizeToStringConverter : ChainConverter
+    public sealed class ByteSizeToStringConverter : ChainConverter
     {
         private static readonly string[] unitsMetric = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private static readonly string[] unitsBinary = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };

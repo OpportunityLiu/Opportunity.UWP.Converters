@@ -10,7 +10,7 @@ namespace Opportunity.Converters
     /// Convert <c>value</c> to <c>!value</c>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class LogicalNotConverter : ChainConverter
+    public sealed class LogicalNotConverter : ChainConverter
     {
         /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)

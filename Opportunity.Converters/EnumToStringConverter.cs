@@ -10,7 +10,7 @@ namespace Opportunity.Converters
     /// Convert an <see cref="Enum"/> to its <see cref="string"/> representation.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class EnumToStringConverter : ChainConverter
+    public sealed class EnumToStringConverter : ChainConverter
     {
         /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)

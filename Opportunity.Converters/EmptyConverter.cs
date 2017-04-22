@@ -10,7 +10,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// An empty converter who dose nothing to values.
     /// </summary>
-    public class EmptyConverter : IValueConverter
+    public sealed class EmptyConverter : IValueConverter
     {
         /// <summary>
         /// A default instance of <see cref="EmptyConverter"/>.

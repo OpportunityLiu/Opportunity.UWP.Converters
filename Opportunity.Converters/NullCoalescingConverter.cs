@@ -9,9 +9,10 @@ namespace Opportunity.Converters
 {
     /// <summary>
     /// Coalesce the value and <see cref="Default"/>.
+    /// Like the <c>??</c> operator.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(Default))]
-    public class NullCoalescingConverter : ChainConverter
+    public sealed class NullCoalescingConverter : ChainConverter
     {
         /// <summary>
         /// Returned value while the value is <c>null</c>.

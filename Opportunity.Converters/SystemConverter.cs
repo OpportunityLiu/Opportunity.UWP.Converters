@@ -14,7 +14,7 @@ namespace Opportunity.Converters
     /// Default conversion by <see cref="Convert"/> and <see cref="XamlBindingHelper"/>.
     /// </summary>
     [ContentProperty(Name = nameof(InnerConverter))]
-    public class SystemConverter : ChainConverter
+    public sealed class SystemConverter : ChainConverter
     {
         /// <inheritdoc />
         protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)

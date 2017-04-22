@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Convert a <see cref="SoftwareBitmap"/> to an <see cref="ImageSource"/>.
     /// </summary>
-    public class SoftwareBitmapToImageSourceConverter : IValueConverter
+    public sealed class SoftwareBitmapToImageSourceConverter : IValueConverter
     {
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, string language)

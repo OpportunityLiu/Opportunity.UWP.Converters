@@ -23,7 +23,7 @@ namespace Opportunity.Converters
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
-    public class FormatStringConverter : ChainConverter
+    public sealed class FormatStringConverter : ChainConverter
     {
         /// <inheritdoc />
         protected override object ConvertImpl(object value, Type targetType, object parameter, string language)

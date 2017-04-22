@@ -15,7 +15,7 @@ namespace Opportunity.Converters.MathExpression
             get;
         }
 
-        (object instance, MethodInfo method) GetExecutable(int parameterCount);
+        MethodWapper GetExecutable(int parameterCount);
     }
 
     sealed class FunctionInfo : IFunctionInfo
@@ -43,13 +43,13 @@ namespace Opportunity.Converters.MathExpression
             get;
         }
 
-        public (object instance, MethodInfo method) GetExecutable(int parameterCount)
+        public MethodWapper GetExecutable(int parameterCount)
         {
-            if(parameterCount <= 0)
-                return (null, null);
-            if(Functions.TryGetValue(parameterCount, out var r))
-                return (null, r);
-            return (null, this.arrayFunction);
+            if (parameterCount <= 0)
+                return default(MethodWapper);
+            if (Functions.TryGetValue(parameterCount, out var r))
+                return new MethodWapper(null, r);
+            return new MethodWapper(null, this.arrayFunction);
         }
 
         internal static IdDictionary<IFunctionInfo> GetFunctions()
@@ -62,7 +62,7 @@ namespace Opportunity.Converters.MathExpression
                         where array || param.All(p => p.ParameterType == typeof(double))
                         group new Function(item, array ? -1 : param.Length) by item.Name into functionGroup
                         select new FunctionInfo(functionGroup);
-            foreach(var item in query)
+            foreach (var item in query)
             {
                 r[item.name] = item;
             }
