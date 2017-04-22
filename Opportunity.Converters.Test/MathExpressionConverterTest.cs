@@ -24,8 +24,8 @@ namespace Opportunity.Converters.Test
                 for (int i = 0; i < 100; i++)
                 {
                     var d = r.NextDouble() * 100;
-                    Assert.AreEqual(d * d, (double)converter.Convert(d, null, null, null), 0.00001);
-                    Assert.AreEqual(d, (double)converter.ConvertBack(d * d, null, null, null), 0.00001);
+                    Assert.AreEqual(d * d, (double)converter.Convert(d, typeof(double), null, null), 0.00001);
+                    Assert.AreEqual(d, (double)converter.ConvertBack(d * d, typeof(double), null, null), 0.00001);
                 }
             });
         }
@@ -44,8 +44,8 @@ namespace Opportunity.Converters.Test
                 for (int i = 0; i < 100; i++)
                 {
                     var d = r.NextDouble();
-                    Assert.AreEqual(Math.Sin(d), (double)converter.Convert(d, null, null, null), 0.00001);
-                    Assert.AreEqual(d, (double)converter.ConvertBack(Math.Sin(d), null, null, null), 0.00001);
+                    Assert.AreEqual(Math.Sin(d), (double)converter.Convert(d, typeof(double), null, null), 0.00001);
+                    Assert.AreEqual(d, (double)converter.ConvertBack(Math.Sin(d), typeof(double), null, null), 0.00001);
                 }
             });
         }

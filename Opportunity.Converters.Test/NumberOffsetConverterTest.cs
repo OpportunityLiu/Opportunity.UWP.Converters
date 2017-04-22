@@ -21,8 +21,8 @@ namespace Opportunity.Converters.Test
                     var d = r.Next();
                     var o = r.Next();
                     converter.Offset = o;
-                    Assert.AreEqual(d + o, converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack(d + o, null, null, null));
+                    Assert.AreEqual(d + o, converter.Convert(d, typeof(int), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack(d + o, typeof(int), null, null));
                 }
             });
         }
@@ -38,8 +38,8 @@ namespace Opportunity.Converters.Test
                     var d = (uint)r.Next();
                     var o = (uint)r.Next();
                     converter.Offset = o;
-                    Assert.AreEqual(d + o, converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack(d + o, null, null, null));
+                    Assert.AreEqual(d + o, converter.Convert(d, typeof(uint), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack(d + o, typeof(uint), null, null));
                 }
             });
         }
@@ -55,8 +55,8 @@ namespace Opportunity.Converters.Test
                     var d = (long)r.Next() * r.Next();
                     var o = (long)r.Next() * r.Next();
                     converter.Offset = o;
-                    Assert.AreEqual(d + o, converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack(d + o, null, null, null));
+                    Assert.AreEqual(d + o, converter.Convert(d, typeof(long), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack(d + o, typeof(long), null, null));
                 }
             });
         }
@@ -72,8 +72,8 @@ namespace Opportunity.Converters.Test
                     var d = (ulong)r.Next() * (ulong)r.Next();
                     var o = (ulong)r.Next() * (ulong)r.Next();
                     converter.Offset = o;
-                    Assert.AreEqual(d + o, converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack(d + o, null, null, null));
+                    Assert.AreEqual(d + o, converter.Convert(d, typeof(ulong), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack(d + o, typeof(ulong), null, null));
                 }
             });
         }
@@ -89,8 +89,8 @@ namespace Opportunity.Converters.Test
                     var d = (r.NextDouble() - 0.5) * r.Next();
                     var o = (r.NextDouble() - 0.5) * r.Next();
                     converter.Offset = o;
-                    Assert.AreEqual(d + o, (double)converter.Convert(d, null, null, null), 0.00001);
-                    Assert.AreEqual(d, (double)converter.ConvertBack(d + o, null, null, null), 0.00001);
+                    Assert.AreEqual(d + o, (double)converter.Convert(d, typeof(double), null, null), 0.00001);
+                    Assert.AreEqual(d, (double)converter.ConvertBack(d + o, typeof(double), null, null), 0.00001);
                 }
             });
         }

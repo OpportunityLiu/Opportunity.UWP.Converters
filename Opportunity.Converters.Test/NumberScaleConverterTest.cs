@@ -20,8 +20,8 @@ namespace Opportunity.Converters.Test
                 {
                     var d = r.Next() / i;
                     converter.Scale = i;
-                    Assert.AreEqual((int)(d * i), converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack((int)(d * i), null, null, null));
+                    Assert.AreEqual((int)(d * i), converter.Convert(d, typeof(int), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack((int)(d * i), typeof(int), null, null));
                 }
             });
         }
@@ -36,8 +36,8 @@ namespace Opportunity.Converters.Test
                 {
                     var d = (uint)r.Next() / i;
                     converter.Scale = i;
-                    Assert.AreEqual((uint)(d * i), converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack((uint)(d * i), null, null, null));
+                    Assert.AreEqual((uint)(d * i), converter.Convert(d, typeof(uint), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack((uint)(d * i), typeof(uint), null, null));
                 }
             });
         }
@@ -52,8 +52,8 @@ namespace Opportunity.Converters.Test
                 {
                     var d = (long)r.Next();
                     converter.Scale = i;
-                    Assert.AreEqual((long)(d * i), converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack((long)(d * i), null, null, null));
+                    Assert.AreEqual((long)(d * i), converter.Convert(d, typeof(long), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack((long)(d * i), typeof(long), null, null));
                 }
             });
         }
@@ -68,8 +68,8 @@ namespace Opportunity.Converters.Test
                 {
                     var d = (ulong)r.Next();
                     converter.Scale = i;
-                    Assert.AreEqual((ulong)(d * (ulong)i), converter.Convert(d, null, null, null));
-                    Assert.AreEqual(d, converter.ConvertBack((ulong)(d * (ulong)i), null, null, null));
+                    Assert.AreEqual((ulong)(d * (ulong)i), converter.Convert(d, typeof(ulong), null, null));
+                    Assert.AreEqual(d, converter.ConvertBack((ulong)(d * (ulong)i), typeof(ulong), null, null));
                 }
             });
         }
@@ -85,8 +85,8 @@ namespace Opportunity.Converters.Test
                     var d = (r.NextDouble() - 0.5) * r.Next();
                     var o = r.NextDouble();
                     converter.Scale = o;
-                    Assert.AreEqual(d * o, (double)converter.Convert(d, null, null, null), 0.00001);
-                    Assert.AreEqual(d, (double)converter.ConvertBack(d * o, null, null, null), 0.00001);
+                    Assert.AreEqual(d * o, (double)converter.Convert(d, typeof(double), null, null), 0.00001);
+                    Assert.AreEqual(d, (double)converter.ConvertBack(d * o, typeof(double), null, null), 0.00001);
                 }
             });
         }
