@@ -29,17 +29,19 @@ namespace Opportunity.Converters
             DependencyProperty.Register("Default", typeof(object), typeof(NullCoalescingConverter), new PropertyMetadata(null));
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
-            if(value == this.Default)
+            if (value == null)
+                return null;
+            if (value.Equals(this.Default))
                 return null;
             return value;
         }
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
-            if(value == null)
+            if (value == null)
                 return this.Default;
             return value;
         }

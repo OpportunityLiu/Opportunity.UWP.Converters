@@ -42,12 +42,11 @@ namespace Opportunity.Converters
         /// <summary>
         /// Apply <see cref="Offset"/>.
         /// </summary>
-        /// <param name="value">value canbe converted to <see cref="double"/>.</param>
-        /// <param name="targetType">Not used.</param>
+        /// <param name="value">value canbe converted to <typeparamref name="T"/>.</param>
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
-        protected sealed override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected sealed override object ConvertImpl(object value, object parameter, string language)
         {
             return ApplyOffset(ChangeType<T>(value));
         }
@@ -55,12 +54,11 @@ namespace Opportunity.Converters
         /// <summary>
         /// Unapply <see cref="Offset"/>.
         /// </summary>
-        /// <param name="value">value canbe converted to <see cref="double"/>.</param>
-        /// <param name="targetType">Not used.</param>
+        /// <param name="value">value canbe converted to <typeparamref name="T"/>.</param>
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> - <see cref="Offset"/></returns>
-        protected sealed override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected sealed override object ConvertBackImpl(object value, object parameter, string language)
         {
             return UnapplyOffset(ChangeType<T>(value));
         }

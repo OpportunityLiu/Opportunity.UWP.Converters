@@ -30,13 +30,13 @@ namespace Opportunity.Converters
             DependencyProperty.Register("TrueForVisible", typeof(bool), typeof(VisibilityConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             return convertCore(value);
         }
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             return convertCore(value);
         }

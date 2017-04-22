@@ -22,11 +22,11 @@ namespace Opportunity.Converters
     /// </c></para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
     public sealed class FormatStringConverter : ChainConverter
     {
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             if(parameter == null)
                 return value.ToString();
@@ -35,7 +35,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             return value;
         }

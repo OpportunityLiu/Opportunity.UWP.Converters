@@ -19,19 +19,19 @@ namespace Opportunity.Converters
     /// </para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
     public sealed class ThicknessConverter : ChainConverter
     {
         private static readonly object empty = new Thickness();
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             return convertCore(value, parameter.ToString(), false);
         }
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             return convertCore(value, parameter.ToString(), true);
         }

@@ -12,7 +12,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
     public sealed class ObjectToBooleanConverter : ChainConverter
     {
         /// <summary>
@@ -78,17 +78,17 @@ namespace Opportunity.Converters
             var s = (ObjectToBooleanConverter)d;
             var tType = s.ValueForTrue?.GetType();
             var fType = s.ValueForFalse?.GetType();
-            if(tType == null && fType == null)
+            if (tType == null && fType == null)
             {
                 s.valueType = typeof(object);
                 return;
             }
-            if(tType == null)
+            if (tType == null)
             {
                 s.valueType = fType;
                 return;
             }
-            if(fType == null || tType == fType)
+            if (fType == null || tType == fType)
             {
                 s.valueType = tType;
                 return;
@@ -100,25 +100,25 @@ namespace Opportunity.Converters
         private Type valueType = typeof(object);
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             value = ChangeType(value, this.valueType);
             var isTrue = Equals(value, this.ValueForTrue);
             var isFalse = Equals(value, this.ValueForFalse);
-            if(isTrue && isFalse)
+            if (isTrue && isFalse)
                 return this.IfBoth;
-            if(isTrue)
+            if (isTrue)
                 return true;
-            if(isFalse)
+            if (isFalse)
                 return false;
             return this.IfNeither;
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             var v = ChangeType<bool>(value);
-            if(v)
+            if (v)
                 return this.ValueForTrue;
             else
                 return this.ValueForFalse;

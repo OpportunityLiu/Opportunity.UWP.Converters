@@ -75,13 +75,13 @@ namespace Opportunity.Converters
         }
 
         /// <inhertdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             return this.convertback.Compiled(ChangeType<double>(value));
         }
 
         /// <inhertdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             return this.convert.Compiled(ChangeType<double>(value));
         }

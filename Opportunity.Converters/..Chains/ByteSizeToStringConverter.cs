@@ -12,7 +12,7 @@ namespace Opportunity.Converters
     /// </para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(InnerConverter))]
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
     public sealed class ByteSizeToStringConverter : ChainConverter
     {
         private static readonly string[] unitsMetric = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
@@ -55,7 +55,7 @@ namespace Opportunity.Converters
         }
         
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertImpl(object value, object parameter, string language)
         {
             var size = System.Convert.ToDouble(value);
             try
@@ -69,7 +69,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBackImpl(object value,  object parameter, string language)
         {
             var sizeStr = value.ToString();
             try
