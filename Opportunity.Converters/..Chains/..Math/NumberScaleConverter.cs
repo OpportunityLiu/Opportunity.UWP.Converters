@@ -46,7 +46,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> + <see cref="Scale"/></returns>
-        protected sealed override object ConvertImpl(object value,  object parameter, string language)
+        protected sealed override object ConvertImpl(object value, object parameter, string language)
         {
             return ApplyScale(ChangeType<T>(value));
         }
@@ -58,7 +58,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> - <see cref="Scale"/></returns>
-        protected sealed override object ConvertBackImpl(object value,  object parameter, string language)
+        protected sealed override object ConvertBackImpl(object value, object parameter, string language)
         {
             return UnapplyScale(ChangeType<T>(value));
         }

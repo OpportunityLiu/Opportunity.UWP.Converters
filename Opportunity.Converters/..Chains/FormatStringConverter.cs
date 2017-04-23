@@ -28,7 +28,7 @@ namespace Opportunity.Converters
         /// <inheritdoc />
         protected override object ConvertImpl(object value, object parameter, string language)
         {
-            if(parameter == null)
+            if (parameter == null)
                 return value.ToString();
             var format = Internal.ResourcesHelper.GetString(parameter.ToString());
             return string.Format(CultureInfo.CurrentCulture, format, value);

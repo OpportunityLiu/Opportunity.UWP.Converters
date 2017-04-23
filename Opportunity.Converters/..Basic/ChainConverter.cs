@@ -28,7 +28,7 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="NextConverter"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty NextConverterProperty =
-            DependencyProperty.Register(nameof(NextConverter), typeof(IValueConverter), typeof(ChainConverter), new PropertyMetadata(SystemConverter.Default));
+            DependencyProperty.Register(nameof(NextConverter), typeof(IValueConverter), typeof(ChainConverter), new PropertyMetadata(null));
 
         /// <summary>
         /// The implementation of <see cref="Convert(object, Type, object, string)"/> of current instance of <see cref="ChainConverter"/>.

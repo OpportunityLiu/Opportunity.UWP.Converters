@@ -18,8 +18,7 @@ namespace Opportunity.Converters
         /// <inheritdoc />
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            var sb = value as SoftwareBitmap;
-            if(sb == null)
+            if (!(value is SoftwareBitmap sb))
                 return null;
             var image = new SoftwareBitmapSource();
             var ignore = image.SetBitmapAsync(sb);

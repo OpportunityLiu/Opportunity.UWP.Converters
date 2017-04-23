@@ -50,10 +50,10 @@ namespace Opportunity.Converters
 
         private static void OutOfRangeValuePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(e.NewValue == null)
+            if (e.NewValue == null)
                 throw new ArgumentNullException(nameof(OutOfRangeValue));
         }
-        
+
         /// <inheritdoc />
         protected override object ConvertImpl(object value, object parameter, string language)
         {
@@ -62,21 +62,21 @@ namespace Opportunity.Converters
             {
                 return ByteSizeToString(size, this.UnitPrefix);
             }
-            catch(ArgumentException)
+            catch (ArgumentException)
             {
                 return this.OutOfRangeValue;
             }
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value,  object parameter, string language)
+        protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             var sizeStr = value.ToString();
             try
             {
                 return StringToByteSize(sizeStr, this.UnitPrefix);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return DependencyProperty.UnsetValue;
             }
@@ -84,7 +84,7 @@ namespace Opportunity.Converters
 
         private static void getUnits(out string[] units, out double powerBase, UnitPrefix unitPrefix)
         {
-            if(unitPrefix == UnitPrefix.Metric)
+            if (unitPrefix == UnitPrefix.Metric)
             {
                 units = unitsMetric;
                 powerBase = 1000;
@@ -106,12 +106,12 @@ namespace Opportunity.Converters
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
         public static string ByteSizeToString(double size, UnitPrefix unitPrefix)
         {
-            if(size < 0 || double.IsNaN(size))
+            if (size < 0 || double.IsNaN(size))
                 throw new ArgumentOutOfRangeException(nameof(size));
             getUnits(out var units, out var powerBase, unitPrefix);
-            foreach(var unit in units)
+            foreach (var unit in units)
             {
-                if(size < 1000)
+                if (size < 1000)
                 {
                     return $"{size.ToString(sizeFormat).Substring(0, 5)} {unit}";
                 }
@@ -128,13 +128,13 @@ namespace Opportunity.Converters
         /// <returns>The byte size.</returns>
         public static double StringToByteSize(string sizeStr, UnitPrefix unitPrefix)
         {
-            if(string.IsNullOrEmpty(sizeStr))
+            if (string.IsNullOrEmpty(sizeStr))
                 throw new ArgumentNullException(nameof(sizeStr));
             sizeStr = sizeStr.Trim();
             getUnits(out var units, out var powerBase, unitPrefix);
-            for(var i = 0; i < units.Length; i++)
+            for (var i = 0; i < units.Length; i++)
             {
-                if(sizeStr.EndsWith(units[i], StringComparison.OrdinalIgnoreCase))
+                if (sizeStr.EndsWith(units[i], StringComparison.OrdinalIgnoreCase))
                 {
                     var sizeNumStr = sizeStr.Substring(0, sizeStr.Length - units[i].Length);
                     var sizeNum = double.Parse(sizeNumStr);

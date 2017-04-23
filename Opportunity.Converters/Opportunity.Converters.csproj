@@ -119,6 +119,7 @@
     <Compile Include="..Chains\..DateTime\DateTimeToStringConverterBase.cs" />
     <Compile Include="..Simple\EmptyConverter.cs" />
     <Compile Include="..Chains\FormatStringConverter.cs" />
+    <Compile Include="..Simple\IRandomAccessStreamReferenceToImageSourceConverter.cs" />
     <Compile Include="Internal\ConvertHelper.cs" />
     <Compile Include="Internal\ResourcesHelper.cs" />
     <Compile Include="..Basic\InvertConverter.cs" />

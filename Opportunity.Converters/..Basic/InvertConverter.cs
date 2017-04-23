@@ -44,14 +44,7 @@ namespace Opportunity.Converters
         /// </summary>
         public override object Convert(object value, Type targetType, object parameter, string language)
         {
-            try
-            {
-                return this.OriginalConverter.ConvertBack(value, targetType, parameter, language);
-            }
-            catch(Exception)
-            {
-                return DependencyProperty.UnsetValue;
-            }
+            return this.OriginalConverter.ConvertBack(value, targetType, parameter, language);
         }
 
         /// <summary>
