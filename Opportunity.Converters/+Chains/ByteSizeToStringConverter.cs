@@ -46,13 +46,7 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="OutOfRangeValue"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty OutOfRangeValueProperty =
-            DependencyProperty.Register("OutOfRangeValue", typeof(string), typeof(ByteSizeToStringConverter), new PropertyMetadata("???", OutOfRangeValuePropertyChangedCallback));
-
-        private static void OutOfRangeValuePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue == null)
-                throw new ArgumentNullException(nameof(OutOfRangeValue));
-        }
+            DependencyProperty.Register("OutOfRangeValue", typeof(string), typeof(ByteSizeToStringConverter), new PropertyMetadata("???"));
 
         /// <inheritdoc />
         protected override object ConvertImpl(object value, object parameter, string language)
@@ -62,24 +56,18 @@ namespace Opportunity.Converters
             {
                 return ByteSizeToString(size, this.UnitPrefix);
             }
-            catch (ArgumentException)
+            catch (ArgumentOutOfRangeException)
             {
-                return this.OutOfRangeValue;
+                return this.OutOfRangeValue ?? "???";
             }
         }
 
         /// <inheritdoc />
         protected override object ConvertBackImpl(object value, object parameter, string language)
         {
-            var sizeStr = value.ToString();
-            try
-            {
-                return StringToByteSize(sizeStr, this.UnitPrefix);
-            }
-            catch (Exception)
-            {
-                return DependencyProperty.UnsetValue;
-            }
+            if (value == null)
+                return double.NaN;
+            return StringToByteSize(value.ToString(), this.UnitPrefix);
         }
 
         private static void getUnits(out string[] units, out double powerBase, UnitPrefix unitPrefix)

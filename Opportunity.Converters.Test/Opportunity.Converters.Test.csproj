@@ -95,6 +95,7 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRandomAccessStreamReferenceToImageSourceConverterTest.cs" />
     <Compile Include="MathExpressionConverterTest.cs" />
     <Compile Include="NumberScaleConverterTest.cs" />
     <Compile Include="NumberOffsetConverterTest.cs" />
@@ -115,6 +116,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\XMLFile1.xml" />
     <Content Include="Properties\UnitTestApp.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
