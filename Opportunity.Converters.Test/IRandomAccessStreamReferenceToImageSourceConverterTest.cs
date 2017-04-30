@@ -16,25 +16,12 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Image()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+            await TestHelper.RunAtUIThread(async () =>
             {
                 var converter = new IRandomAccessStreamReferenceToImageSourceConverter();
                 var uri = new Uri("ms-appx:///Assets/StoreLogo.png");
                 var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
                 var r = (BitmapImage)converter.Convert(file, typeof(ImageSource), null, null);
-            });
-        }
-
-        [TestMethod]
-        public async Task WrongFile()
-        {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
-            {
-                var converter = new IRandomAccessStreamReferenceToImageSourceConverter();
-                var uri = new Uri("ms-appx:///Assets/XMLFile1.xml");
-                var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-                var r = (BitmapImage)converter.Convert(file, typeof(ImageSource), null, null);
-                await Task.Delay(1000);
             });
         }
     }

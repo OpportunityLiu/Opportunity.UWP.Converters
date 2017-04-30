@@ -36,7 +36,7 @@ namespace Opportunity.Converters
             if (string.IsNullOrWhiteSpace(n))
                 sender.formatter = null;
             else
-                sender.formatter = new DateTimeFormatter(n ?? "shortdate shorttime");
+                sender.formatter = new DateTimeFormatter(n);
         }
 
         private DateTimeFormatter formatter;

@@ -13,7 +13,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Square()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new MathExpressionConverter()
                 {
@@ -33,7 +33,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Sin()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new MathExpressionConverter()
                 {

@@ -35,7 +35,8 @@ namespace Opportunity.Converters
             if (!(value is IRandomAccessStreamReference f))
                 return null;
             var img = new BitmapImage();
-            var ignore = initImage(img, f).ContinueWith(t => t.Wait());
+            var task = initImage(img, f);
+            task.GetAwaiter().OnCompleted(task.Wait);
             return img;
         }
 

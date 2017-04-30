@@ -48,8 +48,9 @@ namespace Opportunity.Converters
                 default:
                     return ElementTheme.Default;
                 }
+            default:
+                throw new Exception("Can't handle value. Only Windows.UI.Xaml.ApplicationTheme and Windows.UI.Xaml.ElementTheme accepted.");
             }
-            return DependencyProperty.UnsetValue;
         }
     }
 }

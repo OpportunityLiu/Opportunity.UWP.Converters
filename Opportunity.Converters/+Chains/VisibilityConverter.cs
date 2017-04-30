@@ -58,7 +58,7 @@ namespace Opportunity.Converters
                 else
                     return v != Visibility.Visible;
             default:
-                throw new Exception("Can't handle value. Only bool and Visibility accepted.");
+                throw new Exception("Can't handle value. Only System.Boolean and Windows.UI.Xaml.Visibility accepted.");
             }
         }
     }

@@ -12,7 +12,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Int32()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new Int32ScaleConverter();
                 var r = new Random();
@@ -28,7 +28,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task UInt32()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new UInt32ScaleConverter();
                 var r = new Random();
@@ -44,7 +44,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Int64()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new Int64ScaleConverter();
                 var r = new Random();
@@ -60,7 +60,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task UInt64()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new UInt64ScaleConverter();
                 var r = new Random();
@@ -76,7 +76,7 @@ namespace Opportunity.Converters.Test
         [TestMethod]
         public async Task Double()
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await TestHelper.RunAtUIThread(() =>
             {
                 var converter = new DoubleScaleConverter();
                 var r = new Random();
