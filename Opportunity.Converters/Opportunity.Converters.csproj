@@ -126,15 +126,6 @@
     <Compile Include="+Chains\LengthConverter.cs" />
     <Compile Include="+Chains\LogicalNotConverter.cs" />
     <Compile Include="+Chains\+Math\MathExpressionConverter.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\Delegates.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\FunctionInfo.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\Functions.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\IdDictionary.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\MethodWapper.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\Parser.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\ParseResult.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\TokenExtension.cs" />
-    <Compile Include="+Chains\+Math\MathExpression\Tokenizer.cs" />
     <Compile Include="+Chains\NullCoalescingConverter.cs" />
     <Compile Include="+Chains\+Math\NumberScaleConverter.cs" />
     <Compile Include="+Chains\+Math\NumberOffsetConverter.cs" />

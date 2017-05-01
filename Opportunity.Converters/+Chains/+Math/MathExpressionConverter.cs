@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Opportunity.Converters.MathExpression;
+using Opportunity.MathExpression;
+using Opportunity.MathExpression.Delegates;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
 namespace Opportunity.Converters
@@ -36,7 +37,7 @@ namespace Opportunity.Converters
         public static readonly DependencyProperty ConvertExpressionProperty =
            DependencyProperty.Register("ConvertExpression", typeof(string), typeof(MathExpressionConverter), new PropertyMetadata("x", ConvertExpressionPropertyChangedCallback));
 
-        private IParseResult<MathExpression.Delegates.Function1> convert;
+        private IParseResult<Function1> convert;
 
         private static void ConvertExpressionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -66,7 +67,7 @@ namespace Opportunity.Converters
         public static readonly DependencyProperty ConvertBackExpressionProperty =
             DependencyProperty.Register("ConvertBackExpression", typeof(string), typeof(MathExpressionConverter), new PropertyMetadata("x", ConvertBackExpressionPropertyChangedCallback));
 
-        private IParseResult<MathExpression.Delegates.Function1> convertback;
+        private IParseResult<Function1> convertback;
 
         private static void ConvertBackExpressionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

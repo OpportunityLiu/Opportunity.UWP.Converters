@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using Windows.UI.Xaml;
 using static Opportunity.Converters.Internal.ConvertHelper;
-using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Markup;
 
 namespace Opportunity.Converters
 {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using System.Reflection;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
 namespace Opportunity.Converters
