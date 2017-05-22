@@ -112,6 +112,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="+Chains\+Math\NumberToBooleanConverter.cs" />
     <Compile Include="+Chains\ByteSizeToStringConverter.cs" />
     <Compile Include="+Basic\ChainConverter.cs" />
     <Compile Include="+Chains\+DateTime\DateTimeOffsetToStringConverter.cs" />
