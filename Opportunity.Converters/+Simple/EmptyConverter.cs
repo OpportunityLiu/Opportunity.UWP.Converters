@@ -12,13 +12,12 @@ namespace Opportunity.Converters
     /// </summary>
     public sealed class EmptyConverter : IValueConverter
     {
+
+        private static EmptyConverter instance;
         /// <summary>
         /// A default instance of <see cref="EmptyConverter"/>.
         /// </summary>
-        public static EmptyConverter Default
-        {
-            get;
-        } = new EmptyConverter();
+        public static EmptyConverter Default=> System.Threading.LazyInitializer.EnsureInitialized(ref instance);
 
         /// <summary>
         /// Do nothing to <paramref name="value"/>.

@@ -36,6 +36,7 @@ namespace Opportunity.Converters
                 return null;
             var img = new BitmapImage();
             var task = initImage(img, f);
+            // make sure exception in the task will be thrown.
             task.GetAwaiter().OnCompleted(task.Wait);
             return img;
         }

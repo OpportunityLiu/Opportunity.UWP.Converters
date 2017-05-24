@@ -37,6 +37,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">An optional parameter to be used in the converter logic.</param>
         /// <param name="language">The language of the conversion.</param>
         /// <returns>The value to be passed to the target dependency property.</returns>
+        /// <remarks>As a part of the converter chain, a converter has its independent responsibility, and should know nothing about the target type.</remarks>
         protected abstract object ConvertImpl(object value, object parameter, string language);
 
         /// <summary>
@@ -46,6 +47,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">An optional parameter to be used in the converter logic.</param>
         /// <param name="language">The language of the conversion.</param>
         /// <returns>The value to be passed to the source object.</returns>
+        /// <remarks>As a part of the converter chain, a converter has its independent responsibility, and should know nothing about the target type.</remarks>
         protected abstract object ConvertBackImpl(object value, object parameter, string language);
 
         /// <inheritdoc />
