@@ -7,12 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters._Chains
+namespace Opportunity.Converters
 {
     /// <summary>
     /// Collection of <see cref="Enum"/>s.
     /// </summary>
-    public sealed class EnumValueCollection : IList<object>, IReadOnlyList<object>, IList
+    public sealed class EnumValueCollection : IList<IConvertible>, IReadOnlyList<IConvertible>, IList
     {
         private readonly EnumToBooleanConverter parent;
 
@@ -47,14 +47,14 @@ namespace Opportunity.Converters._Chains
         /// <param name="index">Index of value.</param>
         /// <returns>The value at <paramref name="index"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <see cref="Count"/> -1.</exception>
-        public object this[int index] { get => Items[index]; set => Items[index] = ToStorage((IConvertible)value); }
+        public IConvertible this[int index] { get => Items[index]; set => Items[index] = ToStorage(value); }
 
         /// <summary>
         /// Number of values in this <see cref="EnumValueCollection"/>.
         /// </summary>
         public int Count => this.Items.Count;
 
-        bool ICollection<object>.IsReadOnly => false;
+        bool ICollection<IConvertible>.IsReadOnly => false;
 
         bool IList.IsFixedSize => false;
 
@@ -64,15 +64,15 @@ namespace Opportunity.Converters._Chains
 
         object ICollection.SyncRoot => ((ICollection)this.Items).SyncRoot;
 
-        object IList.this[int index] { get => Items[index]; set => this[index] = value; }
+        object IList.this[int index] { get => Items[index]; set => this[index] = (IConvertible)value; }
 
         /// <summary>
         /// Add a value into the <see cref="EnumValueCollection"/>.
         /// </summary>
         /// <param name="item">The value to add.</param>
-        public void Add(object item)
+        public void Add(IConvertible item)
         {
-            this.Items.Add(ToStorage((IConvertible)item));
+            this.Items.Add(ToStorage(item));
         }
 
         /// <summary>
@@ -88,9 +88,9 @@ namespace Opportunity.Converters._Chains
         /// </summary>
         /// <param name="value">The value to check.</param>
         /// <returns>true if item is found in the <see cref="EnumValueCollection"/>; otherwise, false.</returns>
-        public bool Contains(object value)
+        public bool Contains(IConvertible value)
         {
-            var val = ToStorage((IConvertible)value);
+            var val = ToStorage(value);
             return this.Items.Contains(val);
         }
 
@@ -99,9 +99,9 @@ namespace Opportunity.Converters._Chains
         /// </summary>
         /// <param name="value">The value to find.</param>
         /// <returns>Index of <paramref name="value"/> if item is found in the <see cref="EnumValueCollection"/>; otherwise, -1.</returns>
-        public int IndexOf(object value)
+        public int IndexOf(IConvertible value)
         {
-            return this.Items.IndexOf(ToStorage((IConvertible)value));
+            return this.Items.IndexOf(ToStorage(value));
         }
 
         /// <summary>
@@ -109,9 +109,9 @@ namespace Opportunity.Converters._Chains
         /// </summary>
         /// <param name="index">The index to insert.</param>
         /// <param name="value">The value to insert.</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, IConvertible value)
         {
-            this.Items.Insert(index, ToStorage((IConvertible)value));
+            this.Items.Insert(index, ToStorage(value));
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Opportunity.Converters._Chains
         /// </summary>
         /// <param name="array">Array to copy values to.</param>
         /// <param name="arrayIndex">Index of <paramref name="array"/> where to start copy.</param>
-        public void CopyTo(object[] array, int arrayIndex)
+        public void CopyTo(IConvertible[] array, int arrayIndex)
         {
             ((ICollection)this.Items).CopyTo(array, arrayIndex);
         }
@@ -138,9 +138,9 @@ namespace Opportunity.Converters._Chains
         /// </summary>
         /// <param name="item">The value to remove.</param>
         /// <returns>true if a value removed; otherwise, false.</returns>
-        public bool Remove(object item)
+        public bool Remove(IConvertible item)
         {
-            var val = ToStorage((IConvertible)item);
+            var val = ToStorage(item);
             return this.Items.Remove(val);
         }
 
@@ -148,23 +148,23 @@ namespace Opportunity.Converters._Chains
         /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="EnumValueCollection"/>.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<object> GetEnumerator() => this.Items.Cast<object>().GetEnumerator();
+        public IEnumerator<IConvertible> GetEnumerator() => this.Items.Cast<IConvertible>().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.Items.GetEnumerator();
 
         int IList.Add(object value)
         {
-            this.Add(value);
+            this.Add((IConvertible)value);
             return this.Count - 1;
         }
 
-        bool IList.Contains(object value) => Contains(value);
+        bool IList.Contains(object value) => Contains((IConvertible)value);
 
-        int IList.IndexOf(object value) => IndexOf(value);
+        int IList.IndexOf(object value) => IndexOf((IConvertible)value);
 
-        void IList.Insert(int index, object value) => Insert(index, value);
+        void IList.Insert(int index, object value) => Insert(index, (IConvertible)value);
 
-        void IList.Remove(object value) => Remove(value);
+        void IList.Remove(object value) => Remove((IConvertible)value);
 
         void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Items).CopyTo(array, index);
     }
