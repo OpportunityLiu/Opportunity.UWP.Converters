@@ -11,105 +11,160 @@ using static Opportunity.Converters.Internal.ConvertHelper;
 namespace Opportunity.Converters
 {
     /// <summary>
+    /// Collection of values.
+    /// </summary>
+    public class ValueCollection : IList<object>
+    {
+        internal ValueCollection(ObjectToBooleanConverter parent)
+        {
+            this.parent = parent;
+        }
+
+        public readonly List<object> Items = new List<object>();
+        private readonly ObjectToBooleanConverter parent;
+
+        /// <summary>
+        /// Get or set value at <paramref name="index"/>
+        /// </summary>
+        /// <param name="index">Index of value.</param>
+        /// <returns>The value at <paramref name="index"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <see cref="Count"/> -1.</exception>
+        public object this[int index] { get => Items[index]; set => Items[index] = value; }
+
+        /// <summary>
+        /// Number of values in this <see cref="ValueCollection"/>.
+        /// </summary>
+        public int Count => this.Items.Count;
+
+        bool ICollection<object>.IsReadOnly => false;
+
+        /// <summary>
+        /// Add a value into the <see cref="ValueCollection"/>.
+        /// </summary>
+        /// <param name="item">The value to add.</param>
+        public void Add(object item)
+        {
+            var r = ((IList)this.Items).Add(item);
+            this.parent.Refresh();
+        }
+
+        /// <summary>
+        /// Remove all values in the <see cref="ValueCollection"/>.
+        /// </summary>
+        public void Clear()
+        {
+            this.Items.Clear();
+            this.parent.Refresh();
+        }
+
+        /// <summary>
+        /// Check whether a value is in the <see cref="ValueCollection"/> or not.
+        /// </summary>
+        /// <param name="value">The value to check.</param>
+        /// <returns>true if item is found in the <see cref="ValueCollection"/>; otherwise, false.</returns>
+        public bool Contains(object value)
+        {
+            var comparer = this.parent.ValueComparer;
+            if (comparer == null)
+                return this.Items.Contains(value);
+            foreach (var item in this.Items)
+            {
+                if (comparer.Equals(value, item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Find the index of a value in the <see cref="ValueCollection"/> or not.
+        /// </summary>
+        /// <param name="value">The value to find.</param>
+        /// <returns>Index of <paramref name="value"/> if item is found in the <see cref="ValueCollection"/>; otherwise, -1.</returns>
+        public int IndexOf(object value)
+        {
+            return ((IList)this.Items).IndexOf(value);
+        }
+
+        /// <summary>
+        /// Insert <paramref name="value"/> into the <see cref="ValueCollection"/> at <paramref name="index"/>.
+        /// </summary>
+        /// <param name="index">The index to insert.</param>
+        /// <param name="value">The value to insert.</param>
+        public void Insert(int index, object value)
+        {
+            this.Items.Insert(index, value);
+            this.parent.Refresh();
+        }
+
+        /// <summary>
+        /// Remove value at given <paramref name="index"/> of the <see cref="ValueCollection"/>.
+        /// </summary>
+        /// <param name="index">Index of value to remove.</param>
+        public void RemoveAt(int index)
+        {
+            this.Items.RemoveAt(index);
+            this.parent.Refresh();
+        }
+
+        /// <summary>
+        /// Copy values in the <see cref="ValueCollection"/> to an array.
+        /// </summary>
+        /// <param name="array">Array to copy values to.</param>
+        /// <param name="arrayIndex">Index of <paramref name="array"/> where to start copy.</param>
+        public void CopyTo(object[] array, int arrayIndex)
+        {
+            this.Items.CopyTo(array, arrayIndex);
+        }
+
+        /// <summary>
+        /// Remove the first match of <paramref name="item"/> in the <see cref="ValueCollection"/>.
+        /// </summary>
+        /// <param name="item">The value to remove.</param>
+        /// <returns>true if a value removed; otherwise, false.</returns>
+        public bool Remove(object item)
+        {
+            var c = this.parent.ValueComparer;
+            if (c == null)
+            {
+                if (this.Items.Remove(item))
+                {
+                    this.parent.Refresh();
+                    return true;
+                }
+                return false;
+            }
+            var index = this.Items.FindIndex(o => c.Equals(o, item));
+            if (index != -1)
+            {
+                this.Items.RemoveAt(index);
+                this.parent.Refresh();
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="ValueCollection"/>.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<object> GetEnumerator()
+        {
+            return this.Items.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.Items.GetEnumerator();
+        }
+    }
+    /// <summary>
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
     public sealed class ObjectToBooleanConverter : ChainConverter
     {
-        private class ValueCollection : IList
-        {
-            public ValueCollection(ObjectToBooleanConverter parent)
-            {
-                this.parent = parent;
-            }
-
-            public readonly List<object> Items = new List<object>();
-            private readonly ObjectToBooleanConverter parent;
-
-            public object this[int index] { get => Items[index]; set => Items[index] = value; }
-
-            bool IList.IsFixedSize => ((IList)this.Items).IsFixedSize;
-
-            bool IList.IsReadOnly => ((IList)this.Items).IsReadOnly;
-
-            public int Count => this.Items.Count;
-
-            bool ICollection.IsSynchronized => ((IList)this.Items).IsSynchronized;
-
-            object ICollection.SyncRoot => ((IList)this.Items).SyncRoot;
-
-            public int Add(object value)
-            {
-                var r = ((IList)this.Items).Add(value);
-                this.parent.refresh();
-                return r;
-            }
-
-            public void Clear()
-            {
-                this.Items.Clear();
-                this.parent.refresh();
-            }
-
-            public bool Contains(object value)
-            {
-                var comparer = this.parent.ValueComparer;
-                if (comparer == null)
-                    return this.Items.Contains(value);
-                foreach (var item in this.Items)
-                {
-                    if (comparer.Equals(value, item))
-                    {
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            public void CopyTo(Array array, int index)
-            {
-                ((IList)this.Items).CopyTo(array, index);
-            }
-
-            public IEnumerator GetEnumerator()
-            {
-                return ((IList)this.Items).GetEnumerator();
-            }
-
-            public int IndexOf(object value)
-            {
-                return ((IList)this.Items).IndexOf(value);
-            }
-
-            public void Insert(int index, object value)
-            {
-                this.Items.Insert(index, value);
-                this.parent.refresh();
-            }
-
-            public void Remove(object value)
-            {
-                var c = this.parent.ValueComparer;
-                if (c == null)
-                {
-                    if (this.Items.Remove(value))
-                        this.parent.refresh();
-                    return;
-                }
-                var index = this.Items.FindIndex(o => c.Equals(o, value));
-                if (index != -1)
-                {
-                    this.Items.RemoveAt(index);
-                    this.parent.refresh();
-                }
-            }
-
-            public void RemoveAt(int index)
-            {
-                this.Items.RemoveAt(index);
-                this.parent.refresh();
-            }
-        }
 
         private static Type merge(Type left, Type right)
         {
@@ -130,19 +185,19 @@ namespace Opportunity.Converters
             return typeof(object);
         }
 
-        private void refresh()
+        internal void Refresh()
         {
             var list = default(IEnumerable<object>);
             if (this.valuesForTrue != null)
             {
                 if (this.valuesForFalse == null)
-                    list = this.valuesForTrue.Cast<object>();
+                    list = this.valuesForTrue;
                 else
-                    list = this.valuesForTrue.Cast<object>().Concat(this.valuesForFalse.Cast<object>());
+                    list = this.valuesForTrue.Concat(this.valuesForFalse);
             }
             if (this.valuesForFalse != null)
             {
-                list = this.valuesForFalse.Cast<object>();
+                list = this.valuesForFalse;
             }
             if (list == null)
                 list = Enumerable.Empty<object>();
@@ -155,13 +210,13 @@ namespace Opportunity.Converters
         /// <summary>
         /// <see cref="object"/>s will be converted to <c>true</c>.
         /// </summary>
-        public IList ValuesForTrue => LazyInitializer.EnsureInitialized(ref this.valuesForTrue, () => new ValueCollection(this));
+        public ValueCollection ValuesForTrue => LazyInitializer.EnsureInitialized(ref this.valuesForTrue, () => new ValueCollection(this));
 
         private ValueCollection valuesForFalse;
         /// <summary>
         /// <see cref="object"/>s will be converted to <c>false</c>.
         /// </summary>
-        public IList ValuesForFalse => LazyInitializer.EnsureInitialized(ref this.valuesForFalse, () => new ValueCollection(this));
+        public ValueCollection ValuesForFalse => LazyInitializer.EnsureInitialized(ref this.valuesForFalse, () => new ValueCollection(this));
 
         /// <summary>
         /// The <see cref="IEqualityComparer"/> used to compare values.
@@ -213,11 +268,11 @@ namespace Opportunity.Converters
             var comparer = this.ValueComparer ?? EqualityComparer<object>.Default;
             value = ChangeType(value, this.valueType);
             var isTrue = false;
-            if(this.valuesForTrue!=null)
+            if (this.valuesForTrue != null)
             {
                 foreach (var item in this.valuesForTrue)
                 {
-                    if(comparer.Equals(value,item))
+                    if (comparer.Equals(value, item))
                     {
                         isTrue = true;
                         break;
