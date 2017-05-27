@@ -11,6 +11,14 @@ using static Opportunity.Converters.Internal.ConvertHelper;
 namespace Opportunity.Converters
 {
     /// <summary>
+    /// Convert <see cref="object"/>s to <see cref="bool"/> values.
+    /// </summary>
+    public sealed class ObjectToBooleanConverter : ValuesToBooleanConverter<object>
+    {
+
+    }
+
+    /// <summary>
     /// Convert <see cref="string"/>s to <see cref="bool"/> values.
     /// </summary>
     public sealed class StringToBooleanConverter : ValuesToBooleanConverter<string>
