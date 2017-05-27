@@ -118,6 +118,7 @@
     <Compile Include="+Chains\+DateTime\DateTimeOffsetToStringConverter.cs" />
     <Compile Include="+Chains\+DateTime\DateTimeToStringConverter.cs" />
     <Compile Include="+Chains\+DateTime\DateTimeToStringConverterBase.cs" />
+    <Compile Include="+Chains\NullTestConverter.cs" />
     <Compile Include="+Chains\TypedValuesToBooleanConverter.cs" />
     <Compile Include="+Chains\ValuesToBooleanConverter{T}.cs" />
     <Compile Include="+Simple\EmptyConverter.cs" />
