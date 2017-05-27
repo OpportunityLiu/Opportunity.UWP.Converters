@@ -13,15 +13,15 @@ namespace Opportunity.Converters
     /// <summary>
     /// Collection of values.
     /// </summary>
-    public class ValueCollection : IList<object>
+    public sealed class ValueCollection<T> : IList<T>
     {
-        internal ValueCollection(ObjectToBooleanConverter parent)
+        internal ValueCollection(ValuesToBooleanConverter<T> parent)
         {
             this.parent = parent;
         }
 
-        public readonly List<object> Items = new List<object>();
-        private readonly ObjectToBooleanConverter parent;
+        internal readonly List<T> Items = new List<T>();
+        private readonly ValuesToBooleanConverter<T> parent;
 
         /// <summary>
         /// Get or set value at <paramref name="index"/>
@@ -29,40 +29,38 @@ namespace Opportunity.Converters
         /// <param name="index">Index of value.</param>
         /// <returns>The value at <paramref name="index"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <see cref="Count"/> -1.</exception>
-        public object this[int index] { get => Items[index]; set => Items[index] = value; }
+        public T this[int index] { get => Items[index]; set => Items[index] = value; }
 
         /// <summary>
-        /// Number of values in this <see cref="ValueCollection"/>.
+        /// Number of values in this <see cref="ValueCollection{T}"/>.
         /// </summary>
         public int Count => this.Items.Count;
 
-        bool ICollection<object>.IsReadOnly => false;
+        bool ICollection<T>.IsReadOnly => false;
 
         /// <summary>
-        /// Add a value into the <see cref="ValueCollection"/>.
+        /// Add a value into the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <param name="item">The value to add.</param>
-        public void Add(object item)
+        public void Add(T item)
         {
-            var r = ((IList)this.Items).Add(item);
-            this.parent.Refresh();
+           this.Items.Add(item);
         }
 
         /// <summary>
-        /// Remove all values in the <see cref="ValueCollection"/>.
+        /// Remove all values in the <see cref="ValueCollection{T}"/>.
         /// </summary>
         public void Clear()
         {
             this.Items.Clear();
-            this.parent.Refresh();
         }
 
         /// <summary>
-        /// Check whether a value is in the <see cref="ValueCollection"/> or not.
+        /// Check whether a value is in the <see cref="ValueCollection{T}"/> or not.
         /// </summary>
         /// <param name="value">The value to check.</param>
-        /// <returns>true if item is found in the <see cref="ValueCollection"/>; otherwise, false.</returns>
-        public bool Contains(object value)
+        /// <returns>true if item is found in the <see cref="ValueCollection{T}"/>; otherwise, false.</returns>
+        public bool Contains(T value)
         {
             var comparer = this.parent.ValueComparer;
             if (comparer == null)
@@ -78,59 +76,56 @@ namespace Opportunity.Converters
         }
 
         /// <summary>
-        /// Find the index of a value in the <see cref="ValueCollection"/> or not.
+        /// Find the index of a value in the <see cref="ValueCollection{T}"/> or not.
         /// </summary>
         /// <param name="value">The value to find.</param>
-        /// <returns>Index of <paramref name="value"/> if item is found in the <see cref="ValueCollection"/>; otherwise, -1.</returns>
-        public int IndexOf(object value)
+        /// <returns>Index of <paramref name="value"/> if item is found in the <see cref="ValueCollection{T}"/>; otherwise, -1.</returns>
+        public int IndexOf(T value)
         {
-            return ((IList)this.Items).IndexOf(value);
+            return this.Items.IndexOf(value);
         }
 
         /// <summary>
-        /// Insert <paramref name="value"/> into the <see cref="ValueCollection"/> at <paramref name="index"/>.
+        /// Insert <paramref name="value"/> into the <see cref="ValueCollection{T}"/> at <paramref name="index"/>.
         /// </summary>
         /// <param name="index">The index to insert.</param>
         /// <param name="value">The value to insert.</param>
-        public void Insert(int index, object value)
+        public void Insert(int index, T value)
         {
             this.Items.Insert(index, value);
-            this.parent.Refresh();
         }
 
         /// <summary>
-        /// Remove value at given <paramref name="index"/> of the <see cref="ValueCollection"/>.
+        /// Remove value at given <paramref name="index"/> of the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <param name="index">Index of value to remove.</param>
         public void RemoveAt(int index)
         {
             this.Items.RemoveAt(index);
-            this.parent.Refresh();
         }
 
         /// <summary>
-        /// Copy values in the <see cref="ValueCollection"/> to an array.
+        /// Copy values in the <see cref="ValueCollection{T}"/> to an array.
         /// </summary>
         /// <param name="array">Array to copy values to.</param>
         /// <param name="arrayIndex">Index of <paramref name="array"/> where to start copy.</param>
-        public void CopyTo(object[] array, int arrayIndex)
+        public void CopyTo(T[] array, int arrayIndex)
         {
             this.Items.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
-        /// Remove the first match of <paramref name="item"/> in the <see cref="ValueCollection"/>.
+        /// Remove the first match of <paramref name="item"/> in the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <param name="item">The value to remove.</param>
         /// <returns>true if a value removed; otherwise, false.</returns>
-        public bool Remove(object item)
+        public bool Remove(T item)
         {
             var c = this.parent.ValueComparer;
             if (c == null)
             {
                 if (this.Items.Remove(item))
-                {
-                    this.parent.Refresh();
+                { 
                     return true;
                 }
                 return false;
@@ -139,17 +134,16 @@ namespace Opportunity.Converters
             if (index != -1)
             {
                 this.Items.RemoveAt(index);
-                this.parent.Refresh();
                 return true;
             }
             return false;
         }
 
         /// <summary>
-        /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="ValueCollection"/>.
+        /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<object> GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return this.Items.GetEnumerator();
         }
@@ -159,64 +153,24 @@ namespace Opportunity.Converters
             return this.Items.GetEnumerator();
         }
     }
+
     /// <summary>
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class ObjectToBooleanConverter : ChainConverter
+    public class ValuesToBooleanConverter<T> : ChainConverter
     {
-
-        private static Type merge(Type left, Type right)
-        {
-            if (left == null && right == null)
-                return typeof(object);
-            if (left == null)
-            {
-                if (right == null)
-                    return typeof(object);
-                else
-                    return right;
-            }
-            if (right == null)
-                return left;
-            if (left == right)
-                return left;
-            // UNDONE: left 和 right 的共同基类
-            return typeof(object);
-        }
-
-        internal void Refresh()
-        {
-            var list = default(IEnumerable<object>);
-            if (this.valuesForTrue != null)
-            {
-                if (this.valuesForFalse == null)
-                    list = this.valuesForTrue;
-                else
-                    list = this.valuesForTrue.Concat(this.valuesForFalse);
-            }
-            if (this.valuesForFalse != null)
-            {
-                list = this.valuesForFalse;
-            }
-            if (list == null)
-                list = Enumerable.Empty<object>();
-            this.valueType = list.Aggregate(typeof(object), (t, o) => merge(t, o?.GetType()));
-        }
-
-        private Type valueType = typeof(object);
-
-        private ValueCollection valuesForTrue;
+        private ValueCollection<T> valuesForTrue;
         /// <summary>
         /// <see cref="object"/>s will be converted to <c>true</c>.
         /// </summary>
-        public ValueCollection ValuesForTrue => LazyInitializer.EnsureInitialized(ref this.valuesForTrue, () => new ValueCollection(this));
+        public ValueCollection<T> ValuesForTrue => LazyInitializer.EnsureInitialized(ref this.valuesForTrue, () => new ValueCollection<T>(this));
 
-        private ValueCollection valuesForFalse;
+        private ValueCollection<T> valuesForFalse;
         /// <summary>
         /// <see cref="object"/>s will be converted to <c>false</c>.
         /// </summary>
-        public ValueCollection ValuesForFalse => LazyInitializer.EnsureInitialized(ref this.valuesForFalse, () => new ValueCollection(this));
+        public ValueCollection<T> ValuesForFalse => LazyInitializer.EnsureInitialized(ref this.valuesForFalse, () => new ValueCollection<T>(this));
 
         /// <summary>
         /// The <see cref="IEqualityComparer"/> used to compare values.
@@ -230,7 +184,7 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="ValueComparer"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueComparerProperty =
-            DependencyProperty.Register("ValueComparer", typeof(IEqualityComparer), typeof(ObjectToBooleanConverter), new PropertyMetadata(null));
+            DependencyProperty.Register("ValueComparer", typeof(IEqualityComparer), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(null));
 
         /// <summary>
         /// Returns when <c>value</c> is in neither <see cref="ValuesForTrue"/> nor <see cref="ValuesForFalse"/>.
@@ -245,7 +199,7 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="IfNeither"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IfNeitherProperty =
-            DependencyProperty.Register("IfNeither", typeof(bool), typeof(ObjectToBooleanConverter), new PropertyMetadata(false));
+            DependencyProperty.Register("IfNeither", typeof(bool), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(false));
 
         /// <summary>
         /// Returns when <c>value</c> is in both <see cref="ValuesForTrue"/> and <see cref="ValuesForFalse"/>.
@@ -260,36 +214,21 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="IfBoth"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IfBothProperty =
-            DependencyProperty.Register("IfBoth", typeof(bool), typeof(ObjectToBooleanConverter), new PropertyMetadata(false));
+            DependencyProperty.Register("IfBoth", typeof(bool), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(false));
 
         /// <inheritdoc />
         protected override object ConvertImpl(object value, object parameter, string language)
         {
-            var comparer = this.ValueComparer ?? EqualityComparer<object>.Default;
-            value = ChangeType(value, this.valueType);
+            var val = ChangeType<T>(value);
             var isTrue = false;
             if (this.valuesForTrue != null)
             {
-                foreach (var item in this.valuesForTrue)
-                {
-                    if (comparer.Equals(value, item))
-                    {
-                        isTrue = true;
-                        break;
-                    }
-                }
+                isTrue = this.valuesForTrue.Contains(val);
             }
             var isFalse = false;
             if (this.valuesForFalse != null)
             {
-                foreach (var item in this.valuesForFalse)
-                {
-                    if (comparer.Equals(value, item))
-                    {
-                        isFalse = true;
-                        break;
-                    }
-                }
+                isFalse = this.valuesForFalse.Contains(val);
             }
             if (isTrue && isFalse)
                 return this.IfBoth;

@@ -118,6 +118,8 @@
     <Compile Include="+Chains\+DateTime\DateTimeOffsetToStringConverter.cs" />
     <Compile Include="+Chains\+DateTime\DateTimeToStringConverter.cs" />
     <Compile Include="+Chains\+DateTime\DateTimeToStringConverterBase.cs" />
+    <Compile Include="+Chains\TypedValuesToBooleanConverter.cs" />
+    <Compile Include="+Chains\ValuesToBooleanConverter{T}.cs" />
     <Compile Include="+Simple\EmptyConverter.cs" />
     <Compile Include="+Chains\FormatStringConverter.cs" />
     <Compile Include="+Simple\IRandomAccessStreamReferenceToImageSourceConverter.cs" />
@@ -130,7 +132,6 @@
     <Compile Include="+Chains\NullCoalescingConverter.cs" />
     <Compile Include="+Chains\+Math\NumberScaleConverter.cs" />
     <Compile Include="+Chains\+Math\NumberOffsetConverter.cs" />
-    <Compile Include="+Chains\ObjectToBooleanConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="+Simple\SoftwareBitmapToImageSourceConverter.cs" />
     <Compile Include="+Simple\SystemConverter.cs" />

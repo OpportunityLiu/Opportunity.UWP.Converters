@@ -7,6 +7,9 @@ using Windows.UI.Xaml;
 
 namespace Opportunity.Converters
 {
+    /// <summary>
+    /// Convert a range of number into <see cref="bool"/>.
+    /// </summary>
     public sealed class NumberToBooleanConverter : ChainConverter
     {
         /// <summary>
@@ -81,6 +84,13 @@ namespace Opportunity.Converters
         public static readonly DependencyProperty InRangeResultProperty =
             DependencyProperty.Register("InRangeResult", typeof(bool), typeof(NumberToBooleanConverter), new PropertyMetadata(true));
 
+        /// <summary>
+        /// Convert a <see cref="bool"/> to <see cref="double"/>.
+        /// </summary>
+        /// <param name="value"><see cref="bool"/> to convert.</param>
+        /// <param name="parameter">Not used.</param>
+        /// <param name="language">Not used.</param>
+        /// <returns>If a value in range need to be returned, the average of <see cref="RangeStart"/> and <see cref="RangeEnd"/> will be returned; otherwise, <see cref="RangeStart"/> - 1 will be returned.</returns>
         protected override object ConvertBackImpl(object value, object parameter, string language)
         {
             var val = Internal.ConvertHelper.ChangeType<bool>(value);
@@ -90,6 +100,13 @@ namespace Opportunity.Converters
                 return RangeStart - 1;
         }
 
+        /// <summary>
+        /// Convert a number into <see cref="bool"/>.
+        /// </summary>
+        /// <param name="value">Number to convert.</param>
+        /// <param name="parameter">Not used.</param>
+        /// <param name="language">Not used.</param>
+        /// <returns>The result of conversion.</returns>
         protected override object ConvertImpl(object value, object parameter, string language)
         {
             var val = Internal.ConvertHelper.ChangeType<double>(value);
