@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Collection of values.
     /// </summary>
-    public sealed class ValueCollection<T> : IList<T>
+    public sealed class ValueCollection<T> : IList<T>, IReadOnlyList<T>, IList
     {
         internal ValueCollection(ValuesToBooleanConverter<T> parent)
         {
@@ -38,13 +38,23 @@ namespace Opportunity.Converters
 
         bool ICollection<T>.IsReadOnly => false;
 
+        bool IList.IsFixedSize => false;
+
+        bool IList.IsReadOnly => false;
+
+        bool ICollection.IsSynchronized => false;
+
+        object ICollection.SyncRoot => ((ICollection)this.Items).SyncRoot;
+
+        object IList.this[int index] { get => Items[index]; set => Items[index] = ChangeType<T>(value); }
+
         /// <summary>
         /// Add a value into the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <param name="item">The value to add.</param>
         public void Add(T item)
         {
-           this.Items.Add(item);
+            this.Items.Add(item);
         }
 
         /// <summary>
@@ -125,7 +135,7 @@ namespace Opportunity.Converters
             if (c == null)
             {
                 if (this.Items.Remove(item))
-                { 
+                {
                     return true;
                 }
                 return false;
@@ -143,15 +153,25 @@ namespace Opportunity.Converters
         /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="ValueCollection{T}"/>.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<T> GetEnumerator() => this.Items.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator() => this.Items.GetEnumerator();
+
+        int IList.Add(object value)
         {
-            return this.Items.GetEnumerator();
+            this.Add(ChangeType<T>(value));
+            return this.Count - 1;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.Items.GetEnumerator();
-        }
+        bool IList.Contains(object value) => Contains(ChangeType<T>(value));
+
+        int IList.IndexOf(object value) => IndexOf(ChangeType<T>(value));
+
+        void IList.Insert(int index, object value) => Insert(index, ChangeType<T>(value));
+
+        void IList.Remove(object value) => Remove(ChangeType<T>(value));
+
+        void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Items).CopyTo(array, index);
     }
 
     /// <summary>
