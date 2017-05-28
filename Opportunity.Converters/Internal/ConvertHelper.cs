@@ -12,20 +12,20 @@ namespace Opportunity.Converters.Internal
     {
         public static T ChangeType<T>(object value)
         {
-            if(value is T v)
+            if (value is T v)
                 return v;
-            if(ChangeType(value, typeof(T)) is T r)
+            if (ChangeType(value, typeof(T)) is T r)
                 return r;
             return default(T);
         }
 
         public static object ChangeType(object value, Type targetType)
         {
-            if(value == null)
+            if (value == null)
                 return null;
-            if(targetType.IsInstanceOfType(targetType))
+            if (targetType.IsInstanceOfType(targetType))
                 return value;
-            if(value is IConvertible ic)
+            if (value is IConvertible ic)
                 return Convert.ChangeType(ic, targetType);
             return XamlBindingHelper.ConvertValue(targetType, value);
         }
