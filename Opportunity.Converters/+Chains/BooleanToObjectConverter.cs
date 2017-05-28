@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters._Chains
+namespace Opportunity.Converters
 {
     /// <summary>
     /// Convert <see cref="bool"/> to objects.

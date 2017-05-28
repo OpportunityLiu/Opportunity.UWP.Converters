@@ -18,5 +18,5 @@ using System.Runtime.InteropServices;
 
 internal class AssemblyInfo
 {
-    public const string Version = "1.0.19.0";
+    public const string Version = "1.1.0.0";
 }
