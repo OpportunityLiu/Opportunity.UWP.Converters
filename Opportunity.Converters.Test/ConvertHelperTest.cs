@@ -81,6 +81,7 @@ namespace Opportunity.Converters.Test
             {
                 Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>(IntEnum.Four), "enum");
                 Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>((StringComparison)4), "another enum");
+                Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>(ByteEnum.Four), "another byte enum");
                 Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>(4.0), "double");
                 Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>(4.1), "double + 0.1");
                 Assert.AreEqual(IntEnum.Four, ConvertHelper.ChangeType<IntEnum>(4U), "uint");
@@ -121,6 +122,7 @@ namespace Opportunity.Converters.Test
             {
                 Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(ByteEnum.Four), "enum");
                 Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(AnotherByteEnum.Four), "another enum");
+                Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(IntEnum.Four), "another int enum");
                 Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(4.0), "double");
                 Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(4.1), "double + 0.1");
                 Assert.AreEqual(ByteEnum.Four, ConvertHelper.ChangeType<ByteEnum>(4U), "uint");
