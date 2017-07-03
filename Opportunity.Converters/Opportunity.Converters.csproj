@@ -112,6 +112,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="+Basic\IValueConverterFrom{TFrom}.cs" />
     <Compile Include="+Chains\+Math\NumberToBooleanConverter.cs" />
     <Compile Include="+Chains\ApplicationThemeToElementThemeConverter.cs" />
     <Compile Include="+Chains\BooleanToObjectConverter.cs" />

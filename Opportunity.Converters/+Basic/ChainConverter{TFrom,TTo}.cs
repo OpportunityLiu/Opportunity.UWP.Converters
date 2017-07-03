@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
+using static Opportunity.Converters.Internal.ConvertHelper;
 
 namespace Opportunity.Converters
 {
@@ -15,7 +16,7 @@ namespace Opportunity.Converters
     /// <typeparam name="TFrom">From type.</typeparam>
     /// <typeparam name="TTo">Convert to type.</typeparam>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public abstract class ChainConverter<TFrom, TTo> : ValueConverter
+    public abstract class ChainConverter<TFrom, TTo> : ValueConverter, IValueConverterFrom<TFrom>
     {
         /// <summary>
         /// Next <see cref="IValueConverter"/> of the chain.
@@ -55,23 +56,86 @@ namespace Opportunity.Converters
         /// <inheritdoc />
         public sealed override object Convert(object value, Type targetType, object parameter, string language)
         {
-            var from = Internal.ConvertHelper.ChangeType<TFrom>(value);
+            if (!TryChangeType<TFrom>(value, out var from))
+            {
+                from = default(TFrom);
+            }
             var convertedByThis = ConvertImpl(from, parameter, language);
             if (this.NextConverter == null)
                 return convertedByThis;
             else
-                return this.NextConverter.Convert(convertedByThis, targetType, parameter, language);
+            {
+                if (this.NextConverter is IValueConverterFrom<TTo> typedConverter)
+                    return typedConverter.Convert(convertedByThis, targetType, parameter, language);
+                else
+                    return this.NextConverter.Convert(convertedByThis, targetType, parameter, language);
+            }
         }
 
         /// <inheritdoc />
         public sealed override object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            object convertedByInner;
+            TTo to;
             if (this.NextConverter != null)
-                convertedByInner = this.NextConverter.ConvertBack(value, targetType, parameter, language);
+            {
+                if (this.NextConverter is IValueConverterFrom<TTo> typedConverter)
+                    to = typedConverter.ConvertBack(value, parameter, language);
+                else
+                {
+                    var convertedByInner = this.NextConverter.ConvertBack(value, targetType, parameter, language);
+                    if (!TryChangeType(convertedByInner, out to))
+                    {
+                        to = default(TTo);
+                    }
+                }
+            }
             else
-                convertedByInner = value;
-            var to = Internal.ConvertHelper.ChangeType<TTo>(convertedByInner);
+            {
+                if (!TryChangeType(value, out to))
+                {
+                    to = default(TTo);
+                }
+            }
+            return ConvertBackImpl(to, parameter, language);
+        }
+
+        object IValueConverterFrom<TFrom>.Convert(TFrom value, Type targetType, object parameter, string language)
+        {
+            var convertedByThis = ConvertImpl(value, parameter, language);
+            if (this.NextConverter == null)
+                return convertedByThis;
+            else
+            {
+                if (this.NextConverter is IValueConverterFrom<TTo> typedConverter)
+                    return typedConverter.Convert(convertedByThis, targetType, parameter, language);
+                else
+                    return this.NextConverter.Convert(convertedByThis, targetType, parameter, language);
+            }
+        }
+
+        TFrom IValueConverterFrom<TFrom>.ConvertBack(object value, object parameter, string language)
+        {
+            TTo to;
+            if (this.NextConverter != null)
+            {
+                if (this.NextConverter is IValueConverterFrom<TTo> typedConverter)
+                    to = typedConverter.ConvertBack(value, parameter, language);
+                else
+                {
+                    var convertedByInner = this.NextConverter.ConvertBack(value, typeof(TFrom), parameter, language);
+                    if (!TryChangeType(convertedByInner, out to))
+                    {
+                        to = default(TTo);
+                    }
+                }
+            }
+            else
+            {
+                if (!TryChangeType(value, out to))
+                {
+                    to = default(TTo);
+                }
+            }
             return ConvertBackImpl(to, parameter, language);
         }
     }
