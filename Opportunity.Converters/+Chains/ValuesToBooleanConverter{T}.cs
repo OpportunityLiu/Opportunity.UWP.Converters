@@ -178,7 +178,7 @@ namespace Opportunity.Converters
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public class ValuesToBooleanConverter<T> : ChainConverter
+    public class ValuesToBooleanConverter<T> : ChainConverter<T, bool>
     {
         private ValueCollection<T> valuesForTrue;
         /// <summary>
@@ -237,18 +237,17 @@ namespace Opportunity.Converters
             DependencyProperty.Register("IfBoth", typeof(bool), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(false));
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override bool ConvertImpl(T value, object parameter, string language)
         {
-            var val = ChangeType<T>(value);
             var isTrue = false;
             if (this.valuesForTrue != null)
             {
-                isTrue = this.valuesForTrue.Contains(val);
+                isTrue = this.valuesForTrue.Contains(value);
             }
             var isFalse = false;
             if (this.valuesForFalse != null)
             {
-                isFalse = this.valuesForFalse.Contains(val);
+                isFalse = this.valuesForFalse.Contains(value);
             }
             if (isTrue && isFalse)
                 return this.IfBoth;
@@ -260,19 +259,18 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override T ConvertBackImpl(bool value, object parameter, string language)
         {
-            var v = ChangeType<bool>(value);
-            if (v)
+            if (value)
             {
                 if (this.valuesForTrue == null || this.valuesForTrue.Count == 0)
-                    return null;
+                    return default(T);
                 return this.valuesForTrue[0];
             }
             else
             {
                 if (this.valuesForFalse == null || this.valuesForFalse.Count == 0)
-                    return null;
+                    return default(T);
                 return this.valuesForFalse[0];
             }
         }

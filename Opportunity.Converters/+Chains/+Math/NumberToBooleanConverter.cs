@@ -10,7 +10,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Convert a range of number into <see cref="bool"/>.
     /// </summary>
-    public sealed class NumberToBooleanConverter : ChainConverter
+    public sealed class NumberToBooleanConverter : ChainConverter<double, bool>
     {
         /// <summary>
         /// Start value of number range.
@@ -91,10 +91,9 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns>If a value in range need to be returned, the average of <see cref="RangeStart"/> and <see cref="RangeEnd"/> will be returned; otherwise, <see cref="RangeStart"/> - 1 will be returned.</returns>
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override double ConvertBackImpl(bool value, object parameter, string language)
         {
-            var val = Internal.ConvertHelper.ChangeType<bool>(value);
-            if (val == this.InRangeResult)
+            if (value == this.InRangeResult)
                 return (RangeStart + RangeEnd) / 2;
             else
                 return RangeStart - 1;
@@ -107,21 +106,20 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns>The result of conversion.</returns>
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override bool ConvertImpl(double value, object parameter, string language)
         {
-            var val = Internal.ConvertHelper.ChangeType<double>(value);
-            if (val < RangeStart)
+            if (value < RangeStart)
                 return !InRangeResult;
-            if (val > RangeEnd)
+            if (value > RangeEnd)
                 return !InRangeResult;
-            if (val == RangeStart)
+            if (value == RangeStart)
             {
                 if (IncludeStart)
                     return InRangeResult;
                 else
                     return !InRangeResult;
             }
-            if (val == RangeEnd)
+            if (value == RangeEnd)
             {
                 if (IncludeEnd)
                     return InRangeResult;

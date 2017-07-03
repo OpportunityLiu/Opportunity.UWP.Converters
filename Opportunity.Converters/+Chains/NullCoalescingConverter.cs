@@ -12,7 +12,7 @@ namespace Opportunity.Converters
     /// Like the <c>??</c> operator.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(Default))]
-    public sealed class NullCoalescingConverter : ChainConverter
+    public sealed class NullCoalescingConverter : ChainConverter<object, object>
     {
         /// <summary>
         /// Returned value while the value is <c>null</c>.

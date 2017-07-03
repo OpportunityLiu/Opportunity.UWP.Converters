@@ -8,20 +8,22 @@ namespace Opportunity.Converters
     /// Convert <see cref="DateTimeOffset"/> to <see cref="string"/>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class DateTimeOffsetToStringConverter : DateTimeToStringConverterBase
+    public sealed class DateTimeOffsetToStringConverter : DateTimeToStringConverterBase<DateTimeOffset>
     {
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override string ConvertImpl(DateTimeOffset value, object parameter, string language)
         {
-            if (value == null)
+            if (value == default(DateTimeOffset))
                 return "";
-            return this.Formatter.Format((DateTimeOffset)value);
+            return this.Formatter.Format(value);
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override DateTimeOffset ConvertBackImpl(string value, object parameter, string language)
         {
-            return DateTimeOffset.Parse(value.ToString());
+            if (string.IsNullOrWhiteSpace(value))
+                return default(DateTimeOffset);
+            return DateTimeOffset.Parse(value);
         }
     }
 }

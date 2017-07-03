@@ -4,7 +4,7 @@ using Windows.UI.Xaml;
 namespace Opportunity.Converters
 {
     /// <summary>
-    /// Convert a <see cref="double"/> value that presents a byte size to a <see cref="string"/>.
+    /// Convert a <see cref="long"/> value that presents a byte size to a <see cref="string"/>.
     /// <example>
     /// <para>
     /// <code>1000d => "1.000 KB"</code>; 
@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class ByteSizeToStringConverter : ChainConverter
+    public sealed class ByteSizeToStringConverter : ChainConverter<long, string>
     {
         private static readonly string[] unitsMetric = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private static readonly string[] unitsBinary = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };
@@ -34,7 +34,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register(nameof(UnitPrefix), typeof(UnitPrefix), typeof(ByteSizeToStringConverter), new PropertyMetadata(UnitPrefix.Binary));
 
         /// <summary>
-        /// Return <see cref="string"/> if the <see cref="double"/> value is too big or not a number.
+        /// Return <see cref="string"/> if the <see cref="long"/> value is too big or less thah 0.
         /// </summary>
         public string OutOfRangeValue
         {
@@ -49,12 +49,11 @@ namespace Opportunity.Converters
             DependencyProperty.Register("OutOfRangeValue", typeof(string), typeof(ByteSizeToStringConverter), new PropertyMetadata("???"));
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override string ConvertImpl(long value, object parameter, string language)
         {
-            var size = System.Convert.ToDouble(value);
             try
             {
-                return ByteSizeToString(size, this.UnitPrefix);
+                return ByteSizeToString(value, this.UnitPrefix);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -63,14 +62,12 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override long ConvertBackImpl(string value, object parameter, string language)
         {
-            if (value == null)
-                return double.NaN;
-            return StringToByteSize(value.ToString(), this.UnitPrefix);
+            return StringToByteSize(value, this.UnitPrefix);
         }
 
-        private static void getUnits(out string[] units, out double powerBase, UnitPrefix unitPrefix)
+        private static void getUnits(out string[] units, out int powerBase, UnitPrefix unitPrefix)
         {
             if (unitPrefix == UnitPrefix.Metric)
             {
@@ -92,9 +89,9 @@ namespace Opportunity.Converters
         /// <param name="size">The byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
-        public static string ByteSizeToString(double size, UnitPrefix unitPrefix)
+        public static string ByteSizeToString(long size, UnitPrefix unitPrefix)
         {
-            if (size < 0 || double.IsNaN(size))
+            if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
             getUnits(out var units, out var powerBase, unitPrefix);
             foreach (var unit in units)
@@ -109,12 +106,67 @@ namespace Opportunity.Converters
         }
 
         /// <summary>
-        /// Convert a <see cref="string"/> representation of byte size to a <see cref="double"/>.
+        /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
         /// <returns>The byte size.</returns>
-        public static double StringToByteSize(string sizeStr, UnitPrefix unitPrefix)
+        public static long StringToByteSize(string sizeStr, UnitPrefix unitPrefix)
+        {
+            if (TryStringToByteSize(sizeStr, unitPrefix, out var r))
+                return r;
+            throw new FormatException("Wrong format.");
+        }
+
+        /// <summary>
+        /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
+        /// </summary>
+        /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
+        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="result">The byte size.</param>
+        /// <returns>The conversion succeed or not.</returns>
+        public static bool TryStringToByteSize(string sizeStr, UnitPrefix unitPrefix, out long result)
+        {
+            if (TryStringToByteSizeExact(sizeStr, unitPrefix, out result))
+                return true;
+            switch (unitPrefix)
+            {
+            case UnitPrefix.Metric:
+                unitPrefix = UnitPrefix.Binary;
+                break;
+            case UnitPrefix.Binary:
+            default:
+                unitPrefix = UnitPrefix.Metric;
+                break;
+            }
+            if (TryStringToByteSizeExact(sizeStr, unitPrefix, out result))
+                return true;
+            if (long.TryParse(sizeStr, out result))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
+        /// </summary>
+        /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
+        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <returns>The byte size.</returns>
+        public static long StringToByteSizeExact(string sizeStr, UnitPrefix unitPrefix)
+        {
+            if (TryStringToByteSizeExact(sizeStr, unitPrefix, out var r))
+                return r;
+            throw new FormatException("Wrong format.");
+        }
+
+        /// <summary>
+        /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
+        /// </summary>
+        /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
+        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="result">The byte size.</param>
+        /// <returns>The conversion succeed or not.</returns>
+        public static bool TryStringToByteSizeExact(string sizeStr, UnitPrefix unitPrefix, out long result)
         {
             if (string.IsNullOrEmpty(sizeStr))
                 throw new ArgumentNullException(nameof(sizeStr));
@@ -125,11 +177,14 @@ namespace Opportunity.Converters
                 if (sizeStr.EndsWith(units[i], StringComparison.OrdinalIgnoreCase))
                 {
                     var sizeNumStr = sizeStr.Substring(0, sizeStr.Length - units[i].Length);
-                    var sizeNum = double.Parse(sizeNumStr);
-                    return sizeNum * Math.Pow(powerBase, i);
+                    if (!double.TryParse(sizeNumStr, out var sizeNum))
+                        continue;
+                    result = (long)(sizeNum * Math.Pow(powerBase, i));
+                    return true;
                 }
             }
-            throw new FormatException("Wrong format.");
+            result = default(long);
+            return false;
         }
     }
 

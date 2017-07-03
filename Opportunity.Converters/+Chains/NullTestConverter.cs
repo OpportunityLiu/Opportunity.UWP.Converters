@@ -11,7 +11,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Test a value is <c>null</c> or not, returns a <see cref="bool"/> as result.
     /// </summary>
-    public class NullTestConverter : ChainConverter
+    public class NullTestConverter : ChainConverter<object, bool>
     {
         /// <summary>
         /// Return <see cref="bool"/> when the value is <c>null</c>.
@@ -28,16 +28,15 @@ namespace Opportunity.Converters
             DependencyProperty.Register("IfNull", typeof(bool), typeof(NullTestConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override object ConvertBackImpl(bool value, object parameter, string language)
         {
-            var v = ConvertHelper.ChangeType<bool>(value);
-            if (v == IfNull)
+            if (value == IfNull)
                 return null;
             return new object();
         }
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override bool ConvertImpl(object value, object parameter, string language)
         {
             if (value == null)
                 return IfNull;

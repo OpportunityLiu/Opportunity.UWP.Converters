@@ -8,7 +8,7 @@ namespace Opportunity.Converters
     /// Base class of <see cref="DateTimeOffsetToStringConverter"/> and <see cref="DateTimeToStringConverter"/>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public abstract class DateTimeToStringConverterBase : ChainConverter
+    public abstract class DateTimeToStringConverterBase<T> : ChainConverter<T, string>
     {
         /// <summary>
         /// The template to format a <see cref="DateTime"/> or <see cref="DateTimeOffset"/>,
@@ -24,7 +24,7 @@ namespace Opportunity.Converters
         /// Identifies the <see cref="FormatTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FormatTemplateProperty =
-            DependencyProperty.Register(nameof(FormatTemplate), typeof(string), typeof(DateTimeToStringConverterBase), PropertyMetadata.Create("shortdate shorttime", FormatTemplatePropertyChangedCallback));
+            DependencyProperty.Register(nameof(FormatTemplate), typeof(string), typeof(DateTimeToStringConverterBase<T>), PropertyMetadata.Create("shortdate shorttime", FormatTemplatePropertyChangedCallback));
 
         private static void FormatTemplatePropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -32,7 +32,7 @@ namespace Opportunity.Converters
             var n = (string)e.NewValue;
             if (o == n)
                 return;
-            var sender = (DateTimeToStringConverterBase)d;
+            var sender = (DateTimeToStringConverterBase<T>)d;
             if (string.IsNullOrWhiteSpace(n))
                 sender.formatter = null;
             else

@@ -13,7 +13,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Use a math expression to convert number values.
     /// </summary>
-    public sealed class MathExpressionConverter : ChainConverter
+    public sealed class MathExpressionConverter : ChainConverter<double, double>
     {
         /// <summary>
         /// Expression used to convert value.
@@ -76,15 +76,15 @@ namespace Opportunity.Converters
         }
 
         /// <inhertdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override double ConvertBackImpl(double value, object parameter, string language)
         {
-            return this.convertback.Compiled(ChangeType<double>(value));
+            return this.convertback.Compiled(value);
         }
 
         /// <inhertdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override double ConvertImpl(double value, object parameter, string language)
         {
-            return this.convert.Compiled(ChangeType<double>(value));
+            return this.convert.Compiled(value);
         }
     }
 }

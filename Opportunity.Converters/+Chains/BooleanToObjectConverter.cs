@@ -11,7 +11,7 @@ namespace Opportunity.Converters
     /// Convert <see cref="bool"/> to objects.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class BooleanToObjectConverter : ChainConverter
+    public sealed class BooleanToObjectConverter : ChainConverter<bool, object>
     {
         /// <summary>
         /// Value for <c>true</c> to convert to.
@@ -57,7 +57,7 @@ namespace Opportunity.Converters
         /// <remarks>
         /// Default comparer will be used to compare <paramref name="value"/> and <see cref="ValueForFalse"/> and <see cref="ValueForTrue"/>.
         /// </remarks>
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override bool ConvertBackImpl(object value, object parameter, string language)
         {
             var isT = Equals(value, ValueForTrue);
             var isF = Equals(value, ValueForFalse);
@@ -75,10 +75,9 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns>Converted value.</returns>
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override object ConvertImpl(bool value, object parameter, string language)
         {
-            var v = Internal.ConvertHelper.ChangeType<bool>(value);
-            if (v)
+            if (value)
                 return ValueForTrue;
             else
                 return ValueForFalse;

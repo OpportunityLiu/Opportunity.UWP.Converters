@@ -173,7 +173,7 @@ namespace Opportunity.Converters
     /// Convert <see cref="Enum"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(Values))]
-    public sealed class EnumToBooleanConverter : ChainConverter
+    public sealed class EnumToBooleanConverter : ChainConverter<IConvertible, bool>
     {
         private EnumValueCollection values;
         /// <summary>
@@ -197,23 +197,20 @@ namespace Opportunity.Converters
             DependencyProperty.Register("InRange", typeof(bool), typeof(EnumToBooleanConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override bool ConvertImpl(IConvertible value, object parameter, string language)
         {
-            if (!(value is IConvertible val))
-                return !InRange;
             if (this.values == null)
                 return !InRange;
-            var storage = EnumValueCollection.ToStorage(val);
+            var storage = EnumValueCollection.ToStorage(value);
             if (this.values.Items.Contains(storage))
                 return InRange;
             return !InRange;
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override IConvertible ConvertBackImpl(bool value, object parameter, string language)
         {
-            var v = Internal.ConvertHelper.ChangeType<bool>(value);
-            if (v == InRange)
+            if (value == InRange)
             {
                 if (this.values == null || this.values.Count == 0)
                     return null;

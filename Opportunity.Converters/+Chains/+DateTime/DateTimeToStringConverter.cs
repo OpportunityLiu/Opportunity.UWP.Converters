@@ -6,20 +6,22 @@ namespace Opportunity.Converters
     /// Convert <see cref="DateTime"/> to <see cref="string"/>.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class DateTimeToStringConverter : DateTimeToStringConverterBase
+    public sealed class DateTimeToStringConverter : DateTimeToStringConverterBase<DateTime>
     {
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override string ConvertImpl(DateTime value, object parameter, string language)
         {
-            if (value == null)
+            if (value == default(DateTime))
                 return "";
-            return this.Formatter.Format((DateTime)value);
+            return this.Formatter.Format(value);
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override DateTime ConvertBackImpl(string value, object parameter, string language)
         {
-            return DateTime.Parse(value.ToString());
+            if (string.IsNullOrWhiteSpace(value))
+                return default(DateTime);
+            return DateTime.Parse(value);
         }
     }
 }

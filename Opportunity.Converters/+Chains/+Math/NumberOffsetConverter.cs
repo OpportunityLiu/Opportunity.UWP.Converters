@@ -11,7 +11,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Apply an <see cref="Offset"/> to values.
     /// </summary>
-    public abstract class NumberOffsetConverter<T> : ChainConverter
+    public abstract class NumberOffsetConverter<T> : ChainConverter<T, T>
     {
         /// <summary>
         /// Apply <see cref="Offset"/> to <paramref name="value"/>.
@@ -46,9 +46,9 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
-        protected sealed override object ConvertImpl(object value, object parameter, string language)
+        protected sealed override T ConvertImpl(T value, object parameter, string language)
         {
-            return ApplyOffset(ChangeType<T>(value));
+            return ApplyOffset(value);
         }
 
         /// <summary>
@@ -58,9 +58,9 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> - <see cref="Offset"/></returns>
-        protected sealed override object ConvertBackImpl(object value, object parameter, string language)
+        protected sealed override T ConvertBackImpl(T value, object parameter, string language)
         {
-            return UnapplyOffset(ChangeType<T>(value));
+            return UnapplyOffset(value);
         }
     }
 

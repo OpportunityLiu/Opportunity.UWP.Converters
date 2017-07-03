@@ -20,20 +20,20 @@ namespace Opportunity.Converters
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class ThicknessConverter : ChainConverter
+    public sealed class ThicknessConverter : ChainConverter<Thickness, Thickness>
     {
         private static readonly object empty = new Thickness();
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override Thickness ConvertBackImpl(Thickness value, object parameter, string language)
         {
-            return convertCore(value, parameter.ToString(), false);
+            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), false);
         }
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override Thickness ConvertImpl(Thickness value, object parameter, string language)
         {
-            return convertCore(value, parameter.ToString(), true);
+            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), true);
         }
 
         private static char[] spliter = new[] { ' ', ',' };
@@ -80,10 +80,8 @@ namespace Opportunity.Converters
 
         private static Dictionary<string, Operation[]> cache = new Dictionary<string, Operation[]>();
 
-        private static object convertCore(object value, string parameter, bool direction)
+        private static Thickness convertCore(Thickness value, string parameter, bool direction)
         {
-            if (!(value is Thickness tk))
-                return empty;
             try
             {
                 if (!cache.TryGetValue(parameter, out var numbers))
@@ -91,10 +89,10 @@ namespace Opportunity.Converters
                        .Split(spliter, StringSplitOptions.RemoveEmptyEntries)
                        .Select(Operation.Parse)
                        .ToArray();
-                var l = tk.Left;
-                var r = tk.Right;
-                var t = tk.Top;
-                var b = tk.Bottom;
+                var l = value.Left;
+                var r = value.Right;
+                var t = value.Top;
+                var b = value.Bottom;
                 switch (numbers.Length)
                 {
                 case 1:
@@ -116,13 +114,13 @@ namespace Opportunity.Converters
                     numbers[3].OperateOn(ref b, direction);
                     break;
                 default:
-                    break;
+                    throw new ArgumentException("Wrong format.", nameof(parameter));
                 }
                 return new Thickness(l, t, r, b);
             }
-            catch (FormatException)
+            catch (FormatException ex)
             {
-                return tk;
+                throw new ArgumentException("Wrong format.", nameof(parameter), ex);
             }
         }
     }

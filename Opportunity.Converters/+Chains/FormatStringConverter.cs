@@ -24,7 +24,7 @@ namespace Opportunity.Converters
     /// </example>
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class FormatStringConverter : ChainConverter
+    public sealed class FormatStringConverter : ChainConverter<object, string>
     {
         /// <summary>
         /// <see cref="IFormatProvider"/> used to format string.
@@ -43,7 +43,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("FormatProvider", typeof(IFormatProvider), typeof(FormatStringConverter), new PropertyMetadata(CultureInfo.CurrentUICulture));
 
         /// <inheritdoc />
-        protected override object ConvertImpl(object value, object parameter, string language)
+        protected override string ConvertImpl(object value, object parameter, string language)
         {
             if (parameter == null)
                 return value.ToString();
@@ -52,7 +52,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(object value, object parameter, string language)
+        protected override object ConvertBackImpl(string value, object parameter, string language)
         {
             return value;
         }
