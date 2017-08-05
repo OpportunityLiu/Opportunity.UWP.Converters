@@ -12,9 +12,9 @@ namespace Opportunity.Converters.Internal
 #if DEBUG
     public
 #endif
-        sealed class ResourcesHelper
+        sealed class ResourceHelper
     {
-        private ResourcesHelper(ResourceLoader loader)
+        private ResourceHelper(ResourceLoader loader)
         {
             this.loader = loader;
         }
@@ -48,8 +48,8 @@ namespace Opportunity.Converters.Internal
             }
         }
 
-        private static readonly Dictionary<int, ResourcesHelper> dic = new Dictionary<int, ResourcesHelper>();
-        private static readonly ResourcesHelper viewIndependent = new ResourcesHelper(tryGetForViewIndependentUse());
+        private static readonly Dictionary<int, ResourceHelper> dic = new Dictionary<int, ResourceHelper>();
+        private static readonly ResourceHelper viewIndependent = new ResourceHelper(tryGetForViewIndependentUse());
 
         private static ResourceLoader tryGetForViewIndependentUse()
         {
@@ -75,7 +75,7 @@ namespace Opportunity.Converters.Internal
             }
         }
 
-        public static ResourcesHelper GetForCurrentView()
+        public static ResourceHelper GetForCurrentView()
         {
             var currentWindew = Window.Current;
             if (currentWindew == null)
@@ -83,7 +83,9 @@ namespace Opportunity.Converters.Internal
             var id = ApplicationView.GetApplicationViewIdForWindow(currentWindew.CoreWindow);
             if (dic.TryGetValue(id, out var helper))
                 return helper;
-            return dic[id] = new ResourcesHelper(tryGetForCurrentView());
+            return dic[id] = new ResourceHelper(tryGetForCurrentView());
         }
+
+        public static ResourceHelper GetForViewIndependent() => viewIndependent;
     }
 }

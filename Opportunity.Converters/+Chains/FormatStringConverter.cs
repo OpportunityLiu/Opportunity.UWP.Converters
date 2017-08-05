@@ -47,7 +47,7 @@ namespace Opportunity.Converters
         {
             if (parameter == null)
                 return value.ToString();
-            var format = Internal.ResourcesHelper.GetForCurrentView().GetString(parameter.ToString());
+            var format = Internal.ResourceHelper.GetForCurrentView().GetString(parameter.ToString());
             return string.Format(FormatProvider ?? CultureInfo.CurrentUICulture, format, value);
         }
 

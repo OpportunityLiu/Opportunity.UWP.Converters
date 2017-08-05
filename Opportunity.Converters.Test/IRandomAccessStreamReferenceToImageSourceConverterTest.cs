@@ -7,22 +7,27 @@ using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 namespace Opportunity.Converters.Test
 {
     [TestClass]
     public class IRandomAccessStreamReferenceToImageSourceConverterTest
     {
-        [TestMethod]
-        public async Task Image()
+        [TestInitialize]
+        public void Init()
         {
-            await TestHelper.RunAtUIThread(async () =>
-            {
-                var converter = new IRandomAccessStreamReferenceToImageSourceConverter();
-                var uri = new Uri("ms-appx:///Assets/StoreLogo.png");
-                var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-                var r = (BitmapImage)converter.Convert(file, typeof(ImageSource), null, null);
-            });
+            var uri = new Uri("ms-appx:///Assets/StoreLogo.png");
+            this.file1 = StorageFile.GetFileFromApplicationUriAsync(uri).AsTask().Result;
+        }
+
+        private StorageFile file1, file2;
+
+        [UITestMethod]
+        public void Image()
+        {
+            var converter = new IRandomAccessStreamReferenceToImageSourceConverter();
+            var r = (BitmapImage)converter.Convert(this.file1, typeof(ImageSource), null, null);
         }
     }
 }

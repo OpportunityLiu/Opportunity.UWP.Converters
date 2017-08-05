@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using Opportunity.Converters.Internal;
 using System;
 using System.Collections.Generic;
@@ -11,25 +12,30 @@ namespace Opportunity.Converters.Test
     [TestClass]
     public class ResourcesHelperTest
     {
-        [TestMethod]
-        public void LoadDefault()
+        private ResourceHelper def;
+
+        [TestInitialize]
+        public void Init()
         {
-            var r = ResourcesHelper.GetForCurrentView();
-            var r2 = ResourcesHelper.GetForCurrentView();
-            Assert.AreEqual(r2, r);
+            def = ResourceHelper.GetForViewIndependent();
         }
 
         [TestMethod]
-        public async Task LoadForView()
+        public void LoadDefault()
         {
-            var r0 = ResourcesHelper.GetForCurrentView();
-            await TestHelper.RunAtUIThread(() =>
-            {
-                var r2 = ResourcesHelper.GetForCurrentView();
-                var r = ResourcesHelper.GetForCurrentView();
-                Assert.AreEqual(r2, r);
-                Assert.AreNotEqual(r0, r);
-            });
+            var r = ResourceHelper.GetForCurrentView();
+            var r2 = ResourceHelper.GetForCurrentView();
+            Assert.AreEqual(r2, r);
+            Assert.AreEqual(r, def);
+        }
+
+        [UITestMethod]
+        public void LoadForView()
+        {
+            var r = ResourceHelper.GetForCurrentView();
+            var r2 = ResourceHelper.GetForCurrentView();
+            Assert.AreEqual(r2, r);
+            Assert.AreNotEqual(def, r);
         }
     }
 }
