@@ -45,7 +45,10 @@ namespace Opportunity.Converters.Internal
         }
     }
 
-    public struct TypeTraitsInfo
+#if DEBUG
+    public
+#endif
+        struct TypeTraitsInfo
     {
         public bool CanBeNull;
         public bool IsNullable;
