@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Markup;
 using System.Reflection;
+using Opportunity.Helpers;
 
 namespace Opportunity.Converters.Internal
 {
@@ -13,26 +14,32 @@ namespace Opportunity.Converters.Internal
 #endif
         static class ConvertHelper
     {
-        private class ChangeTypeData
+        private struct ChangeTypeData<T>
         {
             private static readonly Exception defaultError = new Exception("Hasn't set result.");
 
-            public ChangeTypeData(object value, Type targetType)
+            public ChangeTypeData(object value)
             {
                 this.OriginalValue = value;
-                this.TargetType = targetType;
-                this.ConvertedValue = null;
+                this.TargetType = TypeTraits.Of<T>();
+                this.ConvertedValue = default;
                 this.Error = defaultError;
             }
 
+            public ChangeTypeData(object value, Type targetType)
+                : this(value)
+            {
+                this.TargetType = TypeTraits.Of(targetType);
+            }
+
             public object OriginalValue { get; }
-            public object ConvertedValue { get; private set; }
-            public Type TargetType { get; }
+            public T ConvertedValue { get; private set; }
+            public TypeTraitsInfo TargetType { get; }
             public Exception Error { get; private set; }
 
             public bool Succeed => this.Error == null;
 
-            public object GetResultOrThrow()
+            public T GetResultOrThrow()
             {
                 if (Error == null)
                     return ConvertedValue;
@@ -44,40 +51,21 @@ namespace Opportunity.Converters.Internal
 
             public void SetError(Exception error)
             {
-                this.ConvertedValue = null;
+                this.ConvertedValue = default;
                 this.Error = error;
             }
 
-            public void SetResult(object convertedValue)
+            public void SetResult(T convertedValue)
             {
                 this.ConvertedValue = convertedValue;
                 this.Error = null;
             }
         }
 
-        private class ChangeTypeData<T> : ChangeTypeData
-        {
-            public ChangeTypeData(object value) : base(value, typeof(T))
-            {
-            }
-
-            public new T ConvertedValue => (T)base.ConvertedValue;
-
-            public void SetResult(T convertedValue)
-            {
-                base.SetResult(convertedValue);
-            }
-
-            public new T GetResultOrThrow()
-            {
-                return (T)base.GetResultOrThrow();
-            }
-        }
-
         public static bool TryChangeType<T>(object value, out T result)
         {
             var data = new ChangeTypeData<T>(value);
-            changeTypeImpl(data);
+            changeTypeImpl(ref data);
             if (data.Succeed)
             {
                 result = data.ConvertedValue;
@@ -85,7 +73,7 @@ namespace Opportunity.Converters.Internal
             }
             else
             {
-                result = default(T);
+                result = default;
                 return false;
             }
         }
@@ -93,14 +81,14 @@ namespace Opportunity.Converters.Internal
         public static T ChangeType<T>(object value)
         {
             var data = new ChangeTypeData<T>(value);
-            changeTypeImpl(data);
+            changeTypeImpl(ref data);
             return data.GetResultOrThrow();
         }
 
         public static bool TryChangeType(object value, Type targetType, out object result)
         {
-            var data = new ChangeTypeData(value, targetType);
-            changeTypeImpl(data);
+            var data = new ChangeTypeData<object>(value, targetType);
+            changeTypeImpl(ref data);
             if (data.Succeed)
             {
                 result = data.ConvertedValue;
@@ -115,12 +103,12 @@ namespace Opportunity.Converters.Internal
 
         public static object ChangeType(object value, Type targetType)
         {
-            var data = new ChangeTypeData(value, targetType);
-            changeTypeImpl(data);
+            var data = new ChangeTypeData<object>(value, targetType);
+            changeTypeImpl(ref data);
             return data.GetResultOrThrow();
         }
 
-        private static void changeTypeImpl<T>(ChangeTypeData<T> data)
+        private static void changeTypeImpl<T>(ref ChangeTypeData<T> data)
         {
             if (data.OriginalValue is T v)
             {
@@ -129,7 +117,7 @@ namespace Opportunity.Converters.Internal
             }
             if (data.OriginalValue == null)
             {
-                if (TypeTraits<T>.Info.CanBeNull)
+                if (data.TargetType.CanBeNull)
                 {
                     data.SetResult(default(T));
                     return;
@@ -140,26 +128,25 @@ namespace Opportunity.Converters.Internal
                     return;
                 }
             }
-            if (TypeTraits<T>.Info.IsEnum)
+            if (data.TargetType.Type.IsEnum)
             {
-                changeToEnumCore(data);
+                changeToEnumCore(ref data);
                 if (data.Succeed)
                     return;
             }
-            changeTypeCore(data);
+            changeTypeCore(ref data);
         }
 
-        private static void changeTypeImpl(ChangeTypeData data)
+        private static void changeTypeImpl(ref ChangeTypeData<object> data)
         {
-            if (data.TargetType.IsInstanceOfType(data.OriginalValue))
+            if (data.TargetType.Type.AsType().IsInstanceOfType(data.OriginalValue))
             {
                 data.SetResult(data.OriginalValue);
                 return;
             }
-            var info = TypeTraits.InfoOf(data.TargetType);
             if (data.OriginalValue == null)
             {
-                if (info.CanBeNull)
+                if (data.TargetType.CanBeNull)
                 {
                     data.SetResult(null);
                     return;
@@ -170,22 +157,22 @@ namespace Opportunity.Converters.Internal
                     return;
                 }
             }
-            if (info.IsEnum)
+            if (data.TargetType.Type.IsEnum)
             {
-                changeToEnumCore(data);
+                changeToEnumCore(ref data);
                 if (data.Succeed)
                     return;
             }
-            changeTypeCore(data);
+            changeTypeCore(ref data);
         }
 
-        private static void changeToEnumCore(ChangeTypeData data)
+        private static void changeToEnumCore<T>(ref ChangeTypeData<T> data)
         {
             if (data.OriginalValue is string s)
             {
                 try
                 {
-                    data.SetResult(Enum.Parse(data.TargetType, s, true));
+                    data.SetResult((T)Enum.Parse(data.TargetType.Type.AsType(), s, true));
                     return;
                 }
                 catch (Exception ex)
@@ -198,12 +185,12 @@ namespace Opportunity.Converters.Internal
             {
                 try
                 {
-                    var uType = Enum.GetUnderlyingType(data.TargetType);
-                    var task2 = new ChangeTypeData(data.OriginalValue, uType);
-                    changeTypeCore(task2);
+                    var uType = Enum.GetUnderlyingType(data.TargetType.Type.AsType());
+                    var task2 = new ChangeTypeData<object>(data.OriginalValue, uType);
+                    changeTypeCore(ref task2);
                     if (task2.Succeed)
                     {
-                        data.SetResult(Enum.ToObject(data.TargetType, task2.ConvertedValue));
+                        data.SetResult((T)Enum.ToObject(data.TargetType.Type.AsType(), task2.ConvertedValue));
                         return;
                     }
                     data.SetError(task2.Error);
@@ -216,7 +203,7 @@ namespace Opportunity.Converters.Internal
             }
             try
             {
-                data.SetResult(Enum.Parse(data.TargetType, data.OriginalValue.ToString(), true));
+                data.SetResult((T)Enum.Parse(data.TargetType.Type.AsType(), data.OriginalValue.ToString(), true));
                 return;
             }
             catch (Exception ex)
@@ -226,13 +213,13 @@ namespace Opportunity.Converters.Internal
             }
         }
 
-        private static void changeTypeCore(ChangeTypeData data)
+        private static void changeTypeCore<T>(ref ChangeTypeData<T> data)
         {
             try
             {
                 if (data.OriginalValue is IConvertible ic)
                 {
-                    data.SetResult(Convert.ChangeType(ic, data.TargetType));
+                    data.SetResult((T)Convert.ChangeType(ic, data.TargetType.Type.AsType()));
                     return;
                 }
             }
@@ -243,13 +230,13 @@ namespace Opportunity.Converters.Internal
             }
             try
             {
-                var r = XamlBindingHelper.ConvertValue(data.TargetType, data.OriginalValue);
-                if (r.GetType() != data.TargetType)
+                var r = XamlBindingHelper.ConvertValue(data.TargetType.Type.AsType(), data.OriginalValue);
+                if (r.GetType() != data.TargetType.Type.AsType())
                 {
                     data.SetError(new InvalidOperationException("XamlBindingHelper.ConvertValue(Type, object) returns a wrong type."));
                     return;
                 }
-                data.SetResult(r);
+                data.SetResult((T)r);
                 return;
             }
             catch (Exception ex)
@@ -259,7 +246,7 @@ namespace Opportunity.Converters.Internal
             }
             try
             {
-                data.SetResult(Convert.ChangeType(Convert.ToDouble(data.OriginalValue), data.TargetType));
+                data.SetResult((T)Convert.ChangeType(Convert.ToDouble(data.OriginalValue), data.TargetType.Type.AsType()));
                 return;
             }
             catch (Exception ex)

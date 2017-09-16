@@ -12,4 +12,10 @@ namespace Opportunity.Converters
         object Convert(TFrom value, Type targetType, object parameter, string language);
         TFrom ConvertBack(object value, object parameter, string language);
     }
+
+    internal interface IValueConverterTo<TTo> : IValueConverter
+    {
+        TTo Convert(object value, object parameter, string language);
+        object ConvertBack(TTo value, Type targetType, object parameter, string language);
+    }
 }
