@@ -8,12 +8,12 @@ using Opportunity.MathExpression;
 using Opportunity.MathExpression.Delegates;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Use a math expression to convert number values.
     /// </summary>
-    public sealed class MathExpressionConverter : ChainConverter<double, double>
+    public sealed class MathExpressionConverter : ValueConverter<double, double>
     {
         /// <summary>
         /// Expression used to convert value.
@@ -76,15 +76,15 @@ namespace Opportunity.Converters
         }
 
         /// <inhertdoc />
-        protected override double ConvertBackImpl(double value, object parameter, string language)
+        public override double Convert(double value, object parameter, string language)
         {
-            return this.convertback.Compiled(value);
+            return this.convert.Compiled(value);
         }
 
         /// <inhertdoc />
-        protected override double ConvertImpl(double value, object parameter, string language)
+        public override double ConvertBack(double value, object parameter, string language)
         {
-            return this.convert.Compiled(value);
+            return this.convertback.Compiled(value);
         }
     }
 }

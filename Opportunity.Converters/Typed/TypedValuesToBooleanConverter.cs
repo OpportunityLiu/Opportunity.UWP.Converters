@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.

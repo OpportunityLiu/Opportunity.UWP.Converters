@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Opportunity.Converters.Typed;
 
 namespace Opportunity.Converters.Test
 {
@@ -24,13 +25,13 @@ namespace Opportunity.Converters.Test
 
             var c1 = new BooleanToVisibilityConverter();
 
-            c0.NextConverter = c1;
+            var c = new ChainConverter(c0, c1);
 
-            Assert.AreEqual(Visibility.Visible, c0.Convert(1, typeof(Visibility), null, null));
-            Assert.AreEqual(Visibility.Collapsed, c0.Convert(0, typeof(Visibility), null, null));
-            Assert.AreEqual(Visibility.Collapsed, c0.Convert(-1, typeof(Visibility), null, null));
-            Assert.AreEqual(1, c0.ConvertBack(Visibility.Visible, typeof(int), null, null));
-            Assert.AreEqual(-1, c0.ConvertBack(Visibility.Collapsed, typeof(int), null, null));
+            Assert.AreEqual(Visibility.Visible, c.Convert(1, typeof(Visibility), null, null));
+            Assert.AreEqual(Visibility.Collapsed, c.Convert(0, typeof(Visibility), null, null));
+            Assert.AreEqual(Visibility.Collapsed, c.Convert(-1, typeof(Visibility), null, null));
+            Assert.AreEqual(1, c.ConvertBack(Visibility.Visible, typeof(int), null, null));
+            Assert.AreEqual(-1, c.ConvertBack(Visibility.Collapsed, typeof(int), null, null));
         }
 
         [UITestMethod]
@@ -44,14 +45,14 @@ namespace Opportunity.Converters.Test
 
             var c1 = new BooleanToVisibilityConverter();
 
-            c0.NextConverter = c1;
+            var c = new ChainConverter(c0, c1);
 
             // For null input, any result is accepted, without exception thrown.
-            Assert.IsNotNull(c0.Convert(null, typeof(Visibility), null, null));
-            Assert.IsNotNull(c0.ConvertBack(null, typeof(int), null, null));
+            Assert.IsNotNull(c.Convert(null, typeof(Visibility), null, null));
+            Assert.IsNotNull(c.ConvertBack(null, typeof(int), null, null));
             c0.ValuesForTrue.Add(0);
-            Assert.IsNotNull(c0.Convert(null, typeof(Visibility), null, null));
-            Assert.IsNotNull(c0.ConvertBack(null, typeof(int), null, null));
+            Assert.IsNotNull(c.Convert(null, typeof(Visibility), null, null));
+            Assert.IsNotNull(c.ConvertBack(null, typeof(int), null, null));
         }
 
         [UITestMethod]
@@ -69,10 +70,10 @@ namespace Opportunity.Converters.Test
             c1.IfBoth = false;
             c1.IfNeither = true;
 
-            c0.NextConverter = c1;
+            var c = new ChainConverter(c0, c1);
 
-            Assert.AreEqual(false, c0.Convert(null, typeof(bool), null, null));
-            Assert.AreEqual(-1, c0.ConvertBack(null, typeof(int), null, null));
+            Assert.AreEqual(false, c.Convert(null, typeof(bool), null, null));
+            Assert.AreEqual(-1, c.ConvertBack(null, typeof(int), null, null));
         }
     }
 }

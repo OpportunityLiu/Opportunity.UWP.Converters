@@ -18,10 +18,13 @@ namespace Opportunity.Converters.Test
         {
             Assert.IsNull(ConvertHelper.ChangeType<string>(null));
             Assert.IsNull(ConvertHelper.ChangeType<int?>(null));
-            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType<int>(null));
-            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(string)));
-            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(int?)));
-            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType(null, typeof(int)));
+            Assert.AreEqual(0, ConvertHelper.ChangeType<int>(null));
+            Assert.AreEqual(false, ConvertHelper.ChangeType<bool>(null));
+            Assert.AreEqual(null, ConvertHelper.ChangeType<bool?>(null));
+            Assert.AreEqual(ByteEnum.Zero, ConvertHelper.ChangeType<ByteEnum>(null));
+            Assert.AreEqual(null, ConvertHelper.ChangeType<ByteEnum?>(null));
+            Assert.AreEqual(default(DateTime), ConvertHelper.ChangeType<DateTime>(null));
+            Assert.AreEqual(null, ConvertHelper.ChangeType<DateTime?>(null));
         }
 
         [UITestMethod]

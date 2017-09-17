@@ -21,7 +21,7 @@ namespace Opportunity.Converters.Test
             this.file1 = StorageFile.GetFileFromApplicationUriAsync(uri).AsTask().Result;
         }
 
-        private StorageFile file1, file2;
+        private StorageFile file1;
 
         [UITestMethod]
         public void Image()

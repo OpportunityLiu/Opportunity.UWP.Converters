@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Apply an <see cref="Offset"/> to values.
     /// </summary>
-    public abstract class NumberOffsetConverter<T> : ChainConverter<T, T>
+    public abstract class NumberOffsetConverter<T> : ValueConverter<T, T>
     {
         /// <summary>
         /// Apply <see cref="Offset"/> to <paramref name="value"/>.
@@ -46,7 +46,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> + <see cref="Offset"/></returns>
-        protected sealed override T ConvertImpl(T value, object parameter, string language)
+        public sealed override T Convert(T value, object parameter, string language)
         {
             return ApplyOffset(value);
         }
@@ -58,7 +58,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns><paramref name="value"/> - <see cref="Offset"/></returns>
-        protected sealed override T ConvertBackImpl(T value, object parameter, string language)
+        public sealed override T ConvertBack(T value, object parameter, string language)
         {
             return UnapplyOffset(value);
         }

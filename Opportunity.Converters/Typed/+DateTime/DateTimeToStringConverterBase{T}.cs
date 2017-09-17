@@ -2,13 +2,12 @@
 using Windows.Globalization.DateTimeFormatting;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Base class of <see cref="DateTimeOffsetToStringConverter"/> and <see cref="DateTimeToStringConverter"/>.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public abstract class DateTimeToStringConverterBase<T> : ChainConverter<T, string>
+    public abstract class DateTimeToStringConverterBase<T> : ValueConverter<T, string>
     {
         /// <summary>
         /// The template to format a <see cref="DateTime"/> or <see cref="DateTimeOffset"/>,

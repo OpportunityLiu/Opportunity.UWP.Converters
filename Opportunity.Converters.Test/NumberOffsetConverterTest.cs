@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using Opportunity.Converters.Typed;
 
 namespace Opportunity.Converters.Test
 {

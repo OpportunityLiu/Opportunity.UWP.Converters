@@ -4,22 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert <c>value</c> to <c>!value</c>.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class LogicalNotConverter : ChainConverter<bool, bool>
+    public sealed class LogicalNotConverter : ValueConverter<bool, bool>
     {
         /// <inheritdoc />
-        protected override bool ConvertBackImpl(bool value, object parameter, string language)
+        public override bool Convert(bool value, object parameter, string language)
         {
             return !value;
         }
 
         /// <inheritdoc />
-        protected override bool ConvertImpl(bool value, object parameter, string language)
+        public override bool ConvertBack(bool value, object parameter, string language)
         {
             return !value;
         }

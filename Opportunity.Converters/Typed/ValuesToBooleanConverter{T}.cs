@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Collection of values.
@@ -177,8 +177,7 @@ namespace Opportunity.Converters
     /// <summary>
     /// Convert <see cref="object"/>s to <see cref="bool"/> values.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public class ValuesToBooleanConverter<T> : ChainConverter<T, bool>
+    public class ValuesToBooleanConverter<T> : ValueConverter<T, bool>
     {
         private ValueCollection<T> valuesForTrue;
         /// <summary>
@@ -193,18 +192,18 @@ namespace Opportunity.Converters
         public ValueCollection<T> ValuesForFalse => LazyInitializer.EnsureInitialized(ref this.valuesForFalse, () => new ValueCollection<T>(this));
 
         /// <summary>
-        /// The <see cref="IEqualityComparer"/> used to compare values.
+        /// The <see cref="IEqualityComparer{T}"/> used to compare values.
         /// </summary>
-        public IEqualityComparer ValueComparer
+        public IEqualityComparer<T> ValueComparer
         {
-            get => (IEqualityComparer)GetValue(ValueComparerProperty); set => SetValue(ValueComparerProperty, value);
+            get => (IEqualityComparer<T>)GetValue(ValueComparerProperty); set => SetValue(ValueComparerProperty, value);
         }
 
         /// <summary>
         /// Identifies the <see cref="ValueComparer"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueComparerProperty =
-            DependencyProperty.Register("ValueComparer", typeof(IEqualityComparer), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(null));
+            DependencyProperty.Register("ValueComparer", typeof(IEqualityComparer<T>), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(null));
 
         /// <summary>
         /// Returns when <c>value</c> is in neither <see cref="ValuesForTrue"/> nor <see cref="ValuesForFalse"/>.
@@ -237,7 +236,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("IfBoth", typeof(bool), typeof(ValuesToBooleanConverter<T>), new PropertyMetadata(false));
 
         /// <inheritdoc />
-        protected override bool ConvertImpl(T value, object parameter, string language)
+        public override bool Convert(T value, object parameter, string language)
         {
             var isTrue = false;
             if (this.valuesForTrue != null)
@@ -259,7 +258,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override T ConvertBackImpl(bool value, object parameter, string language)
+        public override T ConvertBack(bool value, object parameter, string language)
         {
             if (value)
             {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert values with the format string provided by converter parameter.
@@ -24,8 +24,8 @@ namespace Opportunity.Converters
     /// </c></para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class FormatStringConverter : ChainConverter<object, string>
+    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(FormatProvider))]
+    public sealed class FormatStringConverter : ValueConverter<object, string>
     {
         /// <summary>
         /// <see cref="IFormatProvider"/> used to format string.
@@ -44,19 +44,25 @@ namespace Opportunity.Converters
             DependencyProperty.Register("FormatProvider", typeof(IFormatProvider), typeof(FormatStringConverter), new PropertyMetadata(CultureInfo.CurrentUICulture));
 
         /// <inheritdoc />
-        protected override string ConvertImpl(object value, object parameter, string language)
+        public override string Convert(object value, object parameter, string language)
         {
             if (parameter == null)
+            {
+                if (value == null)
+                    return "";
+                else if (value is IFormattable fValue)
+                    return fValue.ToString(null, FormatProvider ?? CultureInfo.CurrentUICulture);
                 return value.ToString();
-            var str = parameter.ToString();
-            var format = str;
-            if (str.StartsWith("ms-resource:"))
-                format = LocalizedStrings.GetValue(str);
+            }
+
+            var format = parameter.ToString();
+            if (format.StartsWith("ms-resource:"))
+                format = LocalizedStrings.GetValue(format);
             return string.Format(FormatProvider ?? CultureInfo.CurrentUICulture, format, value);
         }
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(string value, object parameter, string language)
+        public override object ConvertBack(string value, object parameter, string language)
         {
             return value;
         }

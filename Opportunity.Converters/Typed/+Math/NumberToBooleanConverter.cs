@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert a range of number into <see cref="bool"/>.
     /// </summary>
-    public sealed class NumberToBooleanConverter : ChainConverter<double, bool>
+    public sealed class NumberToBooleanConverter : ValueConverter<double, bool>
     {
         /// <summary>
         /// Start value of number range.
@@ -85,28 +85,13 @@ namespace Opportunity.Converters
             DependencyProperty.Register("InRangeResult", typeof(bool), typeof(NumberToBooleanConverter), new PropertyMetadata(true));
 
         /// <summary>
-        /// Convert a <see cref="bool"/> to <see cref="double"/>.
-        /// </summary>
-        /// <param name="value"><see cref="bool"/> to convert.</param>
-        /// <param name="parameter">Not used.</param>
-        /// <param name="language">Not used.</param>
-        /// <returns>If a value in range need to be returned, the average of <see cref="RangeStart"/> and <see cref="RangeEnd"/> will be returned; otherwise, <see cref="RangeStart"/> - 1 will be returned.</returns>
-        protected override double ConvertBackImpl(bool value, object parameter, string language)
-        {
-            if (value == this.InRangeResult)
-                return (RangeStart + RangeEnd) / 2;
-            else
-                return RangeStart - 1;
-        }
-
-        /// <summary>
         /// Convert a number into <see cref="bool"/>.
         /// </summary>
         /// <param name="value">Number to convert.</param>
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns>The result of conversion.</returns>
-        protected override bool ConvertImpl(double value, object parameter, string language)
+        public override bool Convert(double value, object parameter, string language)
         {
             if (value < RangeStart)
                 return !InRangeResult;
@@ -127,6 +112,21 @@ namespace Opportunity.Converters
                     return !InRangeResult;
             }
             return InRangeResult;
+        }
+
+        /// <summary>
+        /// Convert a <see cref="bool"/> to <see cref="double"/>.
+        /// </summary>
+        /// <param name="value"><see cref="bool"/> to convert.</param>
+        /// <param name="parameter">Not used.</param>
+        /// <param name="language">Not used.</param>
+        /// <returns>If a value in range need to be returned, the average of <see cref="RangeStart"/> and <see cref="RangeEnd"/> will be returned; otherwise, <see cref="RangeStart"/> - 1 will be returned.</returns>
+        public override double ConvertBack(bool value, object parameter, string language)
+        {
+            if (value == this.InRangeResult)
+                return (RangeStart + RangeEnd) / 2;
+            else
+                return RangeStart - 1;
         }
     }
 }

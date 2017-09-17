@@ -44,9 +44,9 @@ namespace Opportunity.Converters.Internal
                 if (Error == null)
                     return ConvertedValue;
                 if (OriginalValue == null)
-                    throw new InvalidCastException($"Failed to convert null to {TargetType}.", Error);
+                    throw new InvalidCastException($"Failed to convert null to {TargetType.Type}.", Error);
                 else
-                    throw new InvalidCastException($"Failed to convert {OriginalValue} from {OriginalValue.GetType()} to {TargetType}.", Error);
+                    throw new InvalidCastException($"Failed to convert {OriginalValue} from {OriginalValue.GetType()} to {TargetType.Type}.", Error);
             }
 
             public void SetError(Exception error)
@@ -117,16 +117,8 @@ namespace Opportunity.Converters.Internal
             }
             if (data.OriginalValue == null)
             {
-                if (data.TargetType.CanBeNull)
-                {
-                    data.SetResult(default(T));
-                    return;
-                }
-                else
-                {
-                    data.SetError(new ArgumentNullException("value", $"Cannot convert null to non-nullable type {typeof(T)}."));
-                    return;
-                }
+                data.SetResult(default(T));
+                return;
             }
             if (data.TargetType.Type.IsEnum)
             {
@@ -146,16 +138,8 @@ namespace Opportunity.Converters.Internal
             }
             if (data.OriginalValue == null)
             {
-                if (data.TargetType.CanBeNull)
-                {
-                    data.SetResult(null);
-                    return;
-                }
-                else
-                {
-                    data.SetError(new ArgumentNullException("value", $"Cannot convert null to non-nullable type {data.TargetType}."));
-                    return;
-                }
+                data.SetResult(data.TargetType.Default);
+                return;
             }
             if (data.TargetType.Type.IsEnum)
             {

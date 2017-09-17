@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.UI.Xaml;
 using Thickness = Windows.UI.Xaml.Thickness;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert <see cref="Thickness"/> value of its four edges.
@@ -19,21 +20,20 @@ namespace Opportunity.Converters
     /// </para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class ThicknessConverter : ChainConverter<Thickness, Thickness>
+    public sealed class ThicknessConverter : ValueConverter<Thickness, Thickness>
     {
         private static readonly object empty = new Thickness();
 
         /// <inheritdoc />
-        protected override Thickness ConvertBackImpl(Thickness value, object parameter, string language)
+        public override Thickness Convert(Thickness value, object parameter, string language)
         {
-            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), false);
+            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), true);
         }
 
         /// <inheritdoc />
-        protected override Thickness ConvertImpl(Thickness value, object parameter, string language)
+        public override Thickness ConvertBack(Thickness value, object parameter, string language)
         {
-            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), true);
+            return convertCore(value, (parameter ?? throw new ArgumentNullException(nameof(parameter))).ToString(), false);
         }
 
         private static char[] spliter = new[] { ' ', ',' };

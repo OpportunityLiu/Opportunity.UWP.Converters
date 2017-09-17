@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert from <see cref="bool"/> to <see cref="Visibility"/>.
     /// </summary>
-    public sealed class BooleanToVisibilityConverter : ChainConverter<bool, Visibility>
+    public sealed class BooleanToVisibilityConverter : ValueConverter<bool, Visibility>
     {
         /// <summary>
         /// Convert <c>true</c> to <see cref="Visibility.Visible"/>.
@@ -30,7 +30,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("TrueForVisible", typeof(bool), typeof(BooleanToVisibilityConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        protected override Visibility ConvertImpl(bool value, object parameter, string language)
+        public override Visibility Convert(bool value, object parameter, string language)
         {
             if (TrueForVisible)
                 value = !value;
@@ -41,7 +41,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override bool ConvertBackImpl(Visibility value, object parameter, string language)
+        public override bool ConvertBack(Visibility value, object parameter, string language)
         {
             if (TrueForVisible)
                 return value == Visibility.Visible;

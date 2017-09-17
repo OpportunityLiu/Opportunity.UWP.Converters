@@ -5,6 +5,7 @@ using Windows.UI.Xaml;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using Opportunity.Converters.Typed;
 
 namespace Opportunity.Converters.Test
 {

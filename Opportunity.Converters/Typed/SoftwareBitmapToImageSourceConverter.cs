@@ -11,29 +11,26 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert a <see cref="SoftwareBitmap"/> to an <see cref="ImageSource"/>.
     /// </summary>
-    public sealed class SoftwareBitmapToImageSourceConverter : IValueConverter
+    public sealed class SoftwareBitmapToImageSourceConverter : ValueConverter<SoftwareBitmap, ImageSource>
     {
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public override ImageSource Convert(SoftwareBitmap value, object parameter, string language)
         {
-            if (!(value is SoftwareBitmap sb))
+            if (value == null)
                 return null;
             var image = new SoftwareBitmapSource();
-            var ignore = image.SetBitmapAsync(sb);
+            var ignore = image.SetBitmapAsync(value);
             return image;
         }
 
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
+        public override SoftwareBitmap ConvertBack(ImageSource value, object parameter, string language) => throw new NotImplementedException("Not implemented bt design.");
     }
 }

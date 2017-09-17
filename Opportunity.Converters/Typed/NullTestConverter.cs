@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Test a value is <c>null</c> or not, returns a <see cref="bool"/> as result.
     /// </summary>
-    public class NullTestConverter : ChainConverter<object, bool>
+    public class NullTestConverter : ValueConverter<object, bool>
     {
         /// <summary>
         /// Return <see cref="bool"/> when the value is <c>null</c>.
@@ -28,19 +28,19 @@ namespace Opportunity.Converters
             DependencyProperty.Register("IfNull", typeof(bool), typeof(NullTestConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        protected override object ConvertBackImpl(bool value, object parameter, string language)
-        {
-            if (value == IfNull)
-                return null;
-            return new object();
-        }
-
-        /// <inheritdoc />
-        protected override bool ConvertImpl(object value, object parameter, string language)
+        public override bool Convert(object value, object parameter, string language)
         {
             if (value == null)
                 return IfNull;
             return !IfNull;
+        }
+
+        /// <inheritdoc />
+        public override object ConvertBack(bool value, object parameter, string language)
+        {
+            if (value == IfNull)
+                return null;
+            return new object();
         }
     }
 }

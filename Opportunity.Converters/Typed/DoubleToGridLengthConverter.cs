@@ -2,13 +2,12 @@
 using GridLength = Windows.UI.Xaml.GridLength;
 using GridUnitType = Windows.UI.Xaml.GridUnitType;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert <see cref="double"/> to <see cref="GridLength"/>.
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class DoubleToGridLengthConverter : ChainConverter<double, GridLength>
+    public sealed class DoubleToGridLengthConverter : ValueConverter<double, GridLength>
     {
         /// <summary>
         /// Default value for <see cref="GridUnitType"/> when did not specified.
@@ -31,7 +30,7 @@ namespace Opportunity.Converters
         /// <param name="parameter"><see cref="GridUnitType"/> for returned <see cref="GridLength"/>, default value is <see cref="DefaultType"/>.</param>
         /// <param name="language">Not used.</param>
         /// <returns>Converted <see cref="GridLength"/>, which is made by <see cref="GridLength.GridLength(double, GridUnitType)"/>.</returns>
-        protected override GridLength ConvertImpl(double value, object parameter, string language)
+        public override GridLength Convert(double value, object parameter, string language)
         {
             if (parameter == null)
                 return new GridLength(value, DefaultType);
@@ -49,7 +48,7 @@ namespace Opportunity.Converters
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
         /// <returns>Converted <see cref="double"/>, which is made by <see cref="GridLength.Value"/>.</returns>
-        protected override double ConvertBackImpl(GridLength value, object parameter, string language)
+        public override double ConvertBack(GridLength value, object parameter, string language)
         {
             return !value.IsAuto ? value.Value : double.NaN;
         }

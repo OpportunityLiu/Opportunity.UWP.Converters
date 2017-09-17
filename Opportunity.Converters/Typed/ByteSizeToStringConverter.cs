@@ -1,7 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert a <see cref="long"/> value that presents a byte size to a <see cref="string"/>.
@@ -12,8 +12,7 @@ namespace Opportunity.Converters
     /// </para>
     /// </example>
     /// </summary>
-    [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(NextConverter))]
-    public sealed class ByteSizeToStringConverter : ChainConverter<long, string>
+    public sealed class ByteSizeToStringConverter : ValueConverter<long, string>
     {
         private static readonly string[] unitsMetric = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private static readonly string[] unitsBinary = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };
@@ -49,7 +48,7 @@ namespace Opportunity.Converters
             DependencyProperty.Register("OutOfRangeValue", typeof(string), typeof(ByteSizeToStringConverter), new PropertyMetadata("???"));
 
         /// <inheritdoc />
-        protected override string ConvertImpl(long value, object parameter, string language)
+        public override string Convert(long value, object parameter, string language)
         {
             try
             {
@@ -62,7 +61,7 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        protected override long ConvertBackImpl(string value, object parameter, string language)
+        public override long ConvertBack(string value, object parameter, string language)
         {
             return StringToByteSize(value, this.UnitPrefix);
         }
@@ -87,7 +86,7 @@ namespace Opportunity.Converters
         /// Convert a byte size to its <see cref="string"/> representation.
         /// </summary>
         /// <param name="size">The byte size to convert.</param>
-        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="unitPrefix"><see cref="Typed.UnitPrefix"/> used.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
         public static string ByteSizeToString(long size, UnitPrefix unitPrefix)
         {
@@ -109,7 +108,7 @@ namespace Opportunity.Converters
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
-        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="unitPrefix"><see cref="Typed.UnitPrefix"/> used.</param>
         /// <returns>The byte size.</returns>
         public static long StringToByteSize(string sizeStr, UnitPrefix unitPrefix)
         {
@@ -122,7 +121,7 @@ namespace Opportunity.Converters
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
-        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="unitPrefix"><see cref="Typed.UnitPrefix"/> used.</param>
         /// <param name="result">The byte size.</param>
         /// <returns>The conversion succeed or not.</returns>
         public static bool TryStringToByteSize(string sizeStr, UnitPrefix unitPrefix, out long result)
@@ -150,7 +149,7 @@ namespace Opportunity.Converters
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
-        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="unitPrefix"><see cref="Typed.UnitPrefix"/> used.</param>
         /// <returns>The byte size.</returns>
         public static long StringToByteSizeExact(string sizeStr, UnitPrefix unitPrefix)
         {
@@ -163,7 +162,7 @@ namespace Opportunity.Converters
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
-        /// <param name="unitPrefix"><see cref="Converters.UnitPrefix"/> used.</param>
+        /// <param name="unitPrefix"><see cref="Typed.UnitPrefix"/> used.</param>
         /// <param name="result">The byte size.</param>
         /// <returns>The conversion succeed or not.</returns>
         public static bool TryStringToByteSizeExact(string sizeStr, UnitPrefix unitPrefix, out long result)

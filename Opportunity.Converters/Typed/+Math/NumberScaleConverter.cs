@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using static Opportunity.Converters.Internal.ConvertHelper;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Apply an <see cref="Scale"/> to values.
     /// </summary>
-    public abstract class NumberScaleConverter<T> : ChainConverter<T, T>
+    public abstract class NumberScaleConverter<T> : ValueConverter<T, T>
     {
         /// <summary>
         /// Apply <see cref="Scale"/> to <paramref name="value"/>.
@@ -45,8 +45,8 @@ namespace Opportunity.Converters
         /// <param name="value">value canbe converted to <typeparamref name="T"/>.</param>
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
-        /// <returns><paramref name="value"/> + <see cref="Scale"/></returns>
-        protected sealed override T ConvertImpl(T value, object parameter, string language)
+        /// <returns><paramref name="value"/> * <see cref="Scale"/></returns>
+        public sealed override T Convert(T value, object parameter, string language)
         {
             return ApplyScale(value);
         }
@@ -57,8 +57,8 @@ namespace Opportunity.Converters
         /// <param name="value">value canbe converted to <typeparamref name="T"/>.</param>
         /// <param name="parameter">Not used.</param>
         /// <param name="language">Not used.</param>
-        /// <returns><paramref name="value"/> - <see cref="Scale"/></returns>
-        protected sealed override T ConvertBackImpl(T value, object parameter, string language)
+        /// <returns><paramref name="value"/> / <see cref="Scale"/></returns>
+        public sealed override T ConvertBack(T value, object parameter, string language)
         {
             return UnapplyScale(value);
         }
