@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Opportunity.Helpers.Universal;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -47,7 +48,10 @@ namespace Opportunity.Converters
         {
             if (parameter == null)
                 return value.ToString();
-            var format = Internal.ResourceHelper.GetForCurrentView().GetString(parameter.ToString());
+            var str = parameter.ToString();
+            var format = str;
+            if (str.StartsWith("ms-resource:"))
+                format = LocalizedStrings.GetValue(str);
             return string.Format(FormatProvider ?? CultureInfo.CurrentUICulture, format, value);
         }
 

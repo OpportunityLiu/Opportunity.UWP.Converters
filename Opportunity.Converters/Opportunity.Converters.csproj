@@ -134,7 +134,6 @@
     <Compile Include="+Chains\FormatStringConverter.cs" />
     <Compile Include="+Simple\IRandomAccessStreamReferenceToImageSourceConverter.cs" />
     <Compile Include="Internal\ConvertHelper.cs" />
-    <Compile Include="Internal\ResourceHelper.cs" />
     <Compile Include="+Basic\InvertConverter.cs" />
     <Compile Include="+Chains\LogicalNotConverter.cs" />
     <Compile Include="+Chains\+Math\MathExpressionConverter.cs" />
