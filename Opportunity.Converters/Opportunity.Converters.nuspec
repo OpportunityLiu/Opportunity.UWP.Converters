@@ -9,8 +9,7 @@
     <licenseUrl>https://github.com/OpportunityLiu/UWPConverters/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/OpportunityLiu/UWPConverters</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>First version of the package.</releaseNotes>
+    <description>A collection of IValueConverter for UWP apps.</description>
     <copyright>Copyright 2017</copyright>
     <tags>UWP Converter IValueConverter Xaml Binding</tags>
   </metadata>
