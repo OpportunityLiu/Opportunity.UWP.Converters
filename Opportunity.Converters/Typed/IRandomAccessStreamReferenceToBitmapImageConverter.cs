@@ -13,7 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.ViewManagement;
 
-namespace Opportunity.Converters
+namespace Opportunity.Converters.Typed
 {
     /// <summary>
     /// Convert an <see cref="IRandomAccessStreamReference"/> (such as a <see cref="StorageFile"/>)

@@ -7,6 +7,7 @@ using Windows.Storage;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+using Opportunity.Converters.Typed;
 
 namespace Opportunity.Converters.Test
 {
