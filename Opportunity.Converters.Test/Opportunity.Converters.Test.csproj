@@ -103,7 +103,7 @@
   <ItemGroup>
     <Compile Include="ChainConverterTest.cs" />
     <Compile Include="ConvertHelperTest.cs" />
-    <Compile Include="IRandomAccessStreamReferenceToImageSourceConverterTest.cs" />
+    <Compile Include="IRandomAccessStreamReferenceToBitmapImageConverterTest.cs" />
     <Compile Include="MathExpressionConverterTest.cs" />
     <Compile Include="NumberScaleConverterTest.cs" />
     <Compile Include="NumberOffsetConverterTest.cs" />

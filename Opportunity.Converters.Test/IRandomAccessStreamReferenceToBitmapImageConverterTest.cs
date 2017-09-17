@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.UI.Xaml;
 using System.Threading.Tasks;
@@ -12,7 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 namespace Opportunity.Converters.Test
 {
     [TestClass]
-    public class IRandomAccessStreamReferenceToImageSourceConverterTest
+    public class IRandomAccessStreamReferenceToBitmapImageConverterTest
     {
         [TestInitialize]
         public void Init()
@@ -26,7 +25,7 @@ namespace Opportunity.Converters.Test
         [UITestMethod]
         public void Image()
         {
-            var converter = new IRandomAccessStreamReferenceToImageSourceConverter();
+            var converter = new IRandomAccessStreamReferenceToBitmapImageConverter();
             var r = (BitmapImage)converter.Convert(this.file1, typeof(ImageSource), null, null);
         }
     }

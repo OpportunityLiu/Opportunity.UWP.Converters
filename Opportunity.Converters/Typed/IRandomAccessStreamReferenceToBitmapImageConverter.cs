@@ -17,9 +17,9 @@ namespace Opportunity.Converters
 {
     /// <summary>
     /// Convert an <see cref="IRandomAccessStreamReference"/> (such as a <see cref="StorageFile"/>)
-    /// to an <see cref="ImageSource"/>.
+    /// to a <see cref="BitmapImage"/>.
     /// </summary>
-    public class IRandomAccessStreamReferenceToImageSourceConverter : IValueConverter
+    public sealed class IRandomAccessStreamReferenceToBitmapImageConverter : ValueConverter<IRandomAccessStreamReference, BitmapImage>
     {
         private static async Task initImage(BitmapImage img, IRandomAccessStreamReference source)
         {
@@ -30,12 +30,12 @@ namespace Opportunity.Converters
         }
 
         /// <inheritdoc />
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public override BitmapImage Convert(IRandomAccessStreamReference value, object parameter, string language)
         {
-            if (!(value is IRandomAccessStreamReference f))
+            if (value == null)
                 return null;
             var img = new BitmapImage();
-            var task = initImage(img, f);
+            var task = initImage(img, value);
             // make sure exception in the task will be thrown.
             task.GetAwaiter().OnCompleted(task.Wait);
             return img;
@@ -44,9 +44,7 @@ namespace Opportunity.Converters
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
+        public override IRandomAccessStreamReference ConvertBack(BitmapImage value, object parameter, string language)
+            => throw new NotImplementedException();
     }
 }

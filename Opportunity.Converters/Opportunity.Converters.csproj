@@ -123,6 +123,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConverterReference.cs" />
+    <Compile Include="Typed\IRandomAccessStreamReferenceToBitmapImageConverter.cs" />
     <Compile Include="ValueConverter{TFrom,TTo}.cs" />
     <Compile Include="Typed\+Math\NumberToBooleanConverter.cs" />
     <Compile Include="Typed\ApplicationThemeToElementThemeConverter.cs" />
@@ -140,7 +142,6 @@
     <Compile Include="Typed\ValuesToBooleanConverter{T}.cs" />
     <Compile Include="EmptyConverter.cs" />
     <Compile Include="Typed\FormatStringConverter.cs" />
-    <Compile Include="IRandomAccessStreamReferenceToImageSourceConverter.cs" />
     <Compile Include="Internal\ConvertHelper.cs" />
     <Compile Include="InvertConverter.cs" />
     <Compile Include="Typed\LogicalNotConverter.cs" />
