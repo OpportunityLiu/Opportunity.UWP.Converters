@@ -114,7 +114,12 @@ namespace Opportunity.Converters.Internal
             }
             if (data.OriginalValue == null)
             {
-                data.SetResult(default(T));
+                data.SetResult(default);
+                return;
+            }
+            if (data.OriginalValue is string s && string.IsNullOrEmpty(s) && data.TargetType.CanBeNull)
+            {
+                data.SetResult(default);
                 return;
             }
             if (data.TargetType.Type.IsEnum)
@@ -134,6 +139,11 @@ namespace Opportunity.Converters.Internal
                 return;
             }
             if (data.OriginalValue == null)
+            {
+                data.SetResult(data.TargetType.Default);
+                return;
+            }
+            if (data.OriginalValue is string s && string.IsNullOrEmpty(s) && data.TargetType.CanBeNull)
             {
                 data.SetResult(data.TargetType.Default);
                 return;

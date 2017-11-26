@@ -17,14 +17,64 @@ namespace Opportunity.Converters.Test
         public void ConvertNullToValue()
         {
             Assert.IsNull(ConvertHelper.ChangeType<string>(null));
+
             Assert.IsNull(ConvertHelper.ChangeType<int?>(null));
             Assert.AreEqual(0, ConvertHelper.ChangeType<int>(null));
+
+            Assert.IsNull(ConvertHelper.ChangeType<bool?>(null));
             Assert.AreEqual(false, ConvertHelper.ChangeType<bool>(null));
-            Assert.AreEqual(null, ConvertHelper.ChangeType<bool?>(null));
+
+            Assert.IsNull(ConvertHelper.ChangeType<ByteEnum?>(null));
             Assert.AreEqual(ByteEnum.Zero, ConvertHelper.ChangeType<ByteEnum>(null));
-            Assert.AreEqual(null, ConvertHelper.ChangeType<ByteEnum?>(null));
+
+            Assert.IsNull(ConvertHelper.ChangeType<DateTime?>(null));
             Assert.AreEqual(default(DateTime), ConvertHelper.ChangeType<DateTime>(null));
-            Assert.AreEqual(null, ConvertHelper.ChangeType<DateTime?>(null));
+
+            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(string)));
+
+            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(int?)));
+            Assert.AreEqual(0, ConvertHelper.ChangeType(null, typeof(int)));
+
+            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(bool?)));
+            Assert.AreEqual(false, ConvertHelper.ChangeType(null, typeof(bool)));
+
+            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(ByteEnum?)));
+            Assert.AreEqual(ByteEnum.Zero, ConvertHelper.ChangeType(null, typeof(ByteEnum)));
+
+            Assert.IsNull(ConvertHelper.ChangeType(null, typeof(DateTime?)));
+            Assert.AreEqual(default(DateTime), ConvertHelper.ChangeType(null, typeof(DateTime)));
+        }
+
+        [UITestMethod]
+        public void ConvertEmptyToValue()
+        {
+            Assert.AreEqual("", ConvertHelper.ChangeType<string>(""));
+
+            Assert.IsNull(ConvertHelper.ChangeType<int?>(""));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType<int>(""));
+
+            Assert.IsNull(ConvertHelper.ChangeType<bool?>(""));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType<bool>(""));
+
+            Assert.IsNull(ConvertHelper.ChangeType<ByteEnum?>(""));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType<ByteEnum>(""));
+
+            Assert.IsNull(ConvertHelper.ChangeType<DateTime?>(""));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType<DateTime>(""));
+
+            Assert.AreEqual("", ConvertHelper.ChangeType("", typeof(string)));
+
+            Assert.IsNull(ConvertHelper.ChangeType("", typeof(int?)));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType("", typeof(int)));
+
+            Assert.IsNull(ConvertHelper.ChangeType("", typeof(bool?)));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType("", typeof(bool)));
+
+            Assert.IsNull(ConvertHelper.ChangeType("", typeof(ByteEnum?)));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType("", typeof(ByteEnum)));
+
+            Assert.IsNull(ConvertHelper.ChangeType("", typeof(DateTime?)));
+            Assert.ThrowsException<InvalidCastException>(() => ConvertHelper.ChangeType("", typeof(DateTime)));
         }
 
         [UITestMethod]

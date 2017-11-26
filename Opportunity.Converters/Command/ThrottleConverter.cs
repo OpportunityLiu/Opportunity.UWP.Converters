@@ -50,7 +50,10 @@ namespace Opportunity.Converters.Command
         {
             if (value == null)
                 return null;
-            if (!Internal.ConvertHelper.TryChangeType<int>(parameter, out var delay))
+            var delay = -1;
+            if (parameter == null)
+                delay = DefaultDelay;
+            else if (!Internal.ConvertHelper.TryChangeType(parameter, out delay))
                 delay = DefaultDelay;
             if (delay < 0)
                 throw new ArgumentException("Must be non-negetive finite number.", nameof(delay));
