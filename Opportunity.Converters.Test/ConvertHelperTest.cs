@@ -61,6 +61,23 @@ namespace Opportunity.Converters.Test
             Assert.AreEqual((byte)123, ConvertHelper.ChangeType<byte>("123.1"), "string + 0.1");
         }
 
+        [UITestMethod]
+        public void ConvertToDouble()
+        {
+            Assert.AreEqual(1d, ConvertHelper.ChangeType<double>((StringComparison)1), "enum");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>(123.0), "double");
+            Assert.AreEqual(123.1d, ConvertHelper.ChangeType<double>(123.1), "double + 0.1");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>(123U), "uint");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>(123UL), "ulong");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>(123L), "long");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>((byte)123), "byte");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>((sbyte)123), "sbyte");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>(123), "int");
+            Assert.AreEqual(123d, ConvertHelper.ChangeType<double>("123"), "string");
+            Assert.AreEqual(123.0d, ConvertHelper.ChangeType<double>("123.0"), "string + '.0'");
+            Assert.AreEqual(123.1d, ConvertHelper.ChangeType<double>("123.1"), "string + 0.1");
+        }
+
         public enum IntEnum : int
         {
             Zero = 0,

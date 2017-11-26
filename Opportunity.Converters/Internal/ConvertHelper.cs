@@ -9,10 +9,7 @@ using Opportunity.Helpers;
 
 namespace Opportunity.Converters.Internal
 {
-#if DEBUG
-    public
-#endif
-        static class ConvertHelper
+    static class ConvertHelper
     {
         private struct ChangeTypeData<T>
         {
