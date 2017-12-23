@@ -4,19 +4,18 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A55486D8-1B96-4F80-8772-F8F02F806F0E}</ProjectGuid>
+    <ProjectGuid>{F7DB0824-C890-4E01-979D-E1D9F29DE466}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Opportunity.Converters</RootNamespace>
     <AssemblyName>Opportunity.Converters</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -27,8 +26,8 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>latest</LangVersion>
     <DocumentationFile>bin\Debug\Opportunity.Converters.XML</DocumentationFile>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -120,51 +119,45 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Command\ThrottleConverter.cs" />
+    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="Opportunity.Converters.nuspec" />
+    <None Include="project.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChainConverter.cs" />
     <Compile Include="Command\DelayConverter.cs" />
+    <Compile Include="Command\ThrottleConverter.cs" />
     <Compile Include="ConverterReference.cs" />
-    <Compile Include="Typed\IRandomAccessStreamReferenceToBitmapImageConverter.cs" />
-    <Compile Include="ValueConverter{TFrom,TTo}.cs" />
+    <Compile Include="EmptyConverter.cs" />
+    <Compile Include="Internal\ConvertHelper.cs" />
+    <Compile Include="InvertConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemConverter.cs" />
+    <Compile Include="Typed\+DateTime\DateTimeOffsetToStringConverter.cs" />
+    <Compile Include="Typed\+DateTime\DateTimeToStringConverter.cs" />
+    <Compile Include="Typed\+DateTime\DateTimeToStringConverterBase{T}.cs" />
+    <Compile Include="Typed\+Math\MathExpressionConverter.cs" />
+    <Compile Include="Typed\+Math\NumberOffsetConverter.cs" />
+    <Compile Include="Typed\+Math\NumberScaleConverter.cs" />
     <Compile Include="Typed\+Math\NumberToBooleanConverter.cs" />
     <Compile Include="Typed\ApplicationThemeToElementThemeConverter.cs" />
     <Compile Include="Typed\BooleanToObjectConverter.cs" />
     <Compile Include="Typed\BooleanToVisibilityConverter.cs" />
     <Compile Include="Typed\ByteSizeToStringConverter.cs" />
-    <Compile Include="ChainConverter.cs" />
-    <Compile Include="Typed\+DateTime\DateTimeOffsetToStringConverter.cs" />
-    <Compile Include="Typed\+DateTime\DateTimeToStringConverter.cs" />
-    <Compile Include="Typed\+DateTime\DateTimeToStringConverterBase{T}.cs" />
     <Compile Include="Typed\DoubleToGridLengthConverter.cs" />
     <Compile Include="Typed\EnumToBooleanConverter.cs" />
+    <Compile Include="Typed\FormatStringConverter.cs" />
+    <Compile Include="Typed\IRandomAccessStreamReferenceToBitmapImageConverter.cs" />
+    <Compile Include="Typed\LogicalNotConverter.cs" />
+    <Compile Include="Typed\NullCoalescingConverter.cs" />
     <Compile Include="Typed\NullTestConverter.cs" />
+    <Compile Include="Typed\SoftwareBitmapToImageSourceConverter.cs" />
+    <Compile Include="Typed\ThicknessConverter.cs" />
     <Compile Include="Typed\TypedValuesToBooleanConverter.cs" />
     <Compile Include="Typed\ValuesToBooleanConverter{T}.cs" />
-    <Compile Include="EmptyConverter.cs" />
-    <Compile Include="Typed\FormatStringConverter.cs" />
-    <Compile Include="Internal\ConvertHelper.cs" />
-    <Compile Include="InvertConverter.cs" />
-    <Compile Include="Typed\LogicalNotConverter.cs" />
-    <Compile Include="Typed\+Math\MathExpressionConverter.cs" />
-    <Compile Include="Typed\NullCoalescingConverter.cs" />
-    <Compile Include="Typed\+Math\NumberScaleConverter.cs" />
-    <Compile Include="Typed\+Math\NumberOffsetConverter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Typed\SoftwareBitmapToImageSourceConverter.cs" />
-    <Compile Include="SystemConverter.cs" />
-    <Compile Include="Typed\ThicknessConverter.cs" />
     <Compile Include="ValueConverter.cs" />
+    <Compile Include="ValueConverter{TFrom,TTo}.cs" />
     <EmbeddedResource Include="Properties\Opportunity.Converters.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Opportunity.Helpers.Universal">
-      <Version>1.1.3</Version>
-    </PackageReference>
-    <PackageReference Include="Opportunity.MathExpression">
-      <Version>1.0.3</Version>
-    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
@@ -172,9 +165,6 @@
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
+  <Target Name="BeforeBuild"></Target><Target Name="AfterBuild"></Target>
   -->
 </Project>

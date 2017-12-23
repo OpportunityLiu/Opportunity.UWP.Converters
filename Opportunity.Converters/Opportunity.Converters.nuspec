@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>$id$</id>
     <version>$version$</version>
     <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
+    <authors>Opportunity</authors>
+    <owners>Opportunity</owners>
     <licenseUrl>https://github.com/OpportunityLiu/UWPConverters/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/OpportunityLiu/UWPConverters</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
