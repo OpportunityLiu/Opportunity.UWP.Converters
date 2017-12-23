@@ -12,5 +12,12 @@
     <description>A collection of IValueConverter for UWP apps.</description>
     <copyright>Copyright Opportunity 2017</copyright>
     <tags>UWP Converter IValueConverter Xaml Binding</tags>
+    <dependencies>
+      <group targetFramework="UAP10.0.10586">
+        <dependency id="Microsoft.NETCore.UniversalWindowsPlatform" version="5.2.2"/>
+        <dependency id="Opportunity.MathExpression" version="1.0.3" />
+        <dependency id="Opportunity.ResourceGenerator" version="1.2.2" />
+      </group>
+    </dependencies>
   </metadata>
 </package>
