@@ -12,13 +12,12 @@ namespace Opportunity.Converters.Typed
     /// <summary>
     /// Convert values with the format string provided by converter parameter.
     /// You can use both raw strings and ms-resource strings as converter parameter.
-    /// Values should implement <see cref="IFormattable"/> or <see cref="FormatProvider"/> should provide an <see cref="ICustomFormatter"/>, otherwise, <see cref="object.ToString()"/> of values will be called.
     /// <para>
     /// Examples:
     /// </para>
     /// <example>
     /// <para><c>
-    /// {x:bind value, Converter={StaticResource FormatStringConverter}, ConverterParameter='0 \'days.\''}
+    /// {x:bind value, Converter={StaticResource FormatStringConverter}, ConverterParameter='{0} days.'}
     /// </c></para>
     /// <para><c>
     /// {x:bind value, Converter={StaticResource FormatStringConverter}, ConverterParameter='ms-resource:DayFormatString'}
@@ -42,16 +41,7 @@ namespace Opportunity.Converters.Typed
         /// Identifies the <see cref="FormatProvider"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty FormatProviderProperty =
-            DependencyProperty.Register("FormatProvider", typeof(IFormatProvider), typeof(FormatConverter), new PropertyMetadata(CultureInfo.CurrentUICulture, FormatProviderPropertyChanged));
-
-        private static void FormatProviderPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var nv = e.NewValue as IFormatProvider;
-            var sender = (FormatConverter)d;
-            sender.customFormatter = (ICustomFormatter)nv?.GetFormat(typeof(ICustomFormatter));
-        }
-
-        private ICustomFormatter customFormatter = (ICustomFormatter)CultureInfo.CurrentUICulture.GetFormat(typeof(ICustomFormatter));
+            DependencyProperty.Register("FormatProvider", typeof(IFormatProvider), typeof(FormatConverter), new PropertyMetadata(CultureInfo.CurrentUICulture));
 
         /// <inheritdoc />
         public override string Convert(object value, object parameter, string language)
@@ -68,18 +58,17 @@ namespace Opportunity.Converters.Typed
             }
 
             var result = default(string);
-            var formatProvider = this.FormatProvider;
-            var cf = this.customFormatter;
-            if (cf != null)
-            {
-                result = cf.Format(format, value, formatProvider);
-            }
-            if (result == null)
+
+            if (format == null)
             {
                 if (value is IFormattable fValue)
-                    result = fValue.ToString(format, formatProvider);
+                    result = fValue.ToString(format, this.FormatProvider);
                 else
                     result = value.ToString();
+            }
+            else
+            {
+                result = string.Format(this.FormatProvider, format, value);
             }
             return result ?? string.Empty;
         }
