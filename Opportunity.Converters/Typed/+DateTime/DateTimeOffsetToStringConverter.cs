@@ -1,6 +1,4 @@
 ﻿using System;
-using Windows.Globalization.DateTimeFormatting;
-using Windows.UI.Xaml;
 
 namespace Opportunity.Converters.Typed
 {

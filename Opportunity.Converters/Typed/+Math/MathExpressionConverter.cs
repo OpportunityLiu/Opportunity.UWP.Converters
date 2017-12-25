@@ -37,12 +37,22 @@ namespace Opportunity.Converters.Typed
         public static readonly DependencyProperty ConvertExpressionProperty =
            DependencyProperty.Register("ConvertExpression", typeof(string), typeof(MathExpressionConverter), new PropertyMetadata("x", ConvertExpressionPropertyChangedCallback));
 
-        private IParseResult<Function1> convert;
+        private Function1 convert;
+
+        private static Function1 getResult(object expression)
+        {
+            if (expression == null)
+                return x => x;
+            var value = expression.ToString();
+            if (string.IsNullOrWhiteSpace(value))
+                return x => x;
+            return Parser.Parse1(value).Compiled;
+        }
 
         private static void ConvertExpressionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sender = (MathExpressionConverter)d;
-            sender.convert = Parser.Parse1((e.NewValue ?? "x").ToString());
+            sender.convert = getResult(e.NewValue);
         }
 
         /// <summary>
@@ -67,24 +77,24 @@ namespace Opportunity.Converters.Typed
         public static readonly DependencyProperty ConvertBackExpressionProperty =
             DependencyProperty.Register("ConvertBackExpression", typeof(string), typeof(MathExpressionConverter), new PropertyMetadata("x", ConvertBackExpressionPropertyChangedCallback));
 
-        private IParseResult<Function1> convertback;
+        private Function1 convertback;
 
         private static void ConvertBackExpressionPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var sender = (MathExpressionConverter)d;
-            sender.convertback = Parser.Parse1((e.NewValue ?? "x").ToString());
+            sender.convertback = getResult(e.NewValue);
         }
 
         /// <inhertdoc />
         public override double Convert(double value, object parameter, string language)
         {
-            return this.convert.Compiled(value);
+            return this.convert(value);
         }
 
         /// <inhertdoc />
         public override double ConvertBack(double value, object parameter, string language)
         {
-            return this.convertback.Compiled(value);
+            return this.convertback(value);
         }
     }
 }
