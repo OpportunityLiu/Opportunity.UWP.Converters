@@ -81,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.7</Version>
+      <Version>5.2.3</Version>
     </PackageReference>
     <PackageReference Include="Opportunity.MathExpression">
       <Version>2.0.1</Version>
@@ -91,7 +91,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Opportunity.Converters.nuspec" />
+    <None Include="Opportunity.Converters.nuspec">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
