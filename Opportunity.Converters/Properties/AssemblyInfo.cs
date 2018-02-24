@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("A collection of IValueConverter for UWP apps.")]
 [assembly: AssemblyCompany("Opportunity")]
 [assembly: AssemblyProduct("Opportunity.Converters")]
-[assembly: AssemblyCopyright("Copyright © Opportunity 2017")]
+[assembly: AssemblyCopyright("Copyright © Opportunity 2018")]
 [assembly: AssemblyTrademark("Opportunity")]
 [assembly: AssemblyVersion(AssemblyInfo.Version)]
 [assembly: AssemblyFileVersion(AssemblyInfo.Version)]
@@ -18,5 +18,5 @@ using System.Runtime.InteropServices;
 
 internal class AssemblyInfo
 {
-    public const string Version = "2.1.6.0";
+    public const string Version = "2.2.0.0";
 }
