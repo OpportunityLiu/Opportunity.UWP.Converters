@@ -78,7 +78,9 @@
     <Compile Include="ValueConverter.cs" />
     <Compile Include="ValueConverter{TFrom,TTo}.cs" />
     <Compile Include="XBind\Command.cs" />
+    <Compile Include="XBind\Image.cs" />
     <Compile Include="XBind\Logical.cs" />
+    <Compile Include="XBind\Stringify.cs" />
     <EmbeddedResource Include="Properties\Opportunity.Converters.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -86,7 +88,7 @@
       <Version>5.2.4</Version>
     </PackageReference>
     <PackageReference Include="Opportunity.Helpers.Universal">
-      <Version>1.3.0</Version>
+      <Version>1.3.1</Version>
     </PackageReference>
     <PackageReference Include="Opportunity.MathExpression">
       <Version>2.0.1</Version>

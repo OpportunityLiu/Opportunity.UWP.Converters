@@ -12,6 +12,7 @@ using Windows.Foundation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.ViewManagement;
+using Opportunity.Converters.XBind;
 
 namespace Opportunity.Converters.Typed
 {
@@ -21,30 +22,14 @@ namespace Opportunity.Converters.Typed
     /// </summary>
     public sealed class IRandomAccessStreamReferenceToBitmapImageConverter : ValueConverter<IRandomAccessStreamReference, BitmapImage>
     {
-        private static async Task initImage(BitmapImage img, IRandomAccessStreamReference source)
-        {
-            using (var stream = await source.OpenReadAsync())
-            {
-                await img.SetSourceAsync(stream);
-            }
-        }
-
         /// <inheritdoc />
         public override BitmapImage Convert(IRandomAccessStreamReference value, object parameter, string language)
-        {
-            if (value == null)
-                return null;
-            var img = new BitmapImage();
-            var task = initImage(img, value);
-            // make sure exception in the task will be thrown.
-            task.GetAwaiter().OnCompleted(task.Wait);
-            return img;
-        }
+            => Image.OfRandomAccessStreamReference(value);
 
         /// <summary>
         /// Not implemented.
         /// </summary>
         public override IRandomAccessStreamReference ConvertBack(BitmapImage value, object parameter, string language)
-            => throw new NotImplementedException();
+            => throw new NotImplementedException("Not implemented by design.");
     }
 }

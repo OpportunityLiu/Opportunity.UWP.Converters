@@ -182,7 +182,7 @@ namespace Opportunity.Converters.Typed
                     return true;
                 }
             }
-            result = default(long);
+            result = default;
             return false;
         }
     }

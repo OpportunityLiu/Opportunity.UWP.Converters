@@ -101,6 +101,9 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlankPage1.xaml.cs">
+      <DependentUpon>BlankPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ChainConverterTest.cs" />
     <Compile Include="ConvertHelperTest.cs" />
     <Compile Include="IRandomAccessStreamReferenceToBitmapImageConverterTest.cs" />
@@ -156,6 +159,12 @@
       <Project>{f48a8d95-87d6-4a4e-aa4f-cb5f0946287c}</Project>
       <Name>Opportunity.Converters</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BlankPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

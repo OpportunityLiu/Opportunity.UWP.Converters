@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Opportunity.Converters.XBind;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,17 +21,12 @@ namespace Opportunity.Converters.Typed
     {
         /// <inheritdoc />
         public override ImageSource Convert(SoftwareBitmap value, object parameter, string language)
-        {
-            if (value == null)
-                return null;
-            var image = new SoftwareBitmapSource();
-            var ignore = image.SetBitmapAsync(value);
-            return image;
-        }
+            => Image.OfSoftwareBitmap(value);
 
         /// <summary>
         /// Not implemented.
         /// </summary>
-        public override SoftwareBitmap ConvertBack(ImageSource value, object parameter, string language) => throw new NotImplementedException("Not implemented bt design.");
+        public override SoftwareBitmap ConvertBack(ImageSource value, object parameter, string language)
+            => throw new NotImplementedException("Not implemented by design.");
     }
 }
