@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Opportunity.Converters.XBind
 {
     /// <summary>
-    /// Method of string conversion.
+    /// Method of <see cref="string"/> conversion.
     /// </summary>
-    public static class Stringify
+    public static class String
     {
         /// <summary>
         /// Convert a byte size to its <see cref="string"/> representation.
@@ -25,7 +25,7 @@ namespace Opportunity.Converters.XBind
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <returns>The byte size.</returns>
-        public static long FromByteSizeBinary(string sizeStr)
+        public static long ToByteSizeBinary(string sizeStr)
             => ByteSizeToStringConverter.StringToByteSize(sizeStr, UnitPrefix.Binary);
         /// <summary>
         /// Convert a byte size to its <see cref="string"/> representation.
@@ -40,7 +40,7 @@ namespace Opportunity.Converters.XBind
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <returns>The byte size.</returns>
-        public static long FromByteSizeMetric(string sizeStr)
+        public static long ToByteSizeMetric(string sizeStr)
             => ByteSizeToStringConverter.StringToByteSize(sizeStr, UnitPrefix.Metric);
     }
 }

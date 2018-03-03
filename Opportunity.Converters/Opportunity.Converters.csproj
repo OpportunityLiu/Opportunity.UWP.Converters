@@ -79,8 +79,17 @@
     <Compile Include="ValueConverter{TFrom,TTo}.cs" />
     <Compile Include="XBind\Command.cs" />
     <Compile Include="XBind\Image.cs" />
+    <Compile Include="XBind\~Numbers\Int64.cs" />
+    <Compile Include="XBind\~Numbers\Int16.cs" />
+    <Compile Include="XBind\~Numbers\UInt16.cs" />
+    <Compile Include="XBind\~Numbers\Byte.cs" />
+    <Compile Include="XBind\~Numbers\SByte.cs" />
+    <Compile Include="XBind\~Numbers\UInt64.cs" />
+    <Compile Include="XBind\~Numbers\UInt32.cs" />
+    <Compile Include="XBind\~Numbers\Int32.cs" />
     <Compile Include="XBind\Logical.cs" />
-    <Compile Include="XBind\Stringify.cs" />
+    <Compile Include="XBind\String.cs" />
+    <Compile Include="XBind\Visibility.cs" />
     <EmbeddedResource Include="Properties\Opportunity.Converters.rd.xml" />
   </ItemGroup>
   <ItemGroup>
