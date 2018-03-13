@@ -19,7 +19,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static sbyte Decrease(sbyte value) => (sbyte)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -37,15 +36,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(sbyte value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(sbyte value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(sbyte value, sbyte test) => value == test;
+        public static bool IsNotZero(sbyte value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(sbyte value1, sbyte value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(sbyte value1, sbyte value2) => value1 != value2;
     }
 
     /// <summary>
@@ -61,7 +68,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static byte Decrease(byte value) => (byte)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -79,15 +85,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(byte value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(byte value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(byte value, byte test) => value == test;
+        public static bool IsNotZero(byte value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(byte value1, byte value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(byte value1, byte value2) => value1 != value2;
     }
 
     public static partial class SByte
@@ -138,7 +152,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static short Decrease(short value) => (short)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -156,15 +169,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(short value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(short value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(short value, short test) => value == test;
+        public static bool IsNotZero(short value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(short value1, short value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(short value1, short value2) => value1 != value2;
     }
 
     /// <summary>
@@ -180,7 +201,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static ushort Decrease(ushort value) => (ushort)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -198,15 +218,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(ushort value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(ushort value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(ushort value, ushort test) => value == test;
+        public static bool IsNotZero(ushort value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(ushort value1, ushort value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(ushort value1, ushort value2) => value1 != value2;
     }
 
     public static partial class Int16
@@ -257,7 +285,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static int Decrease(int value) => (int)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -275,15 +302,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(int value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(int value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(int value, int test) => value == test;
+        public static bool IsNotZero(int value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(int value1, int value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(int value1, int value2) => value1 != value2;
     }
 
     /// <summary>
@@ -299,7 +334,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static uint Decrease(uint value) => (uint)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -317,15 +351,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(uint value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(uint value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(uint value, uint test) => value == test;
+        public static bool IsNotZero(uint value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(uint value1, uint value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(uint value1, uint value2) => value1 != value2;
     }
 
     public static partial class Int32
@@ -376,7 +418,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static long Decrease(long value) => (long)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -394,15 +435,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(long value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(long value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(long value, long test) => value == test;
+        public static bool IsNotZero(long value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(long value1, long value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(long value1, long value2) => value1 != value2;
     }
 
     /// <summary>
@@ -418,7 +467,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static ulong Decrease(ulong value) => (ulong)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -436,15 +484,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(ulong value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(ulong value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(ulong value, ulong test) => value == test;
+        public static bool IsNotZero(ulong value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(ulong value1, ulong value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(ulong value1, ulong value2) => value1 != value2;
     }
 
     public static partial class Int64

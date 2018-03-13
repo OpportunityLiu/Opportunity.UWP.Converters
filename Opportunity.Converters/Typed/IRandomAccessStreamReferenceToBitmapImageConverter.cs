@@ -24,7 +24,7 @@ namespace Opportunity.Converters.Typed
     {
         /// <inheritdoc />
         public override BitmapImage Convert(IRandomAccessStreamReference value, object parameter, string language)
-            => Image.OfRandomAccessStreamReference(value);
+            => Image.OfIRandomAccessStreamReference(value);
 
         /// <summary>
         /// Not implemented.

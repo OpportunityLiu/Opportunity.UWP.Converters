@@ -8,7 +8,7 @@ using WinRTVisibility = Windows.UI.Xaml.Visibility;
 namespace Opportunity.Converters.XBind
 {
     /// <summary>
-    /// Method of <see cref="WinRTVisibility"/> conversion.
+    /// Methods of <see cref="WinRTVisibility"/> conversion.
     /// </summary>
     public static class Visibility
     {

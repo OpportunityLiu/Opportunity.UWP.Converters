@@ -10,6 +10,6 @@
       xmlns:sys="using:System">
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <TextBlock Text="{x:Bind xb:Stringify.OfByteSizeBinary(111), Mode=OneWay}" />
+    <TextBlock Text="{x:Bind xb:String.OfByteSizeBinary(111), Mode=OneWay}" />
   </Grid>
 </Page>

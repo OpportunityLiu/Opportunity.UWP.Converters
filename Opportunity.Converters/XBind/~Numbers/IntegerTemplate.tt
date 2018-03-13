@@ -44,7 +44,6 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/>.
         /// </summary>
         public static <#=type#> Decrease(<#=type#> value) => (<#=type#>)(value - 1);
-
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -62,15 +61,23 @@ namespace Opportunity.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(<#=type#> value) => Decrease(value).ToString();
-
+        
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
         public static bool IsZero(<#=type#> value) => value == 0;
         /// <summary>
-        /// Test <paramref name="value"/> is <paramref name="test"/> or not.
+        /// Test <paramref name="value"/> is 0 or not.
         /// </summary>
-        public static bool IsValue(<#=type#> value, <#=type#> test) => value == test;
+        public static bool IsNotZero(<#=type#> value) => value != 0;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreEqual(<#=type#> value1, <#=type#> value2) => value1 == value2;
+        /// <summary>
+        /// Test <paramref name="value1"/> equals <paramref name="value2"/> or not.
+        /// </summary>
+        public static bool AreNotEqual(<#=type#> value1, <#=type#> value2) => value1 != value2;
     }
 
 <#

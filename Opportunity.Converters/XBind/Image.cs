@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
+using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -16,11 +17,27 @@ namespace Opportunity.Converters.XBind
     public static class Image
     {
         /// <summary>
+        /// Read image from <see cref="StorageFile"/>.
+        /// </summary>
+        /// <param name="file"><see cref="StorageFile"/> of image.</param>
+        /// <returns>Result of read.</returns>
+        public static BitmapImage OfStorageFile(StorageFile file)
+            => OfIRandomAccessStreamReference(file);
+
+        /// <summary>
+        /// Read image from <see cref="IStorageFile"/>.
+        /// </summary>
+        /// <param name="file"><see cref="IStorageFile"/> of image.</param>
+        /// <returns>Result of read.</returns>
+        public static BitmapImage OfIStorageFile(IStorageFile file)
+            => OfIRandomAccessStreamReference(file);
+
+        /// <summary>
         /// Read image from <see cref="IRandomAccessStreamReference"/>.
         /// </summary>
         /// <param name="streamReference"><see cref="IRandomAccessStreamReference"/> of image.</param>
         /// <returns>Result of read.</returns>
-        public static BitmapImage OfRandomAccessStreamReference(IRandomAccessStreamReference streamReference)
+        public static BitmapImage OfIRandomAccessStreamReference(IRandomAccessStreamReference streamReference)
         {
             if (streamReference == null)
                 return null;
@@ -38,6 +55,7 @@ namespace Opportunity.Converters.XBind
                 }
             }
         }
+
         /// <summary>
         /// Read image from <see cref="SoftwareBitmap"/>.
         /// </summary>
