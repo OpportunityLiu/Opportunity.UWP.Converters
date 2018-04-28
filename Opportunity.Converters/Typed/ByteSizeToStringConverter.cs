@@ -50,7 +50,7 @@ namespace Opportunity.Converters.Typed
         {
             try
             {
-                return ByteSize.OfByteSize(value, this.UnitPrefix);
+                return ByteSize.ToString(value, this.UnitPrefix);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -61,7 +61,7 @@ namespace Opportunity.Converters.Typed
         /// <inheritdoc />
         public override long ConvertBack(string value, object parameter, string language)
         {
-            return ByteSize.ToByteSize(value, this.UnitPrefix);
+            return ByteSize.Parse(value, this.UnitPrefix);
         }
     }
 }

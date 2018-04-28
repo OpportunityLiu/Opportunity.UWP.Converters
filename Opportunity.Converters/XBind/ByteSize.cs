@@ -31,7 +31,6 @@ namespace Opportunity.Converters.XBind
         private static readonly string[] unitsMetric = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private static readonly string[] unitsBinary = { "B", "KiB", "MiB", "GiB", "TiB", "PiB", "EiB", "ZiB", "YiB" };
 
-
         private static void getUnits(out string[] units, out int powerBase, UnitPrefix unitPrefix)
         {
             if (unitPrefix == UnitPrefix.Metric)
@@ -52,7 +51,7 @@ namespace Opportunity.Converters.XBind
         /// <param name="size">The byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
-        public static string OfByteSize(long size, UnitPrefix unitPrefix)
+        public static string ToString(long size, UnitPrefix unitPrefix)
         {
             if (size < 0)
                 throw new ArgumentOutOfRangeException(nameof(size));
@@ -88,9 +87,9 @@ namespace Opportunity.Converters.XBind
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <returns>The byte size.</returns>
-        public static long ToByteSize(string sizeStr, UnitPrefix unitPrefix)
+        public static long Parse(string sizeStr, UnitPrefix unitPrefix)
         {
-            if (TryToByteSize(sizeStr, unitPrefix, out var r))
+            if (TryParse(sizeStr, unitPrefix, out var r))
                 return r;
             throw new FormatException("Wrong format.");
         }
@@ -102,9 +101,9 @@ namespace Opportunity.Converters.XBind
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <param name="result">The byte size.</param>
         /// <returns>The conversion succeed or not.</returns>
-        public static bool TryToByteSize(string sizeStr, UnitPrefix unitPrefix, out long result)
+        public static bool TryParse(string sizeStr, UnitPrefix unitPrefix, out long result)
         {
-            if (TryToByteSizeExact(sizeStr, unitPrefix, out result))
+            if (TryParseExact(sizeStr, unitPrefix, out result))
                 return true;
             switch (unitPrefix)
             {
@@ -116,7 +115,7 @@ namespace Opportunity.Converters.XBind
                 unitPrefix = UnitPrefix.Metric;
                 break;
             }
-            if (TryToByteSizeExact(sizeStr, unitPrefix, out result))
+            if (TryParseExact(sizeStr, unitPrefix, out result))
                 return true;
             if (long.TryParse(sizeStr, out result))
                 return true;
@@ -129,9 +128,9 @@ namespace Opportunity.Converters.XBind
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <returns>The byte size.</returns>
-        public static long ToByteSizeExact(string sizeStr, UnitPrefix unitPrefix)
+        public static long ParseExact(string sizeStr, UnitPrefix unitPrefix)
         {
-            if (TryToByteSizeExact(sizeStr, unitPrefix, out var r))
+            if (TryParseExact(sizeStr, unitPrefix, out var r))
                 return r;
             throw new FormatException("Wrong format.");
         }
@@ -143,7 +142,7 @@ namespace Opportunity.Converters.XBind
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <param name="result">The byte size.</param>
         /// <returns>The conversion succeed or not.</returns>
-        public static bool TryToByteSizeExact(string sizeStr, UnitPrefix unitPrefix, out long result)
+        public static bool TryParseExact(string sizeStr, UnitPrefix unitPrefix, out long result)
         {
             if (string.IsNullOrEmpty(sizeStr))
                 throw new ArgumentNullException(nameof(sizeStr));
@@ -170,30 +169,30 @@ namespace Opportunity.Converters.XBind
         /// </summary>
         /// <param name="size">The byte size to convert.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
-        public static string OfByteSizeBinary(long size)
-            => OfByteSize(size, UnitPrefix.Binary);
+        public static string ToBinaryString(long size)
+            => ToString(size, UnitPrefix.Binary);
 
         /// <summary>
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <returns>The byte size.</returns>
-        public static long ToByteSizeBinary(string sizeStr)
-            => ToByteSize(sizeStr, UnitPrefix.Binary);
+        public static long ParseBinary(string sizeStr)
+            => Parse(sizeStr, UnitPrefix.Binary);
         /// <summary>
         /// Convert a byte size to its <see cref="string"/> representation.
         /// </summary>
         /// <param name="size">The byte size to convert.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
-        public static string OfByteSizeMetric(long size)
-            => OfByteSize(size, UnitPrefix.Metric);
+        public static string ToMetricString(long size)
+            => ToString(size, UnitPrefix.Metric);
 
         /// <summary>
         /// Convert a <see cref="string"/> representation of byte size to a <see cref="long"/>.
         /// </summary>
         /// <param name="sizeStr">The <see cref="string"/> representation of byte size to convert.</param>
         /// <returns>The byte size.</returns>
-        public static long ToByteSizeMetric(string sizeStr)
-            => ToByteSize(sizeStr, UnitPrefix.Metric);
+        public static long ParseMetric(string sizeStr)
+            => Parse(sizeStr, UnitPrefix.Metric);
     }
 }
