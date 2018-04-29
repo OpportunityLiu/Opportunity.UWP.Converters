@@ -10,6 +10,10 @@ namespace Opportunity.Converters.Typed
         /// <inheritdoc />
         public override string Convert(DateTimeOffset value, object parameter, string language)
         {
+            if (value == default)
+            {
+                return "";
+            }
             return this.Formatter.Format(value);
         }
 
@@ -17,7 +21,9 @@ namespace Opportunity.Converters.Typed
         public override DateTimeOffset ConvertBack(string value, object parameter, string language)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return default;
+            }
             return DateTimeOffset.Parse(value);
         }
     }
