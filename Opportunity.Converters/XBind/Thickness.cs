@@ -20,33 +20,47 @@ namespace Opportunity.Converters.XBind
                 if (direction)
                 {
                     if (this.IsOffset)
+                    {
                         value += this.Value;
+                    }
                     else
+                    {
                         value *= this.Value;
+                    }
                 }
                 else
                 {
                     if (this.IsOffset)
+                    {
                         value -= this.Value;
+                    }
                     else
+                    {
                         value /= this.Value;
+                    }
                 }
             }
 
             public static Operation Parse(string s)
             {
-                if (s[0] == 'x' || s[0] == 'X' || s[0] == '*' || s[0] == '×')
+                switch (s[0])
+                {
+                case 'x':
+                case 'X':
+                case '*':
+                case '×':
                     return new Operation
                     {
                         IsOffset = false,
                         Value = double.Parse(s.Substring(1))
                     };
-                else
+                default:
                     return new Operation
                     {
                         IsOffset = true,
                         Value = double.Parse(s)
                     };
+                }
             }
         }
 

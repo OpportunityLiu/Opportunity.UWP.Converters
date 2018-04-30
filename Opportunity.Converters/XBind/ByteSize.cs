@@ -51,24 +51,29 @@ namespace Opportunity.Converters.XBind
         /// <param name="size">The byte size to convert.</param>
         /// <param name="unitPrefix"><see cref="UnitPrefix"/> used.</param>
         /// <returns>The <see cref="string"/> representation of byte size.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="size"/> is less than zero.</exception>
         public static string ToString(long size, UnitPrefix unitPrefix)
         {
             if (size < 0)
+            {
                 throw new ArgumentOutOfRangeException(nameof(size));
+            }
             getUnits(out var units, out var powerBase, unitPrefix);
             if (size < 1000)
+            {
                 return size.ToString() + " " + units[0];
+            }
             var p = (double)size;
             foreach (var unit in units)
             {
                 if (p < 10)
                 {
-                    var pStr = p.ToString("0.0##", CultureInfo.CurrentUICulture);
+                    var pStr = p.ToString("0.000", CultureInfo.CurrentUICulture);
                     return pStr + " " + unit;
                 }
                 else if (p < 100)
                 {
-                    var pStr = p.ToString("00.0#", CultureInfo.CurrentUICulture);
+                    var pStr = p.ToString("00.00", CultureInfo.CurrentUICulture);
                     return pStr + " " + unit;
                 }
                 else if (p < 1000)
@@ -90,7 +95,9 @@ namespace Opportunity.Converters.XBind
         public static long Parse(string sizeStr, UnitPrefix unitPrefix)
         {
             if (TryParse(sizeStr, unitPrefix, out var r))
+            {
                 return r;
+            }
             throw new FormatException("Wrong format.");
         }
 
@@ -104,7 +111,9 @@ namespace Opportunity.Converters.XBind
         public static bool TryParse(string sizeStr, UnitPrefix unitPrefix, out long result)
         {
             if (TryParseExact(sizeStr, unitPrefix, out result))
+            {
                 return true;
+            }
             switch (unitPrefix)
             {
             case UnitPrefix.Metric:
@@ -116,9 +125,13 @@ namespace Opportunity.Converters.XBind
                 break;
             }
             if (TryParseExact(sizeStr, unitPrefix, out result))
+            {
                 return true;
+            }
             if (long.TryParse(sizeStr, out result))
+            {
                 return true;
+            }
             return false;
         }
 
@@ -131,7 +144,9 @@ namespace Opportunity.Converters.XBind
         public static long ParseExact(string sizeStr, UnitPrefix unitPrefix)
         {
             if (TryParseExact(sizeStr, unitPrefix, out var r))
+            {
                 return r;
+            }
             throw new FormatException("Wrong format.");
         }
 
@@ -145,16 +160,21 @@ namespace Opportunity.Converters.XBind
         public static bool TryParseExact(string sizeStr, UnitPrefix unitPrefix, out long result)
         {
             if (string.IsNullOrEmpty(sizeStr))
+            {
                 throw new ArgumentNullException(nameof(sizeStr));
+            }
+
             sizeStr = sizeStr.Trim();
             getUnits(out var units, out var powerBase, unitPrefix);
-            for (var i = 0; i < units.Length; i++)
+            for (var i = units.Length - 1; i >= 0; i--)
             {
                 if (sizeStr.EndsWith(units[i], StringComparison.OrdinalIgnoreCase))
                 {
                     var sizeNumStr = sizeStr.Substring(0, sizeStr.Length - units[i].Length);
                     if (!double.TryParse(sizeNumStr, out var sizeNum))
+                    {
                         continue;
+                    }
                     result = (long)(sizeNum * Math.Pow(powerBase, i));
                     return true;
                 }
