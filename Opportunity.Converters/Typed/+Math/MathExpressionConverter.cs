@@ -56,7 +56,7 @@ namespace Opportunity.Converters.Typed
 
         private static Func<double, double> getResult(object expression)
         {
-            if (expression == null)
+            if (expression is null)
                 return x => x;
             var value = expression.ToString();
             if (string.IsNullOrWhiteSpace(value))

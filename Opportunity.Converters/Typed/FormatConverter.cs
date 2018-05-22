@@ -59,7 +59,7 @@ namespace Opportunity.Converters.Typed
 
             var result = default(string);
 
-            if (format == null)
+            if (format is null)
             {
                 if (value is IFormattable fValue)
                     result = fValue.ToString(format, this.FormatProvider);

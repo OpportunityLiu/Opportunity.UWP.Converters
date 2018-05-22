@@ -81,6 +81,11 @@
     <Compile Include="XBind\Command.cs" />
     <Compile Include="XBind\Image.cs" />
     <Compile Include="XBind\Thickness.cs" />
+    <Compile Include="XBind\~Numbers\RealTemplate.cs">
+      <DependentUpon>RealTemplate.tt</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="XBind\~Numbers\IntegerTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -93,7 +98,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Opportunity.Helpers.Universal">
-      <Version>1.3.12</Version>
+      <Version>1.3.14</Version>
     </PackageReference>
     <PackageReference Include="Opportunity.MathExpression">
       <Version>2.0.1</Version>
@@ -105,6 +110,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="XBind\~Numbers\RealTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>RealTemplate.cs</LastGenOutput>
+    </Content>
     <Content Include="XBind\~Numbers\IntegerTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IntegerTemplate.cs</LastGenOutput>

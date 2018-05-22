@@ -34,13 +34,13 @@ namespace Opportunity.Converters.Internal
             public TypeTraitsInfo TargetType { get; }
             public Exception Error { get; private set; }
 
-            public bool Succeed => this.Error == null;
+            public bool Succeed => this.Error is null;
 
             public T GetResultOrThrow()
             {
-                if (Error == null)
+                if (Error is null)
                     return ConvertedValue;
-                if (OriginalValue == null)
+                if (OriginalValue is null)
                     throw new InvalidCastException($"Failed to convert null to {TargetType.Type}.", Error);
                 else
                     throw new InvalidCastException($"Failed to convert {OriginalValue} from {OriginalValue.GetType()} to {TargetType.Type}.", Error);
@@ -112,7 +112,7 @@ namespace Opportunity.Converters.Internal
                 data.SetResult(v);
                 return;
             }
-            if (data.OriginalValue == null)
+            if (data.OriginalValue is null)
             {
                 data.SetResult(default);
                 return;
@@ -138,7 +138,7 @@ namespace Opportunity.Converters.Internal
                 data.SetResult(data.OriginalValue);
                 return;
             }
-            if (data.OriginalValue == null)
+            if (data.OriginalValue is null)
             {
                 data.SetResult(data.TargetType.Default);
                 return;

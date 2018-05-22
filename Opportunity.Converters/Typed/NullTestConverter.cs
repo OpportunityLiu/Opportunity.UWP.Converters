@@ -30,7 +30,7 @@ namespace Opportunity.Converters.Typed
         /// <inheritdoc />
         public override bool Convert(object value, object parameter, string language)
         {
-            if (value == null)
+            if (value is null)
                 return IfNull;
             return !IfNull;
         }

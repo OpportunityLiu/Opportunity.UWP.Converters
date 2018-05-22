@@ -39,7 +39,7 @@ namespace Opportunity.Converters.XBind
         /// <returns>Result of read.</returns>
         public static BitmapImage OfIRandomAccessStreamReference(IRandomAccessStreamReference streamReference)
         {
-            if (streamReference == null)
+            if (streamReference is null)
                 return null;
             var img = new BitmapImage();
             var task = initImage(img, streamReference);
@@ -63,7 +63,7 @@ namespace Opportunity.Converters.XBind
         /// <returns>Result of read.</returns>
         public static SoftwareBitmapSource OfSoftwareBitmap(SoftwareBitmap softwareBitmap)
         {
-            if (softwareBitmap == null)
+            if (softwareBitmap is null)
                 return null;
             var image = new SoftwareBitmapSource();
             var ignore = image.SetBitmapAsync(softwareBitmap);

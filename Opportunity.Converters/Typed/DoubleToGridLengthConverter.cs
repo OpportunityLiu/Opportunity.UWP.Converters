@@ -32,7 +32,7 @@ namespace Opportunity.Converters.Typed
         /// <returns>Converted <see cref="GridLength"/>, which is made by <see cref="GridLength.GridLength(double, GridUnitType)"/>.</returns>
         public override GridLength Convert(double value, object parameter, string language)
         {
-            if (parameter == null)
+            if (parameter is null)
                 return new GridLength(value, DefaultType);
             if (parameter is GridUnitType type)
                 return new GridLength(value, type);

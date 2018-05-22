@@ -38,7 +38,7 @@ namespace Opportunity.Converters.Typed
         /// <returns>The result of null coalescing.</returns>
         public override object Convert(object value, object parameter, string language)
         {
-            if (value == null)
+            if (value is null)
                 return parameter ?? this.Default;
             return value;
         }
@@ -53,7 +53,7 @@ namespace Opportunity.Converters.Typed
         /// <returns>The first operand, if <paramref name="value"/> equals <paramref name="parameter"/>, null will be returned; otherwise, <paramref name="value"/> will be returned.</returns>
         public override object ConvertBack(object value, object parameter, string language)
         {
-            if (value == null)
+            if (value is null)
                 return null;
             if (parameter != null)
             {

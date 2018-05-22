@@ -22,7 +22,7 @@ namespace Opportunity.Converters.XBind
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="delay"/> is less than 0.</exception>
         public static ICommand Delay(ICommand value, int delay)
         {
-            if (value == null)
+            if (value is null)
                 return null;
             if (delay < 0)
                 throw new ArgumentException("Must be non-negetive finite number.", nameof(delay));
@@ -64,7 +64,7 @@ namespace Opportunity.Converters.XBind
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="delay"/> is less than 0.</exception>
         public static ICommand Throttle(ICommand value, int delay)
         {
-            if (value == null)
+            if (value is null)
                 return null;
             if (delay < 0)
                 throw new ArgumentException("Must be non-negetive finite number.", nameof(delay));

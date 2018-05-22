@@ -35,7 +35,7 @@ namespace Opportunity.Converters
 
         private static void OriginalConverterPropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue == null)
+            if (e.NewValue is null)
                 throw new ArgumentNullException(nameof(OriginalConverter));
         }
 

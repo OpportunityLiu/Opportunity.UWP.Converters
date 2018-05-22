@@ -49,7 +49,7 @@ namespace Opportunity.Converters.Command
         public override ICommand Convert(ICommand value, object parameter, string language)
         {
             var delay = -1;
-            if (parameter == null)
+            if (parameter is null)
                 delay = DefaultDelay;
             else if (!Internal.ConvertHelper.TryChangeType(parameter, out delay))
                 delay = DefaultDelay;

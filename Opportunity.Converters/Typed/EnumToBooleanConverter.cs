@@ -12,33 +12,20 @@ namespace Opportunity.Converters.Typed
     /// <summary>
     /// Collection of <see cref="Enum"/>s.
     /// </summary>
-    public sealed class EnumValueCollection : IList<IConvertible>, IReadOnlyList<IConvertible>, IList
+    public sealed class EnumValueCollection : IList<Enum>, IReadOnlyList<Enum>, IList
     {
         private readonly EnumToBooleanConverter parent;
 
-        internal readonly List<ulong> Items = new List<ulong>();
+        /// <summary>
+        /// Type of inner values.
+        /// </summary>
+        public Type EnumType { get; private set; }
+
+        internal readonly List<Enum> Items = new List<Enum>();
 
         internal EnumValueCollection(EnumToBooleanConverter parent)
         {
             this.parent = parent;
-        }
-
-        internal static ulong ToStorage(IConvertible value)
-        {
-            switch (value.GetTypeCode())
-            {
-            case TypeCode.Int16:
-            case TypeCode.Int32:
-            case TypeCode.Int64:
-            case TypeCode.SByte:
-            default:
-                return unchecked((ulong)Convert.ToInt64(value));
-            case TypeCode.Byte:
-            case TypeCode.UInt16:
-            case TypeCode.UInt32:
-            case TypeCode.UInt64:
-                return Convert.ToUInt64(value);
-            }
         }
 
         /// <summary>
@@ -47,14 +34,25 @@ namespace Opportunity.Converters.Typed
         /// <param name="index">Index of value.</param>
         /// <returns>The value at <paramref name="index"/>.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <see cref="Count"/> -1.</exception>
-        public IConvertible this[int index] { get => Items[index]; set => Items[index] = ToStorage(value); }
+        public Enum this[int index]
+        {
+            get => this.Items[index];
+            set
+            {
+                if (value is null)
+                    throw new ArgumentNullException(nameof(value));
+                if (value.GetType() != EnumType)
+                    throw new ArgumentException($"Wrong type, {EnumType} expected.", nameof(value));
+                this.Items[index] = value;
+            }
+        }
 
         /// <summary>
         /// Number of values in this <see cref="EnumValueCollection"/>.
         /// </summary>
         public int Count => this.Items.Count;
 
-        bool ICollection<IConvertible>.IsReadOnly => false;
+        bool ICollection<Enum>.IsReadOnly => false;
 
         bool IList.IsFixedSize => false;
 
@@ -64,16 +62,13 @@ namespace Opportunity.Converters.Typed
 
         object ICollection.SyncRoot => ((ICollection)this.Items).SyncRoot;
 
-        object IList.this[int index] { get => Items[index]; set => this[index] = (IConvertible)value; }
+        object IList.this[int index] { get => this[index]; set => this[index] = (Enum)value; }
 
         /// <summary>
         /// Add a value into the <see cref="EnumValueCollection"/>.
         /// </summary>
         /// <param name="item">The value to add.</param>
-        public void Add(IConvertible item)
-        {
-            this.Items.Add(ToStorage(item));
-        }
+        public void Add(Enum item) => Insert(Count, item);
 
         /// <summary>
         /// Remove all values in the <see cref="EnumValueCollection"/>.
@@ -81,37 +76,47 @@ namespace Opportunity.Converters.Typed
         public void Clear()
         {
             this.Items.Clear();
+            EnumType = null;
         }
 
         /// <summary>
         /// Check whether a value is in the <see cref="EnumValueCollection"/> or not.
         /// </summary>
-        /// <param name="value">The value to check.</param>
+        /// <param name="item">The value to check.</param>
         /// <returns>true if item is found in the <see cref="EnumValueCollection"/>; otherwise, false.</returns>
-        public bool Contains(IConvertible value)
+        public bool Contains(Enum item)
         {
-            var val = ToStorage(value);
-            return this.Items.Contains(val);
+            if (item is null)
+                return false;
+            return this.Items.Contains(item);
         }
 
         /// <summary>
         /// Find the index of a value in the <see cref="EnumValueCollection"/> or not.
         /// </summary>
-        /// <param name="value">The value to find.</param>
-        /// <returns>Index of <paramref name="value"/> if item is found in the <see cref="EnumValueCollection"/>; otherwise, -1.</returns>
-        public int IndexOf(IConvertible value)
+        /// <param name="item">The value to find.</param>
+        /// <returns>Index of <paramref name="item"/> if item is found in the <see cref="EnumValueCollection"/>; otherwise, -1.</returns>
+        public int IndexOf(Enum item)
         {
-            return this.Items.IndexOf(ToStorage(value));
+            if (item is null)
+                return -1;
+            return this.Items.IndexOf(item);
         }
 
         /// <summary>
-        /// Insert <paramref name="value"/> into the <see cref="EnumValueCollection"/> at <paramref name="index"/>.
+        /// Insert <paramref name="item"/> into the <see cref="EnumValueCollection"/> at <paramref name="index"/>.
         /// </summary>
         /// <param name="index">The index to insert.</param>
-        /// <param name="value">The value to insert.</param>
-        public void Insert(int index, IConvertible value)
+        /// <param name="item">The value to insert.</param>
+        public void Insert(int index, Enum item)
         {
-            this.Items.Insert(index, ToStorage(value));
+            if (item is null)
+                throw new ArgumentNullException(nameof(item));
+            if (EnumType is null)
+                EnumType = item.GetType();
+            else if (item.GetType() != EnumType)
+                throw new ArgumentException($"Wrong type, {EnumType} expected.", nameof(item));
+            this.Items.Insert(index, item);
         }
 
         /// <summary>
@@ -121,6 +126,8 @@ namespace Opportunity.Converters.Typed
         public void RemoveAt(int index)
         {
             this.Items.RemoveAt(index);
+            if (this.Items.Count == 0)
+                EnumType = null;
         }
 
         /// <summary>
@@ -128,9 +135,9 @@ namespace Opportunity.Converters.Typed
         /// </summary>
         /// <param name="array">Array to copy values to.</param>
         /// <param name="arrayIndex">Index of <paramref name="array"/> where to start copy.</param>
-        public void CopyTo(IConvertible[] array, int arrayIndex)
+        public void CopyTo(Enum[] array, int arrayIndex)
         {
-            ((ICollection)this.Items).CopyTo(array, arrayIndex);
+            this.Items.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
@@ -138,33 +145,32 @@ namespace Opportunity.Converters.Typed
         /// </summary>
         /// <param name="item">The value to remove.</param>
         /// <returns>true if a value removed; otherwise, false.</returns>
-        public bool Remove(IConvertible item)
+        public bool Remove(Enum item)
         {
-            var val = ToStorage(item);
-            return this.Items.Remove(val);
+            return this.Items.Remove(item);
         }
 
         /// <summary>
         /// Get the <see cref="IEnumerator{T}"/> to visit values in the <see cref="EnumValueCollection"/>.
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<IConvertible> GetEnumerator() => this.Items.Cast<IConvertible>().GetEnumerator();
+        public IEnumerator<Enum> GetEnumerator() => this.Items.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => this.Items.GetEnumerator();
 
         int IList.Add(object value)
         {
-            this.Add((IConvertible)value);
+            this.Add((Enum)value);
             return this.Count - 1;
         }
 
-        bool IList.Contains(object value) => Contains((IConvertible)value);
+        bool IList.Contains(object value) => Contains((Enum)value);
 
-        int IList.IndexOf(object value) => IndexOf((IConvertible)value);
+        int IList.IndexOf(object value) => IndexOf((Enum)value);
 
-        void IList.Insert(int index, object value) => Insert(index, (IConvertible)value);
+        void IList.Insert(int index, object value) => Insert(index, (Enum)value);
 
-        void IList.Remove(object value) => Remove((IConvertible)value);
+        void IList.Remove(object value) => Remove((Enum)value);
 
         void ICollection.CopyTo(Array array, int index) => ((ICollection)this.Items).CopyTo(array, index);
     }
@@ -173,7 +179,7 @@ namespace Opportunity.Converters.Typed
     /// Convert <see cref="Enum"/>s to <see cref="bool"/> values.
     /// </summary>
     [Windows.UI.Xaml.Markup.ContentProperty(Name = nameof(Values))]
-    public sealed class EnumToBooleanConverter : ValueConverter<IConvertible, bool>
+    public sealed class EnumToBooleanConverter : ValueConverter<Enum, bool>
     {
         private EnumValueCollection values;
         /// <summary>
@@ -197,33 +203,26 @@ namespace Opportunity.Converters.Typed
             DependencyProperty.Register("InRange", typeof(bool), typeof(EnumToBooleanConverter), new PropertyMetadata(true));
 
         /// <inheritdoc />
-        public override bool Convert(IConvertible value, object parameter, string language)
+        public override bool Convert(Enum value, object parameter, string language)
         {
-            if (this.values == null)
+            if (this.values.IsNullOrEmpty())
                 return !InRange;
-            var storage = EnumValueCollection.ToStorage(value);
-            if (this.values.Items.Contains(storage))
+            if (this.values.Contains(value))
                 return InRange;
             return !InRange;
         }
 
         /// <inheritdoc />
-        public override IConvertible ConvertBack(bool value, object parameter, string language)
+        public override Enum ConvertBack(bool value, object parameter, string language)
         {
             if (value == InRange)
             {
-                if (this.values == null || this.values.Count == 0)
+                if (this.values is null || this.values.Count == 0)
                     return null;
                 return this.values[0];
             }
             else
             {
-                if (this.values == null || this.values.Count == 0)
-                    return 0;
-                if (!this.values.Items.Contains(ulong.MaxValue))
-                    return ulong.MaxValue;
-                else if (!this.values.Items.Contains(ulong.MinValue))
-                    return ulong.MinValue;
                 return null;
             }
         }

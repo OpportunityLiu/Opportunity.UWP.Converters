@@ -10,11 +10,10 @@ namespace Opportunity.Converters
     /// </summary>
     public sealed class SystemConverter : ValueConverter
     {
-        private static SystemConverter instance;
         /// <summary>
         /// A default instance of <see cref="SystemConverter"/>.
         /// </summary>
-        public static SystemConverter Default => System.Threading.LazyInitializer.EnsureInitialized(ref instance);
+        public static SystemConverter Default { get; } = new SystemConverter();
 
         /// <inheritdoc />
         public override object Convert(object value, Type targetType, object parameter, string language)

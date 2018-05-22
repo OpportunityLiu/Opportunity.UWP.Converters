@@ -73,7 +73,7 @@ namespace Opportunity.Converters.Typed
         public bool Contains(T value)
         {
             var comparer = this.parent.ValueComparer;
-            if (comparer == null)
+            if (comparer is null)
                 return this.Items.Contains(value);
             foreach (var item in this.Items)
             {
@@ -132,7 +132,7 @@ namespace Opportunity.Converters.Typed
         public bool Remove(T item)
         {
             var c = this.parent.ValueComparer;
-            if (c == null)
+            if (c is null)
             {
                 if (this.Items.Remove(item))
                 {
@@ -262,13 +262,13 @@ namespace Opportunity.Converters.Typed
         {
             if (value)
             {
-                if (this.valuesForTrue == null || this.valuesForTrue.Count == 0)
+                if (this.valuesForTrue is null || this.valuesForTrue.Count == 0)
                     return default(T);
                 return this.valuesForTrue[0];
             }
             else
             {
-                if (this.valuesForFalse == null || this.valuesForFalse.Count == 0)
+                if (this.valuesForFalse is null || this.valuesForFalse.Count == 0)
                     return default(T);
                 return this.valuesForFalse[0];
             }

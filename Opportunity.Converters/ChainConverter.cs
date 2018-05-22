@@ -19,7 +19,7 @@ namespace Opportunity.Converters
         /// <inheritdoc/>
         protected override void SetItem(int index, IValueConverter item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(nameof(item));
             base.SetItem(index, item);
         }
@@ -27,7 +27,7 @@ namespace Opportunity.Converters
         /// <inheritdoc/>
         protected override void InsertItem(int index, IValueConverter item)
         {
-            if (item == null)
+            if (item is null)
                 throw new ArgumentNullException(nameof(item));
             base.InsertItem(index, item);
         }
@@ -59,7 +59,7 @@ namespace Opportunity.Converters
         public ChainConverter(IEnumerable<IValueConverter> converters)
             : this()
         {
-            if (converters == null)
+            if (converters is null)
                 return;
             foreach (var item in converters)
             {
