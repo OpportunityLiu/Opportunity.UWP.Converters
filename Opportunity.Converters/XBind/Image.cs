@@ -66,7 +66,9 @@ namespace Opportunity.Converters.XBind
             if (softwareBitmap is null)
                 return null;
             var image = new SoftwareBitmapSource();
-            var ignore = image.SetBitmapAsync(softwareBitmap);
+            var task = image.SetBitmapAsync(softwareBitmap);
+            // make sure exception in the task will be thrown.
+            task.GetAwaiter().OnCompleted(task.GetResults);
             return image;
         }
     }
