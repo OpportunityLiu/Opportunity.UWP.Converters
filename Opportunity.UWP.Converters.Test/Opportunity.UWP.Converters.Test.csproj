@@ -104,6 +104,7 @@
     <Compile Include="BlankPage1.xaml.cs">
       <DependentUpon>BlankPage1.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ThicknessConverterTest.cs" />
     <Compile Include="EnumConverterTest.cs" />
     <Compile Include="ChainConverterTest.cs" />
     <Compile Include="ConvertHelperTest.cs" />

@@ -12,35 +12,24 @@ namespace Opportunity.UWP.Converters.XBind
     {
         private struct Operation
         {
-            public double Value;
-            public bool IsOffset;
+            public double Scale;
+            public double Offset;
 
             public void OperateOn(ref double value, bool direction)
             {
                 if (direction)
                 {
-                    if (this.IsOffset)
-                    {
-                        value += this.Value;
-                    }
-                    else
-                    {
-                        value *= this.Value;
-                    }
+                    value *= this.Scale;
+                    value += this.Offset;
                 }
                 else
                 {
-                    if (this.IsOffset)
-                    {
-                        value -= this.Value;
-                    }
-                    else
-                    {
-                        value /= this.Value;
-                    }
+                    value -= this.Offset;
+                    value /= this.Scale;
                 }
             }
 
+            private static readonly char[] pm = "+-".ToCharArray();
             public static Operation Parse(string s)
             {
                 switch (s[0])
@@ -49,24 +38,38 @@ namespace Opportunity.UWP.Converters.XBind
                 case 'X':
                 case '*':
                 case '×':
-                    return new Operation
+                    if (double.TryParse(s.Substring(1), out var sca))
+                        return new Operation
+                        {
+                            Scale = sca,
+                            Offset = 0,
+                        };
+                    else
                     {
-                        IsOffset = false,
-                        Value = double.Parse(s.Substring(1))
-                    };
+                        var op = s.LastIndexOfAny(pm);
+                        if (op <= 1)
+                            throw new FormatException("Wrong operation format.");
+                        return new Operation
+                        {
+                            Scale = double.Parse(s.Substring(1, op - 1)),
+                            Offset = double.Parse(s.Substring(op)),
+                        };
+                    }
                 default:
                     return new Operation
                     {
-                        IsOffset = true,
-                        Value = double.Parse(s)
+                        Scale = 1,
+                        Offset = double.Parse(s),
                     };
                 }
             }
+
+            public override string ToString() => $"*{this.Scale}+{this.Offset}";
         }
 
         private static Dictionary<string, Operation[]> cache = new Dictionary<string, Operation[]>();
 
-        private static char[] spliter = new[] { ' ', ',' };
+        private static readonly char[] spliter = new[] { ' ', ',' };
         private static WinRTThickness convertCore(WinRTThickness value, string parameter, bool direction)
         {
             try
@@ -122,8 +125,8 @@ namespace Opportunity.UWP.Converters.XBind
         /// (10,20,30,40) will convert to (10,30,30,50).
         /// </para>
         /// <para>
-        /// If the <paramref name="parameter"/> is "-10,x0.5,10,x2",
-        /// (10,20,30,40) will convert to (0,10,40,80).
+        /// If the <paramref name="parameter"/> is "-10,x0.5+5,10,x2",
+        /// (10,20,30,40) will convert to (0,15,40,80).
         /// </para>
         /// </example>
         /// </summary>
@@ -143,8 +146,8 @@ namespace Opportunity.UWP.Converters.XBind
         /// (10,30,30,50) will convert to (10,20,30,40).
         /// </para>
         /// <para>
-        /// If the <paramref name="parameter"/> is "-10,x0.5,10,x2",
-        /// (0,10,40,80) will convert to (10,20,30,40).
+        /// If the <paramref name="parameter"/> is "-10,x0.5+5,10,x2",
+        /// (0,15,40,80) will convert to (10,20,30,40).
         /// </para>
         /// </example>
         /// </summary>
