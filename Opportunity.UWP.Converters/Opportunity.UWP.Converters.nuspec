@@ -14,7 +14,7 @@
     <dependencies>
       <group targetFramework="UAP">
         <dependency id="Opportunity.MathExpression" version="2.0.1" />
-        <dependency id="Opportunity.Helpers.Universal" version="1.3.16" />
+        <dependency id="Opportunity.Helpers.Universal" version="1.3.19" />
       </group>
     </dependencies>
   </metadata>
