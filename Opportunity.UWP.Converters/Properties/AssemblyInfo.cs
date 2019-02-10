@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("Opportunity")]
 [assembly: AssemblyVersion(AssemblyInfo.Version)]
 [assembly: AssemblyFileVersion(AssemblyInfo.Version)]
+[assembly: AssemblyInformationalVersion(AssemblyInfo.Version)]
 [assembly: ComVisible(false)]
 [assembly: InternalsVisibleTo("Opportunity.UWP.Converters.Test")]
 
