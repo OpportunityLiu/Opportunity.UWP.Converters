@@ -6,7 +6,7 @@
     <title>$title$</title>
     <authors>Opportunity</authors>
     <owners>Opportunity</owners>
-    <license type="expression">MIT</license>
+    <licenseUrl>https://github.com/OpportunityLiu/Opportunity.UWP.Converters/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/OpportunityLiu/Opportunity.UWP.Converters</projectUrl>
     <description>A collection of IValueConverter for UWP apps.</description>
     <copyright>Copyright Opportunity 2019</copyright>
