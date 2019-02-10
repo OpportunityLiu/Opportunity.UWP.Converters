@@ -93,6 +93,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static <#=signed#> Subtract(<#=signed#> value, <#=signed#> subtraction) => (<#=signed#>)(value - subtraction);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static <#=signed#> Opposite(<#=signed#> value) => (<#=signed#>)(-value);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(<#=signed#> value) => Opposite(value).ToString();
     }
 
     public static partial class <#=uname#>

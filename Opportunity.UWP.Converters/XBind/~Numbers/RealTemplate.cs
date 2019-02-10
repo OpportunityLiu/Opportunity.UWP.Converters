@@ -27,6 +27,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static float Subtract(float value, float subtraction) => value - subtraction;
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static float Opposite(float value) => -value;
+        /// <summary>
+        /// Inverse number of <paramref name="value"/>.
+        /// </summary>
+        public static float Inverse(float value) => 1 / value;
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -44,6 +52,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(float value) => Decrease(value).ToString();
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(float value) => Opposite(value).ToString();
+        /// <summary>
+        /// Inverse number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string InverseToString(float value) => Inverse(value).ToString();
         
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
@@ -83,6 +99,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static double Subtract(double value, double subtraction) => value - subtraction;
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static double Opposite(double value) => -value;
+        /// <summary>
+        /// Inverse number of <paramref name="value"/>.
+        /// </summary>
+        public static double Inverse(double value) => 1 / value;
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -100,6 +124,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(double value) => Decrease(value).ToString();
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(double value) => Opposite(value).ToString();
+        /// <summary>
+        /// Inverse number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string InverseToString(double value) => Inverse(value).ToString();
         
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.
@@ -139,6 +171,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static decimal Subtract(decimal value, decimal subtraction) => value - subtraction;
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static decimal Opposite(decimal value) => -value;
+        /// <summary>
+        /// Inverse number of <paramref name="value"/>.
+        /// </summary>
+        public static decimal Inverse(decimal value) => 1 / value;
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -156,6 +196,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(decimal value) => Decrease(value).ToString();
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(decimal value) => Opposite(value).ToString();
+        /// <summary>
+        /// Inverse number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string InverseToString(decimal value) => Inverse(value).ToString();
         
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.

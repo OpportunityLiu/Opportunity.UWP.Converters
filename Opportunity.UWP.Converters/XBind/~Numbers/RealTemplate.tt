@@ -44,6 +44,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static <#=type#> Subtract(<#=type#> value, <#=type#> subtraction) => value - subtraction;
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static <#=type#> Opposite(<#=type#> value) => -value;
+        /// <summary>
+        /// Inverse number of <paramref name="value"/>.
+        /// </summary>
+        public static <#=type#> Inverse(<#=type#> value) => 1 / value;
         
         /// <summary>
         /// Add <paramref name="addition"/> to <paramref name="value"/> and to string.
@@ -61,6 +69,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract 1 from <paramref name="value"/> and to string.
         /// </summary>
         public static string DecreaseToString(<#=type#> value) => Decrease(value).ToString();
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(<#=type#> value) => Opposite(value).ToString();
+        /// <summary>
+        /// Inverse number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string InverseToString(<#=type#> value) => Inverse(value).ToString();
         
         /// <summary>
         /// Test <paramref name="value"/> is 0 or not.

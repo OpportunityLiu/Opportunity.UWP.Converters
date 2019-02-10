@@ -114,6 +114,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static sbyte Subtract(sbyte value, sbyte subtraction) => (sbyte)(value - subtraction);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static sbyte Opposite(sbyte value) => (sbyte)(-value);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(sbyte value) => Opposite(value).ToString();
     }
 
     public static partial class Byte
@@ -247,6 +255,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static short Subtract(short value, short subtraction) => (short)(value - subtraction);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static short Opposite(short value) => (short)(-value);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(short value) => Opposite(value).ToString();
     }
 
     public static partial class UInt16
@@ -380,6 +396,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static int Subtract(int value, int subtraction) => (int)(value - subtraction);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static int Opposite(int value) => (int)(-value);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(int value) => Opposite(value).ToString();
     }
 
     public static partial class UInt32
@@ -513,6 +537,14 @@ namespace Opportunity.UWP.Converters.XBind
         /// Subtract <paramref name="subtraction"/> from <paramref name="value"/>.
         /// </summary>
         public static long Subtract(long value, long subtraction) => (long)(value - subtraction);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/>.
+        /// </summary>
+        public static long Opposite(long value) => (long)(-value);
+        /// <summary>
+        /// Opposite number of <paramref name="value"/> and to string.
+        /// </summary>
+        public static string OppositeToString(long value) => Opposite(value).ToString();
     }
 
     public static partial class UInt64
