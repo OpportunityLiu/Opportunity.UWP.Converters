@@ -6,10 +6,10 @@
     <title>$title$</title>
     <authors>Opportunity</authors>
     <owners>Opportunity</owners>
-    <licenseUrl>https://github.com/OpportunityLiu/UWPConverters/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/OpportunityLiu/UWPConverters</projectUrl>
+    <licenseUrl>https://github.com/OpportunityLiu/Opportunity.UWP.Converters/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/OpportunityLiu/Opportunity.UWP.Converters</projectUrl>
     <description>A collection of IValueConverter for UWP apps.</description>
-    <copyright>Copyright Opportunity 2018</copyright>
+    <copyright>Copyright Opportunity 2019</copyright>
     <tags>UWP Converter IValueConverter Xaml Binding</tags>
     <dependencies>
       <group targetFramework="UAP">
