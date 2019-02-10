@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>$id$</id>
-    <version>1.0.3</version>
-    <title>$title$</title>
+    <id>Opportunity.UWP.Converters</id>
+    <version>1.0.4</version>
+    <title>Opportunity.UWP.Converters</title>
     <authors>Opportunity</authors>
     <owners>Opportunity</owners>
     <licenseUrl>https://github.com/OpportunityLiu/Opportunity.UWP.Converters/blob/master/LICENSE</licenseUrl>

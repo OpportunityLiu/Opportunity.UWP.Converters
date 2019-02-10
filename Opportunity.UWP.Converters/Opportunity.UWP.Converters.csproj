@@ -12,7 +12,7 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -112,14 +112,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="XBind\~Numbers\RealTemplate.tt">
+    <None Include="XBind\~Numbers\RealTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>RealTemplate.cs</LastGenOutput>
-    </Content>
-    <Content Include="XBind\~Numbers\IntegerTemplate.tt">
+    </None>
+    <None Include="XBind\~Numbers\IntegerTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>IntegerTemplate.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
